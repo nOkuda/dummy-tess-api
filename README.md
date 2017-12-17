@@ -18,6 +18,13 @@ Be sure that your environment is activated and pre-requisites have been installe
 FLASK_APP=server.py python3 -m flask run
 ```
 
+## Run Query Script
+
+Again, be sure that your environment is activated and pre-requisites have been installed.  Then run the query script:
+```
+python3 run.py
+```
+
 ## API Specification
 
-<under construction>
+Under construction
