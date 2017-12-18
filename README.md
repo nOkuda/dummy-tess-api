@@ -4,7 +4,7 @@ This repo contains code for a dummy server that acts as a guide for expected beh
 
 ## Installation
 
-Set up your Python environment and install pre-requisite libraries:
+Set up and activate your Python environment and then install pre-requisite libraries:
 ```
 python3 -m venv <environment name>
 source <environment name>/bin/activate
