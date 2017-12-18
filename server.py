@@ -27,7 +27,6 @@ def query_books():
 
 @APP.route('/search', methods=['POST'])
 def run_search():
-    flask.request.get_data()
     input_json = flask.request.get_json(force=True)
     return flask.jsonify(
         metadata={
