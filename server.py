@@ -25,6 +25,11 @@ def query_books():
     return flask.jsonify(['1', '2', '3', '4', '5'])
 
 
+@APP.route('/query/search/features', methods=['POST'])
+def query_features():
+    return flask.jsonify(['stem', 'word'])
+
+
 @APP.route('/search', methods=['POST'])
 def run_search():
     input_json = flask.request.get_json(force=True)

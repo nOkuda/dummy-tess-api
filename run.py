@@ -60,6 +60,15 @@ def _query_books(base_url, work_metadata):
     )
 
 
+def _query_features(base_url, source_and_target):
+    """Return features query response from server"""
+    return _query(
+        base_url,
+        '/query/search/features',
+        source_and_target
+    )
+
+
 def _search(base_url, search_options):
     """Returns search results response from server"""
     return _query(
@@ -81,6 +90,12 @@ def _run():
             'language': 'Latin',
             'author': 'Vergil',
             'work': 'Aeneid'
+        }
+    ))
+    print(_query_features(base_url,
+        {
+            'source CTS URN': '1',
+            'target CTS URN': '2'
         }
     ))
     print(_search(base_url,
