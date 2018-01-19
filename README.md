@@ -11,6 +11,8 @@ source <environment name>/bin/activate
 pip3 install -r requirements.txt
 ```
 
+If there is a bdist error when install the pre-requisite libraries, you can safely ignore it.
+
 ## Run the Development Server
 
 Be sure that your environment is activated and pre-requisites have been installed.  Then start the flask server:
