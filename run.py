@@ -78,10 +78,40 @@ def _search(base_url, search_options):
     )
 
 
+def _get_texts(base_url):
+    endpoint = '/texts'
+    req = requests.get(base_url + endpoint)
+    return req.json()
+
+
+def _get_texts_language(base_url, language):
+    endpoint = '/texts/{}'.format(language)
+    req = requests.get(base_url + endpoint)
+    return req.json()
+
+
+def _get_texts_language_author(base_url, language, author):
+    endpoint = '/texts/{}/{}'.format(language, author)
+    req = requests.get(base_url + endpoint)
+    return req.json()
+
+
+def _get_texts_language_author_text(base_url, language, author, text):
+    endpoint = '/texts/{}/{}/{}'.format(language, author, text)
+    req = requests.get(base_url + endpoint)
+    return req.json()
+
+
 def _run():
     """Runs queries against Tesserae API server"""
     args = _parse_args()
     base_url = 'http://' + args.host + ':' + args.port
+    print(_get_texts(base_url))
+    print(_get_texts_language(base_url, 'latin'))
+    print(_get_texts_language_author(base_url, 'latin', 'vergil'))
+    print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'aeneid'))
+    print(_get_texts_language(base_url, 'bulgarian'))
+    """
     print(_query_languages(base_url))
     print(_query_authors(base_url))
     print(_query_works(base_url))
@@ -105,6 +135,7 @@ def _run():
             'feature': 'stem'
         }
     ))
+    """
 
 
 if __name__ == '__main__':
