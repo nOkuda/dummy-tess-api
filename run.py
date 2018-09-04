@@ -102,15 +102,32 @@ def _get_texts_language_author_text(base_url, language, author, text):
     return req.json()
 
 
+def _put_texts(base_url, language, author, text, data):
+    endpoint = '/texts/{}/{}/{}'.format(language, author, text)
+    req = requests.put(base_url + endpoint, data=data)
+    return req.json()
+
+
 def _run():
     """Runs queries against Tesserae API server"""
     args = _parse_args()
     base_url = 'http://' + args.host + ':' + args.port
+    print('## Get Texts')
     print(_get_texts(base_url))
     print(_get_texts_language(base_url, 'latin'))
     print(_get_texts_language_author(base_url, 'latin', 'vergil'))
     print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'aeneid'))
     print(_get_texts_language(base_url, 'bulgarian'))
+
+    print('## Put Texts')
+    print(_put_texts(base_url, 'latin', 'vergil', 'aeneid', {'id': 'urn:cts:latinLit:phi0690.phi002', 'title': 'Aeneid'}))
+    print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'aeneid'))
+    print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'Aeneid'))
+    print(_put_texts(base_url, 'latin', 'vergil', 'Aeneid', {'id': 'urn:cts:latinLit:phi0690.phi002', 'title': 'aeneid'}))
+    print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'aeneid'))
+    print(_get_texts_language_author_text(base_url, 'latin', 'vergil', 'Aeneid'))
+
+    # TODO test adding and deleting texts
     """
     print(_query_languages(base_url))
     print(_query_authors(base_url))
