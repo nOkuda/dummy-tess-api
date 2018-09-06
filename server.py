@@ -134,9 +134,11 @@ def delete_text(language, author, text):
 
 @APP.route('/tokens/<text>/<feature>', defaults={'unit': None})
 @APP.route('/tokens/<text>/<feature>/<unit>')
-def get_tokens(feature, unit):
+def get_tokens(text, feature, unit):
     # TODO should 'text' be 'cts_urn'?
     try:
+        # TODO check tokens database before doing this work
+        # TODO save this work out to tokens database if done
         client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
         found = tesserae.text_access.storage.retrieve_text_list(client, title=text)[0]
         result = {
@@ -150,14 +152,44 @@ def get_tokens(feature, unit):
             },
         }
         tessfile = tesserae.text_access.storage.load_text(client, found['cts_urn'])
-        # TODO how to know whether text is poetry or prose
-        # TODO finish implementing once library has been fleshed out
-        if unit is None:
-            if tessfile.metadata.get('genre', None) == 'poetry':
-                result['phrases'] = [
-                    unit['tokens'] for unit in tesserae.unitizers.poetry.split_phrase_units()
+        cur_language = tessfile.metadata.language
+        if cur_language == 'latin':
+            tokenizer = tesserae.tokenizers.languages.LatinTokenizer()
+        elif cur_language == 'greek':
+            tokenizer = tesserae.tokenizers.languages.GreekTokenizer()
+        else:
+            return db_error('Could not find tokenizer for language: {}'.format(cur_language))
+        # TODO how to know whether text is poetry or prose?
+        if tessfile.metadata.get('genre', None) == 'poetry':
+            units_to_get = ['phrases', 'lines'] if unit is None else [unit]
+            unitizer = tesserae.unitizers.genres.poetry.PoetryUnitizer()
+            for cur_unit in units_to_get:
+                f = getattr(unitizer, 'unitize_{}'.format(cur_unit))
+                result[cur_unit] = [
+                    unit['tokens'] for unit in f(tessfile, tokenizer)
                 ]
-        tokenized = [tesserae.tokenizers.tokenize.get_token_info(token, tessfile.metadata.language) for token in tessfile.read_tokens()]
+        elif tessfile.metadata.get('genre', None) == 'prose':
+            if unit == 'lines':
+                # TODO is this restriction necessary?
+                return user_error('Cannot parse prose text by lines')
+            unitizer = tesserae.unitizers.genres.prose.ProseUnitizer()
+            result['phrases'] = [
+                unit['tokens'] for unit in unitizer.unitize_phrases(tessfile, tokenizer)
+            ]
+        else:
+            return db_error('Could not find genre information')
     finally:
-    client.close()
+        client.close()
+    # TODO get asked for feature
     return flask.jsonify(result)
+
+
+# TODO should attribute be feature?
+@APP.route('/ngrams/<text>/<attribute>', defaults={'unit': None})
+@APP.route('/ngrams/<text>/<attribute>/<unit>')
+def get_ngrams(text, attribute, unit):
+    # TODO implement
+    return db_error('Not implemented')
+
+
+# TODO matches API probably needs work; wait for matcher to be implemented in tesserae-v5
