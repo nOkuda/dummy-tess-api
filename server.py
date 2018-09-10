@@ -1,5 +1,6 @@
 """Dummy implementation of Tesserae API"""
 import flask
+import os
 
 import tesserae.db
 import tesserae.text_access.storage
@@ -54,82 +55,86 @@ def get_texts(language, author, text):
     return flask.jsonify(result)
 
 
-@APP.route('/texts/<language>/<author>/<text>', methods=['POST'])
-def post_text(language, author, text):
-    # TODO figure out authentication
-    data = flask.request.form
-    try:
+if os.environ.get('ADMIN_INSTANCE'):
+    ADMIN_USER = 'admin'
+    # TODO figure out how to make admin password
+    ADMIN_PASSWORD = ''
+    @APP.route('/texts/<language>/<author>/<text>', methods=['POST'])
+    def post_text(language, author, text):
+        # TODO figure out authentication
+        data = flask.request.form
+        try:
+            client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
+            db_response = tesserae.text_access.storage.retrieve_text_list.insert_text(
+                client,
+                data['cts_urn'],
+                data['language'],
+                data['author'],
+                data['title'],
+                int(data['year']),
+                data['unit_types'],
+                data['path'],
+            )
+        except tesserae.text_access.storage.TextExistsError as e:
+            return user_error(e.args)
+        finally:
+            client.close()
+        if not db_response.acknowledged:
+            return db_error('Database error')
+
+        # TODO work queue? text processing?
+        return flask.jsonify(flask.request.form)
+
+
+    # TODO figure out session handling?
+    @APP.route('/texts/<language>/<author>/<text>', methods=['PUT'])
+    def update_text(language, author, text):
+        # TODO it seems like the type checking should be done in update_text
+        accepted_metadata = {
+            'language',
+            'author',
+            'title',
+            'year',
+            'path',
+            'hash',
+        }
+        data = flask.request.form
+        # TODO update 'id' to 'cts_urn' for consistency with database?
+        if 'id' not in data:
+            return user_error('No "id": please provide CTS URN')
+        cts_urn = data['id']
+        diff = {k for k in data} - accepted_metadata
+        diff.remove('id')
+        if diff:
+            return user_error('Unknown metadata types: {}'.format(', '.join(diff)))
+        try:
+            client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
+            db_response = tesserae.text_access.storage.update_text(
+                client,
+                cts_urn,
+                **{k: v for k, v in data.items() if k != 'id'},
+            )
+        except tesserae.text_access.storage.DuplicateTextError as e:
+            return db_error(e.args)
+        except Exception as e:
+            return user_error(e.args)
+        finally:
+            client.close()
+        if not db_response.acknowledged:
+            return db_error('Database error')
+        # TODO negotiate database updating
+        # work queue?
+        return flask.jsonify(db_response.raw_result)
+
+
+    # TODO figure out session handling?
+    @APP.route('/texts/<language>/<author>/<text>', methods=['DELETE'])
+    def delete_text(language, author, text):
+        # TODO negotiate database updating
+        # TODO implement deleting in tesserae.text_access.storage
         client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
-        db_response = tesserae.text_access.storage.retrieve_text_list.insert_text(
-            client,
-            data['cts_urn'],
-            data['language'],
-            data['author'],
-            data['title'],
-            int(data['year']),
-            data['unit_types'],
-            data['path'],
-        )
-    except tesserae.text_access.storage.TextExistsError as e:
-        return user_error(e.args)
-    finally:
         client.close()
-    if not db_response.acknowledged:
-        return db_error('Database error')
-
-    # TODO work queue? text processing?
-    return flask.jsonify(flask.request.form)
-
-
-# TODO figure out session handling?
-@APP.route('/texts/<language>/<author>/<text>', methods=['PUT'])
-def update_text(language, author, text):
-    # TODO it seems like the type checking should be done in update_text
-    accepted_metadata = {
-        'language',
-        'author',
-        'title',
-        'year',
-        'path',
-        'hash',
-    }
-    data = flask.request.form
-    # TODO update 'id' to 'cts_urn' for consistency with database?
-    if 'id' not in data:
-        return user_error('No "id": please provide CTS URN')
-    cts_urn = data['id']
-    diff = {k for k in data} - accepted_metadata
-    diff.remove('id')
-    if diff:
-        return user_error('Unknown metadata types: {}'.format(', '.join(diff)))
-    try:
-        client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
-        db_response = tesserae.text_access.storage.update_text(
-            client,
-            cts_urn,
-            **{k: v for k, v in data.items() if k != 'id'},
-        )
-    except tesserae.text_access.storage.DuplicateTextError as e:
-        return db_error(e.args)
-    except Exception as e:
-        return user_error(e.args)
-    finally:
-        client.close()
-    if not db_response.acknowledged:
-        return db_error('Database error')
-    # TODO negotiate database updating
-    # work queue?
-    return flask.jsonify(db_response.raw_result)
-
-
-# TODO figure out session handling?
-@APP.route('/texts/<language>/<author>/<text>', methods=['DELETE'])
-def delete_text(language, author, text):
-    # TODO negotiate database updating
-    # TODO implement deleting in tesserae.text_access.storage
-    client = tesserae.db.get_connection(HOST, PORT, USER, PASSWORD)
-    client.close()
-    return flask.jsonify(flask.request.form)
+        return flask.jsonify(flask.request.form)
 
 
 @APP.route('/tokens/<text>/<feature>', defaults={'unit': None})
@@ -182,14 +187,6 @@ def get_tokens(text, feature, unit):
         client.close()
     # TODO get asked for feature
     return flask.jsonify(result)
-
-
-# TODO should attribute be feature?
-@APP.route('/ngrams/<text>/<attribute>', defaults={'unit': None})
-@APP.route('/ngrams/<text>/<attribute>/<unit>')
-def get_ngrams(text, attribute, unit):
-    # TODO implement
-    return db_error('Not implemented')
 
 
 # TODO matches API probably needs work; wait for matcher to be implemented in tesserae-v5
