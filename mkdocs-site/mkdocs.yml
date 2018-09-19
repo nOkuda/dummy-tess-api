@@ -1,0 +1,7 @@
+site_name: Tesserae API Documentation
+nav:
+- 'Home': 'index.md'
+- 'Getting started':
+    - 'Tutorial': 'getting-started/tutorial.md'
+- 'Endpoints':
+    - '/texts/': 'endpoints/texts.md'
