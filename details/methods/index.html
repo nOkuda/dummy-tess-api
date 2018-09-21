@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Scoring Methods - Tesserae API (Pre-Alpha!)</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Tesserae API (Pre-Alpha!)</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../..">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Getting Started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../getting-started/tutorial/">Tutorial</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../endpoints/matches/">/matches/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/texts/">/texts/</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li class="active">
+    <a href="./">Scoring Methods</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../../endpoints/texts/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="disabled">
+                                <a rel="prev" >
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#scoring-methods">Scoring Methods</a></li>
+            <li><a href="#tesserae-original">Tesserae Original</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="scoring-methods">Scoring Methods<a class="headerlink" href="#scoring-methods" title="Permanent link">&para;</a></h1>
+<p>This page details parameters for Tesserae's intertext scoring algorithm.</p>
+<h2 id="tesserae-original">Tesserae Original<a class="headerlink" href="#tesserae-original" title="Permanent link">&para;</a></h2>
+<p>The original Tesserae intertext scoring algorithm was described by Forstall et al.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></p>
+<h3 id="algorithmic-overview">Algorithmic Overview<a class="headerlink" href="#algorithmic-overview" title="Permanent link">&para;</a></h3>
+<h4 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">&para;</a></h4>
+<p>"Texts" refer to literary works.</p>
+<p>"Units" are sections within a text.</p>
+<p>"Features" (or more accurately, "linguistic features") are the types of linguistically significant pieces of information found within a unit.  For example, words are a feature.</p>
+<p>"Tokens" are the individual instances of a given feature.  Consider the following unit:</p>
+<ul>
+<li>the red truck stopped at the red sign</li>
+</ul>
+<p>Clearly, this unit contains words.  The words "the" and "red" appear twice in the unit.  The first "the" is a token distinct from the other "the" later in the unit; so also for "red".</p>
+<h4 id="find-pairs">Find Pairs<a class="headerlink" href="#find-pairs" title="Permanent link">&para;</a></h4>
+<p>The algorithm begins by finding pairs of source text and target text which share at least two tokens of the same feature that are the same.  For example, using the word feature (enforcing exact word matching) on the following two units:</p>
+<ul>
+<li>nomadic children play with wooden toys</li>
+<li>wooden horses suggest playing children</li>
+</ul>
+<p>the token "children" occurs in both the first and second units, as does "wooden".  Additionally, assuming the use of word feature again, the following two units would be considered a pair sharing at least two tokens that are the same:</p>
+<ul>
+<li>boys hate to lose to other boys</li>
+<li>there are five boys here and six boys there</li>
+</ul>
+<p>because they both share two word instances of "boys".</p>
+<h4 id="reference-frequencies">Reference Frequencies<a class="headerlink" href="#reference-frequencies" title="Permanent link">&para;</a></h4>
+<p>The algorithm then continues by referencing frequency information concerning the matching tokens.  Frequency can be defined in terms of text or the corpus.</p>
+<p>When defined in terms of the text, the frequency of word X is equal to the total number of times the word X appears in the text associated with the unit in which the token X is found, divided by the total number of tokens in that text.  For example, suppose we have the following text:</p>
+<pre><code>a a a a b
+b b c b b
+a a a a a
+b a b a a
+a b b b a
+</code></pre>
+
+<p>Now suppose the second line of this text is used as a source.  Then the frequency of the third token of that line, "c", will be 1/25 (since "c" appears only once, and there are 25 total tokens in the text).</p>
+<p>When defined in terms of the corpus, the frequency of word X is equal to the total number of times the word X appears in the corpus, divided by the total number of tokens in the corpus.  The corpus is defined to consist of all texts in the Tesserae database with the same language.  Thus, the <code>"latin"</code> corpus is separate from the <code>"greek"</code> corpus.</p>
+<h4 id="compute-score">Compute Score<a class="headerlink" href="#compute-score" title="Permanent link">&para;</a></h4>
+<p>Finally, the algorithm computes a score for each unit pair according to the following formula:</p>
+<p>
+<script type="math/tex; mode=display">ln\left(\frac{\sum_{m \in M}{\frac{1}{f_{t}(m)}} + \sum_{m \in M}{\frac{1}{f_{s}(m)}}}{d_{t}+d_{s}}\right)</script>
+</p>
+<p>where</p>
+<ul>
+<li>
+<script type="math/tex">ln</script> is the natural logarithm function</li>
+<li>
+<script type="math/tex">M</script> is the set of tokens that matches between the source and target units in the pair</li>
+<li>
+<script type="math/tex">f_t(m)</script> computes the frequency of the feature <script type="math/tex">m</script> with respect to the target unit's text<ul>
+<li>if frequency is computed by corpus, <script type="math/tex">f_s(m)</script> is computed by corpus statistics</li>
+</ul>
+</li>
+<li>
+<script type="math/tex">f_s(m)</script> is like <script type="math/tex">f_t(m)</script>, except that it is with respect to the source</li>
+<li>
+<script type="math/tex">d_t</script> is the distance between two tokens in the target unit, where the two tokens are in the set <script type="math/tex">M</script>
+<ul>
+<li>the distance is calculated by subtraction of the position numbers; i.e., in the unit "a c c c a", the two a's are separated by 4 tokens, since the a's occupy the 1st and 5th positions</li>
+<li>in case that first explanation didn't make sense, adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.</li>
+<li>note that this explanation has been left deliberately ambiguous; for more details, see <a href="#distance-basis">Distance Basis</a></li>
+</ul>
+</li>
+<li>
+<script type="math/tex">d_s</script> is like <script type="math/tex">d_t</script>, except that it is with respect to the source</li>
+</ul>
+<p>(if you find the mathematical symbols too small, you can either use the zoom function on your browser or right click on the math, hover over "Math Settings", then over "Zoom Trigger", and click on "Click"; then click on the math (you can unzoom by clicking again).)</p>
+<h3 id="method-parameterization">Method Parameterization<a class="headerlink" href="#method-parameterization" title="Permanent link">&para;</a></h3>
+<p>The original Tesserae scoring algorithm can be specified for use at the <code>/matches/</code> endpoint as a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"name"</code></td>
+<td>Set to <code>"original"</code>.</td>
+</tr>
+<tr>
+<td><code>"feature"</code></td>
+<td>A string representing the linguistic feature to use for matching and scoring.  For more details, see <a href="#features">Features</a>.</td>
+</tr>
+<tr>
+<td><code>"stopwords"</code></td>
+<td>A list of strings, where each string represents a feature that should be ignored during matching.  This is useful, for example, when you want to ignore common function words.</td>
+</tr>
+<tr>
+<td><code>"freq_basis"</code></td>
+<td>Either <code>"texts"</code> or <code>"corpus"</code>.  If set to <code>"texts"</code>, scoring will compute frequency statistics from the texts specified in the <code>/matches/</code> request; if set to <code>"corpus"</code>, frequency statistics will be computed from all texts available in the Tesserae database.</td>
+</tr>
+<tr>
+<td><code>"max_distance"</code></td>
+<td>A positive integer marking the maximum distance separating matching tokens within a unit.  In other words, <script type="math/tex">d_s + d_t</script> (from the equation in <a href="#compute-score">Compute Score</a>) must be less than the maximum distance specified in order for a given source and target unit to count as a matching pair.</td>
+</tr>
+<tr>
+<td><code>"distance_basis"</code></td>
+<td>A string describing which matching tokens will be used to calculate distance.  For more details, see <a href="#distance-basis">Distance Basis</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<p>As noted earlier, the original Tesserae algorithm considers two units to match when they share at least two tokens of the a given (linguistic) feature.  The following table describes what features are available for use:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"lemma"</code></td>
+<td>Match by dictionary headword.</td>
+</tr>
+<tr>
+<td><code>"semantic"</code></td>
+<td>TODO:  Figure out what semantic means.</td>
+</tr>
+<tr>
+<td><code>"sound"</code></td>
+<td>Match by phonetic trigrams.</td>
+</tr>
+<tr>
+<td><code>"word"</code></td>
+<td>Match by exact word.</td>
+</tr>
+</tbody>
+</table>
+<p>Any one of these features can be used as the value to the <code>"feature"</code> key in the JSON object parameterizing the original Tesserae scoring algorithm to use at the <code>/matches/</code> endpoint.</p>
+<h4 id="distance-basis">Distance Basis<a class="headerlink" href="#distance-basis" title="Permanent link">&para;</a></h4>
+<p>As noted earlier, the distance between tokens is important to how the score for a pair is calculated.  The following table describes the options for determining this distance:</p>
+<table>
+<thead>
+<tr>
+<th>Distance Basis</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"span"</code></td>
+<td>The two farthest apart matching tokens within the unit are used.</td>
+</tr>
+<tr>
+<td><code>"span-target"</code></td>
+<td>The two farthest apart matching tokens in the target unit only are used; <script type="math/tex">d_s=0</script> in this case.</td>
+</tr>
+<tr>
+<td><code>"span-source"</code></td>
+<td>The two farthest apart matching tokens in the source unit only are used; <script type="math/tex">d_t=0</script> in this case.</td>
+</tr>
+<tr>
+<td><code>"frequency"</code></td>
+<td>The two lowest frequency tokens within the unit are used.</td>
+</tr>
+<tr>
+<td><code>"frequency-target"</code></td>
+<td>The two lowest frequency tokens within the target unit only are used; <script type="math/tex">d_s=0</script> in this case.</td>
+</tr>
+<tr>
+<td><code>"frequency-source"</code></td>
+<td>The two lowest frequency tokens within the source unit only are used; <script type="math/tex">d_t=0</script> in this case.</td>
+</tr>
+</tbody>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Forstall, Christopher, Neil Coffee, Thomas Buck, Katherine Roache, and Sarah Jacobson. "Modeling the Scholars: Detecting Intertextuality through Enhanced Word-level N-gram Matching." Digital Scholarship in the Humanities 30, no. 4 (2014): 503-515.  See Figure 1.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
