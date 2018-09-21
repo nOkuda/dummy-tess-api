@@ -8,30 +8,30 @@ Requesting GET at `/texts/` provides information on literary works stored in Tes
 
 ### Request
 
-The following fields may be used in a URL query to filter the response.
+The following fields may be used in a URL query to filter the response:
 
 |Field|Description|
 |---|---|
-| `author`|  Only database information for texts with the specified author are returned
-| `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates
-| `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates
-| `cts_urn`|  Only database information for texts with the specified CTS URN are returned
-| `genre`|  Only database information for texts with the specified genre are returned
-| `language`|  Only database information for texts with the specified language are returned
-| `title`|  Only database information for texts with the specified title are returned
+| `"author"`|  Only database information for texts with the specified author are returned
+| `"after"`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates
+| `"before"`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates
+| `"cts_urn"`|  Only database information for texts with the specified CTS URN are returned
+| `"genre"`|  Only database information for texts with the specified genre are returned
+| `"language"`|  Only database information for texts with the specified language are returned
+| `"title"`|  Only database information for texts with the specified title are returned
 
 ### Response
 
-On success, the response includes a JSON data payload consisting of an array of objects, where each object contains the following keys.
+On success, the response includes a JSON data payload consisting of an array of objects, where each object contains the following keys:
 
 |Key|Description|
 |---|---|
-|`author`|A string identifying the text's author.|
-|`cts_urn`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
-|`genre`|A string identifying the text's genre; it is either "poetry" or "prose".|
-|`language`|A string identifying the composition language of the text.|
-|`title`|A string identifying the text's name.|
-|`year`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
+|`"author"`|A string identifying the text's author.|
+|`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
+|`"genre"`|A string identifying the text's genre; it is either "poetry" or "prose".|
+|`"language"`|A string identifying the composition language of the text.|
+|`"title"`|A string identifying the text's name.|
+|`"year"`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
 
 ### Examples
 
@@ -91,28 +91,28 @@ Requesting POST at `/texts/` with an appropriate JSON data payload will add the 
 
 ### Request
 
-Appropriate JSON data for a POST at `/texts/` must be a JSON object containing the following keys.
+Appropriate JSON data for a POST at `/texts/` must be a JSON object containing the following keys:
 
 |Key|Description|
 |---|---|
-|`author`|A string identifying the text's author.|
-|`cts_urn`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
-|`genre`|A string identifying the text's genre; it is either "poetry" or "prose".|
-|`language`|A string identifying the composition language of the text.|
-|`path`| A string identifying the location of the text's contents.|
-|`title`|A string identifying the text's name.|
-|`year`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
+|`"author"`|A string identifying the text's author.|
+|`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
+|`"genre"`|A string identifying the text's genre; it is either "poetry" or "prose".|
+|`"language"`|A string identifying the composition language of the text.|
+|`"path"`| A string identifying the location of the text's contents.|
+|`"title"`|A string identifying the text's name.|
+|`"year"`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
 
 ### Response
 
 On success, there is no reponse data payload.
 
-On failure, the data payload contains error information in a JSON object with the following keys.
+On failure, the data payload contains error information in a JSON object with the following keys:
 
 |Key|Description|
 |---|---|
-|`data`|The JSON object received as request data payload.|
-|`message`|A string explaining why the request data payload was rejected.|
+|`"data"`|The JSON object received as request data payload.|
+|`"message"`|A string explaining why the request data payload was rejected.|
 
 ### Examples
 
@@ -135,7 +135,8 @@ curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
 Response:
 
 ```
-HTTP/1.0 204 No Content
+HTTP/1.0 200 OK
+...
 ```
 
 #### Upload a Text Already in the Database
@@ -226,12 +227,12 @@ Appropriate JSON data for a PATCH at `/texts/` must contain the `cts_urn` key, a
 
 On success, the data payload contains the text entry in Tesserae's database after the update has been made.
 
-On failure, the data payload contains error information in a JSON object with the following keys.
+On failure, the data payload contains error information in a JSON object with the following keys:
 
 |Key|Description|
 |---|---|
-|`data`|The JSON object received as request data payload.|
-|`message`|A string explaining why the request data payload was rejected.|
+|`"data"`|The JSON object received as request data payload.|
+|`"message"`|A string explaining why the request data payload was rejected.|
 
 ### Examples
 
@@ -362,12 +363,12 @@ Appropriate JSON data for a DELETE at `/texts/` must contain the `cts_urn` key, 
 
 On success, there is no response data payload.
 
-On failure, the data payload contains error information in a JSON object with the following keys.
+On failure, the data payload contains error information in a JSON object with the following keys:
 
 |Key|Description|
 |---|---|
-|`data`|The JSON object received as request data payload.|
-|`message`|A string explaining why the request data payload was rejected.|
+|`"data"`|The JSON object received as request data payload.|
+|`"message"`|A string explaining why the request data payload was rejected.|
 
 ### Examples
 
@@ -399,6 +400,7 @@ Response:
 
 ```
 HTTP/1.0 204 No Content
+...
 ```
 
 #### Delete a Text Not in the Database

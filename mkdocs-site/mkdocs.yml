@@ -1,7 +1,18 @@
-site_name: Tesserae API Documentation
+site_name: Tesserae API (Pre-Alpha!)
 nav:
 - 'Home': 'index.md'
-- 'Getting started':
+- 'Getting Started':
     - 'Tutorial': 'getting-started/tutorial.md'
 - 'Endpoints':
+    - '/matches/': 'endpoints/matches.md'
     - '/texts/': 'endpoints/texts.md'
+- 'Details':
+    - 'Scoring Methods': 'details/methods.md'
+markdown_extensions:
+    - toc:
+        permalink: True
+    - footnotes
+    - mdx_math:
+        enable_dollar_delimiter: True
+
+extra_javascript: ['https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML']
