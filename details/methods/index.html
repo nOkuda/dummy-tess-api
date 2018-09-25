@@ -56,6 +56,10 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
+                                    
+<li >
+    <a href="../../getting-started/cts-urns/">CTS URNs</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -63,7 +67,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../endpoints/matches/">/matches/</a>
+    <a href="../../endpoints/parallels/">/parallels/</a>
 </li>
                                     
 <li >
@@ -77,6 +81,10 @@
                                     
 <li class="active">
     <a href="./">Scoring Methods</a>
+</li>
+                                    
+<li >
+    <a href="../subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -93,8 +101,8 @@
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li >
+                                <a rel="prev" href="../subreferencing/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -113,34 +121,34 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="scoring-methods">Scoring Methods<a class="headerlink" href="#scoring-methods" title="Permanent link">&para;</a></h1>
-<p>This page details parameters for Tesserae's intertext scoring algorithm.</p>
+<p>This page details parameters for Tesserae&rsquo;s intertext scoring algorithm.</p>
 <h2 id="tesserae-original">Tesserae Original<a class="headerlink" href="#tesserae-original" title="Permanent link">&para;</a></h2>
 <p>The original Tesserae intertext scoring algorithm was described by Forstall et al.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></p>
 <h3 id="algorithmic-overview">Algorithmic Overview<a class="headerlink" href="#algorithmic-overview" title="Permanent link">&para;</a></h3>
 <h4 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">&para;</a></h4>
-<p>"Texts" refer to literary works.</p>
-<p>"Units" are sections within a text.</p>
-<p>"Features" (or more accurately, "linguistic features") are the types of linguistically significant pieces of information found within a unit.  For example, words are a feature.</p>
-<p>"Tokens" are the individual instances of a given feature.  Consider the following unit:</p>
+<p>&ldquo;Texts&rdquo; refer to literary works.</p>
+<p>&ldquo;Units&rdquo; are sections within a text.</p>
+<p>&ldquo;Features&rdquo; (or more accurately, &ldquo;linguistic features&rdquo;) are the types of linguistically significant pieces of information found within a text span.  For example, words are a feature.</p>
+<p>&ldquo;Tokens&rdquo; are the individual instances of a given feature.  Consider the following text span</p>
 <ul>
 <li>the red truck stopped at the red sign</li>
 </ul>
-<p>Clearly, this unit contains words.  The words "the" and "red" appear twice in the unit.  The first "the" is a token distinct from the other "the" later in the unit; so also for "red".</p>
-<h4 id="find-pairs">Find Pairs<a class="headerlink" href="#find-pairs" title="Permanent link">&para;</a></h4>
-<p>The algorithm begins by finding pairs of source text and target text which share at least two tokens of the same feature that are the same.  For example, using the word feature (enforcing exact word matching) on the following two units:</p>
+<p>Clearly, this span contains words as features.  The words &ldquo;the&rdquo; and &ldquo;red&rdquo; appear twice in the span.  The first &ldquo;the&rdquo; is a token distinct from the other &ldquo;the&rdquo; later in the span; so also for &ldquo;red&rdquo;.</p>
+<h4 id="find-parallels">Find Parallels<a class="headerlink" href="#find-parallels" title="Permanent link">&para;</a></h4>
+<p>The algorithm begins by finding pairs of source text and target text spans which share at least two tokens of the same feature.  These pairs are called parallels.  For example, using the word feature (enforcing exact word matching) on the following two spans</p>
 <ul>
 <li>nomadic children play with wooden toys</li>
 <li>wooden horses suggest playing children</li>
 </ul>
-<p>the token "children" occurs in both the first and second units, as does "wooden".  Additionally, assuming the use of word feature again, the following two units would be considered a pair sharing at least two tokens that are the same:</p>
+<p>the token &ldquo;children&rdquo; occurs in both the first and second spans, as does &ldquo;wooden&rdquo;.  Additionally, assuming the use of word feature again, the following two spans would be considered a pair sharing at least two tokens that are the same:</p>
 <ul>
 <li>boys hate to lose to other boys</li>
 <li>there are five boys here and six boys there</li>
 </ul>
-<p>because they both share two word instances of "boys".</p>
+<p>because they both share two word instances of &ldquo;boys&rdquo;.</p>
 <h4 id="reference-frequencies">Reference Frequencies<a class="headerlink" href="#reference-frequencies" title="Permanent link">&para;</a></h4>
-<p>The algorithm then continues by referencing frequency information concerning the matching tokens.  Frequency can be defined in terms of text or the corpus.</p>
-<p>When defined in terms of the text, the frequency of word X is equal to the total number of times the word X appears in the text associated with the unit in which the token X is found, divided by the total number of tokens in that text.  For example, suppose we have the following text:</p>
+<p>The algorithm then continues by referencing frequency information concerning the matching tokens.  Frequency can be defined in terms of either the text or the corpus.</p>
+<p>When defined in terms of some text Y, the frequency of word X is equal to the total number of tokens of the word X appearing in the text Y, divided by the total number of tokens in text Y.  For example, suppose we have the following text:</p>
 <pre><code>a a a a b
 b b c b b
 a a a a a
@@ -148,10 +156,10 @@ b a b a a
 a b b b a
 </code></pre>
 
-<p>Now suppose the second line of this text is used as a source.  Then the frequency of the third token of that line, "c", will be 1/25 (since "c" appears only once, and there are 25 total tokens in the text).</p>
-<p>When defined in terms of the corpus, the frequency of word X is equal to the total number of times the word X appears in the corpus, divided by the total number of tokens in the corpus.  The corpus is defined to consist of all texts in the Tesserae database with the same language.  Thus, the <code>"latin"</code> corpus is separate from the <code>"greek"</code> corpus.</p>
+<p>Now suppose the second line of this text is used as a source.  Then the frequency of the third token of that line, &ldquo;c&rdquo;, will be 1/25 (since there is only one token of the word &ldquo;c&rdquo;, and there are 25 total tokens in the text).</p>
+<p>When defined in terms of the corpus, the frequency of word X is equal to the total number of tokens of the word X appearing in the corpus, divided by the total number of tokens in the corpus.  The corpus is defined to consist of all texts in the Tesserae database with the same language.  Thus, the <code>"latin"</code> corpus is separate from the <code>"greek"</code> corpus.</p>
 <h4 id="compute-score">Compute Score<a class="headerlink" href="#compute-score" title="Permanent link">&para;</a></h4>
-<p>Finally, the algorithm computes a score for each unit pair according to the following formula:</p>
+<p>Finally, the algorithm computes a score for each text span pair according to the following formula:</p>
 <p>
 <script type="math/tex; mode=display">ln\left(\frac{\sum_{m \in M}{\frac{1}{f_{t}(m)}} + \sum_{m \in M}{\frac{1}{f_{s}(m)}}}{d_{t}+d_{s}}\right)</script>
 </p>
@@ -160,26 +168,25 @@ a b b b a
 <li>
 <script type="math/tex">ln</script> is the natural logarithm function</li>
 <li>
-<script type="math/tex">M</script> is the set of tokens that matches between the source and target units in the pair</li>
+<script type="math/tex">M</script> is the set of tokens that matches between the source and target spans in the pair</li>
 <li>
-<script type="math/tex">f_t(m)</script> computes the frequency of the feature <script type="math/tex">m</script> with respect to the target unit's text<ul>
+<script type="math/tex">f_t(m)</script> computes the frequency of the feature <script type="math/tex">m</script> with respect to the target span&rsquo;s text<ul>
 <li>if frequency is computed by corpus, <script type="math/tex">f_s(m)</script> is computed by corpus statistics</li>
 </ul>
 </li>
 <li>
 <script type="math/tex">f_s(m)</script> is like <script type="math/tex">f_t(m)</script>, except that it is with respect to the source</li>
 <li>
-<script type="math/tex">d_t</script> is the distance between two tokens in the target unit, where the two tokens are in the set <script type="math/tex">M</script>
-<ul>
-<li>the distance is calculated by subtraction of the position numbers; i.e., in the unit "a c c c a", the two a's are separated by 4 tokens, since the a's occupy the 1st and 5th positions</li>
-<li>in case that first explanation didn't make sense, adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.</li>
-<li>note that this explanation has been left deliberately ambiguous; for more details, see <a href="#distance-basis">Distance Basis</a></li>
+<script type="math/tex">d_t</script> is the distance between two matching tokens in the target span (note that because the two tokens are matching, they must both be in the set <script type="math/tex">M</script>)<ul>
+<li>the distance is calculated by subtraction of the position numbers; i.e., in the text span &ldquo;a c c c a&rdquo;, the two a&rsquo;s are separated by 4 tokens, since the a&rsquo;s occupy the 1st and 5th positions</li>
+<li>in case that first explanation didn&rsquo;t make sense, here is another way to define the distance:  adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.</li>
+<li>which two matching tokens are used for calculating distance is a parameter that can be chosen; for more details, see <a href="#distance-basis">Distance Basis</a></li>
 </ul>
 </li>
 <li>
 <script type="math/tex">d_s</script> is like <script type="math/tex">d_t</script>, except that it is with respect to the source</li>
 </ul>
-<p>(if you find the mathematical symbols too small, you can either use the zoom function on your browser or right click on the math, hover over "Math Settings", then over "Zoom Trigger", and click on "Click"; then click on the math (you can unzoom by clicking again).)</p>
+<p>(if you find the mathematical symbols too small, you can either use the zoom function on your browser or right click on the math, hover over &ldquo;Math Settings&rdquo;, then over &ldquo;Zoom Trigger&rdquo;, and click on &ldquo;Click&rdquo;; then click on the math (you can unzoom by clicking again).)</p>
 <h3 id="method-parameterization">Method Parameterization<a class="headerlink" href="#method-parameterization" title="Permanent link">&para;</a></h3>
 <p>The original Tesserae scoring algorithm can be specified for use at the <code>/matches/</code> endpoint as a JSON object with the following keys:</p>
 <table>
@@ -204,11 +211,11 @@ a b b b a
 </tr>
 <tr>
 <td><code>"freq_basis"</code></td>
-<td>Either <code>"texts"</code> or <code>"corpus"</code>.  If set to <code>"texts"</code>, scoring will compute frequency statistics from the texts specified in the <code>/matches/</code> request; if set to <code>"corpus"</code>, frequency statistics will be computed from all texts available in the Tesserae database.</td>
+<td>Either <code>"texts"</code> or <code>"corpus"</code>.  If set to <code>"texts"</code>, scoring will compute frequency of a given token based on the text in which it is found; if set to <code>"corpus"</code>, frequency of a given token will be computed from all texts available in the Tesserae database of the same language as the text in which the token is found.  For more explanation, refer to <a href="#reference-frequencies">Reference Frequences</a>.</td>
 </tr>
 <tr>
 <td><code>"max_distance"</code></td>
-<td>A positive integer marking the maximum distance separating matching tokens within a unit.  In other words, <script type="math/tex">d_s + d_t</script> (from the equation in <a href="#compute-score">Compute Score</a>) must be less than the maximum distance specified in order for a given source and target unit to count as a matching pair.</td>
+<td>A positive integer marking the maximum distance separating matching tokens within a span.  In other words, <script type="math/tex">d_s + d_t</script> (from the equation in <a href="#compute-score">Compute Score</a>) must be less than the maximum distance specified in order for a given source and target span to count as a parallel.  Setting this to some large value (like 999 whn comparing lines of poetry) effectively makes this parameter unrestrictive.</td>
 </tr>
 <tr>
 <td><code>"distance_basis"</code></td>
@@ -217,7 +224,7 @@ a b b b a
 </tbody>
 </table>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
-<p>As noted earlier, the original Tesserae algorithm considers two units to match when they share at least two tokens of the a given (linguistic) feature.  The following table describes what features are available for use:</p>
+<p>As noted earlier, the original Tesserae algorithm considers two spans to match when they share at least two tokens of the specified (linguistic) feature.  The following table describes what values are available for use with the <code>"feature"</code> key in the JSON object parameterizing the original Tesserae scoring algorithm sent as the request data payload at the <code>/matches/</code> endpoint:</p>
 <table>
 <thead>
 <tr>
@@ -244,8 +251,7 @@ a b b b a
 </tr>
 </tbody>
 </table>
-<p>Any one of these features can be used as the value to the <code>"feature"</code> key in the JSON object parameterizing the original Tesserae scoring algorithm to use at the <code>/matches/</code> endpoint.</p>
-<h4 id="distance-basis">Distance Basis<a class="headerlink" href="#distance-basis" title="Permanent link">&para;</a></h4>
+<h3 id="distance-basis">Distance Basis<a class="headerlink" href="#distance-basis" title="Permanent link">&para;</a></h3>
 <p>As noted earlier, the distance between tokens is important to how the score for a pair is calculated.  The following table describes the options for determining this distance:</p>
 <table>
 <thead>
@@ -257,27 +263,27 @@ a b b b a
 <tbody>
 <tr>
 <td><code>"span"</code></td>
-<td>The two farthest apart matching tokens within the unit are used.</td>
+<td>The two farthest apart matching tokens within the span are used; <script type="math/tex">d_t>0</script> and <script type="math/tex">d_s>0</script> in this case.</td>
 </tr>
 <tr>
 <td><code>"span-target"</code></td>
-<td>The two farthest apart matching tokens in the target unit only are used; <script type="math/tex">d_s=0</script> in this case.</td>
+<td>The two farthest apart matching tokens in the target span only are used; <script type="math/tex">d_t>0</script> and <script type="math/tex">d_s=0</script> in this case.</td>
 </tr>
 <tr>
 <td><code>"span-source"</code></td>
-<td>The two farthest apart matching tokens in the source unit only are used; <script type="math/tex">d_t=0</script> in this case.</td>
+<td>The two farthest apart matching tokens in the source span only are used; <script type="math/tex">d_t=0</script> and <script type="math/tex">d_s>0</script> in this case.</td>
 </tr>
 <tr>
 <td><code>"frequency"</code></td>
-<td>The two lowest frequency tokens within the unit are used.</td>
+<td>The two lowest frequency tokens within the span are used. <script type="math/tex">d_t>0</script> and <script type="math/tex">d_s>0</script> in this case.</td>
 </tr>
 <tr>
 <td><code>"frequency-target"</code></td>
-<td>The two lowest frequency tokens within the target unit only are used; <script type="math/tex">d_s=0</script> in this case.</td>
+<td>The two lowest frequency tokens within the target span only are used; <script type="math/tex">d_t>0</script> and <script type="math/tex">d_s=0</script> in this case.</td>
 </tr>
 <tr>
 <td><code>"frequency-source"</code></td>
-<td>The two lowest frequency tokens within the source unit only are used; <script type="math/tex">d_t=0</script> in this case.</td>
+<td>The two lowest frequency tokens within the source span only are used; <script type="math/tex">d_t=0</script> and <script type="math/tex">d_s>0</script> in this case.</td>
 </tr>
 </tbody>
 </table>
@@ -285,7 +291,7 @@ a b b b a
 <hr />
 <ol>
 <li id="fn:1">
-<p>Forstall, Christopher, Neil Coffee, Thomas Buck, Katherine Roache, and Sarah Jacobson. "Modeling the Scholars: Detecting Intertextuality through Enhanced Word-level N-gram Matching." Digital Scholarship in the Humanities 30, no. 4 (2014): 503-515.  See Figure 1.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Forstall, Christopher, Neil Coffee, Thomas Buck, Katherine Roache, and Sarah Jacobson. &ldquo;Modeling the Scholars: Detecting Intertextuality through Enhanced Word-level N-gram Matching.&rdquo; Digital Scholarship in the Humanities 30, no. 4 (2014): 503-515.  See Figure 1.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div></div>

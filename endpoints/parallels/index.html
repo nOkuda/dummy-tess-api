@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>/matches/ - Tesserae API (Pre-Alpha!)</title>
+        <title>/parallels/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -56,6 +56,10 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
+                                    
+<li >
+    <a href="../../getting-started/cts-urns/">CTS URNs</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -63,7 +67,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li class="active">
-    <a href="./">/matches/</a>
+    <a href="./">/parallels/</a>
 </li>
                                     
 <li >
@@ -78,6 +82,10 @@
 <li >
     <a href="../../details/methods/">Scoring Methods</a>
 </li>
+                                    
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -89,7 +97,7 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../../getting-started/tutorial/">
+                                <a rel="next" href="../../getting-started/cts-urns/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -106,16 +114,16 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#matches">/matches/</a></li>
+        <li class="main active"><a href="#parallels">/parallels/</a></li>
             <li><a href="#post">POST</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="matches"><code>/matches/</code><a class="headerlink" href="#matches" title="Permanent link">&para;</a></h1>
-<p>The <code>/matches/</code> endpoint interacts with Tesserae's intertext discovery capabilities.</p>
+<h1 id="parallels"><code>/parallels/</code><a class="headerlink" href="#parallels" title="Permanent link">&para;</a></h1>
+<p>The <code>/parallels/</code> endpoint interacts with Tesserae&rsquo;s intertext discovery capabilities.</p>
 <h2 id="post">POST<a class="headerlink" href="#post" title="Permanent link">&para;</a></h2>
-<p>Requesting POST at <code>/matches/</code> submits a query for discovering intertexts between the texts available in Tesserae's database.  The query parameters should be sent as a JSON data payload.</p>
+<p>Requesting POST at <code>/parallels/</code> submits a query for discovering intertexts between the texts available in Tesserae&rsquo;s database.  The query parameters should be sent as a JSON data payload.</p>
 <h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
 <p>The JSON data payload representing query parameters must contain the following keys.</p>
 <p>TODO:  On the live server, should we limit the amount of source and target texts allowed to be queried?</p>
@@ -128,21 +136,78 @@
 </thead>
 <tbody>
 <tr>
-<td><code>source</code></td>
-<td>A list of strings representing CTS URNs that identify a unit.  The units will be compared with the units listed in <code>target</code> to find intertexts.</td>
+<td><code>"source"</code></td>
+<td>A list of strings representing CTS URNs that identify a span.  The spans will be compared with the spans listed in <code>"target"</code> to find intertexts.</td>
 </tr>
 <tr>
-<td><code>target</code></td>
-<td>A list of strings representing CTS URNs that identify a unit.  The units will be compared with the units listed in <code>source</code> to find intertexts.</td>
+<td><code>"target"</code></td>
+<td>A list of strings representing CTS URNs that identify a span.  The spans will be compared with the spans listed in <code>"source"</code> to find intertexts.</td>
 </tr>
 <tr>
-<td><code>method</code></td>
+<td><code>"method"</code></td>
 <td>A JSON object describing the scoring method used to evaluate the intertextual strength of a source text and target text pair.  More information on specifying the scoring method can be found in <a href="../../details/methods/">Scoring Methods</a>.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
-<p>On success, the data payload contains … TODO:  Figure out what this contains</p>
+<p>On success, the data payload contains a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"data"</code></td>
+<td>The JSON object received as request data payload.</td>
+</tr>
+<tr>
+<td><code>"parallels"</code></td>
+<td>A list of JSON objects describing parallels found.</td>
+</tr>
+</tbody>
+</table>
+<p>A JSON object in the <code>"parallels"</code> list of the successful response data payload contains the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"source"</code></td>
+<td>A string representing the CTS URN for the text span used as the source in this parallel.</td>
+</tr>
+<tr>
+<td><code>"target"</code></td>
+<td>A string representing the CTS URN for the text span used as the target in this parallel.</td>
+</tr>
+<tr>
+<td><code>"match_tokens"</code></td>
+<td>A list of strings, where each string is a token found in both the source span and the target span.</td>
+</tr>
+<tr>
+<td><code>"score"</code></td>
+<td>A number representing the score assigned to the pair of text spans.</td>
+</tr>
+<tr>
+<td><code>"source_raw"</code></td>
+<td>The string making up the text span specified by the value of <code>"source"</code>.</td>
+</tr>
+<tr>
+<td><code>"target_raw"</code></td>
+<td>The string making up the text span specified by the value of <code>"target"</code>.</td>
+</tr>
+<tr>
+<td><code>"highlight"</code></td>
+<td>A of list strings representing CTS URNs that define which parts in the source and target spans were used to determine the score.</td>
+</tr>
+</tbody>
+</table>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
 <table>
 <thead>
@@ -162,8 +227,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
-<p>TODO:  add examples</p></div>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3></div>
         </div>
 
         <footer class="col-md-12">
