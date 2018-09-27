@@ -3,16 +3,19 @@ nav:
 - 'Home': 'index.md'
 - 'Getting Started':
     - 'Tutorial': 'getting-started/tutorial.md'
+    - 'CTS URNs': 'getting-started/cts-urns.md'
 - 'Endpoints':
-    - '/matches/': 'endpoints/matches.md'
+    - '/parallels/': 'endpoints/parallels.md'
     - '/texts/': 'endpoints/texts.md'
 - 'Details':
     - 'Scoring Methods': 'details/methods.md'
+    - 'Subreferencing': 'details/subreferencing.md'
 markdown_extensions:
     - toc:
         permalink: True
     - footnotes
     - mdx_math:
         enable_dollar_delimiter: True
+    - smarty
 
 extra_javascript: ['https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML']

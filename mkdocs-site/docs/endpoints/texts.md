@@ -12,13 +12,13 @@ The following fields may be used in a URL query to filter the response:
 
 |Field|Description|
 |---|---|
-| `"author"`|  Only database information for texts with the specified author are returned
-| `"after"`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates
-| `"before"`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates
-| `"cts_urn"`|  Only database information for texts with the specified CTS URN are returned
-| `"genre"`|  Only database information for texts with the specified genre are returned
-| `"language"`|  Only database information for texts with the specified language are returned
-| `"title"`|  Only database information for texts with the specified title are returned
+| `author`|  Only database information for texts with the specified author are returned
+| `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates
+| `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates
+| `cts_urn`|  Only database information for texts with the specified CTS URN are returned
+| `prose`|  If set to "true", only database for information for texts considered prose works are returned|
+| `language`|  Only database information for texts with the specified language are returned
+| `title`|  Only database information for texts with the specified title are returned
 
 ### Response
 
@@ -28,7 +28,7 @@ On success, the response includes a JSON data payload consisting of an array of 
 |---|---|
 |`"author"`|A string identifying the text's author.|
 |`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
-|`"genre"`|A string identifying the text's genre; it is either "poetry" or "prose".|
+|`"prose"`|A boolean value denoting whether the text is considered a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"title"`|A string identifying the text's name.|
 |`"year"`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
@@ -97,7 +97,7 @@ Appropriate JSON data for a POST at `/texts/` must be a JSON object containing t
 |---|---|
 |`"author"`|A string identifying the text's author.|
 |`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
-|`"genre"`|A string identifying the text's genre; it is either "poetry" or "prose".|
+|`"prose"`|A boolean value denoting whether the text is a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"path"`| A string identifying the location of the text's contents.|
 |`"title"`|A string identifying the text's name.|
@@ -124,7 +124,7 @@ Request:
 curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
   "author": "Lucan", \
   "cts_urn": "urn:cts:latinLit:phi0917.phi001", \
-  "genre": "poetry", \
+  "prose": false, \
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
   "language": "latin", \
   "title": "Bellum Civile", \
@@ -149,7 +149,7 @@ Request:
 curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
   "author": "Lucan", \
   "cts_urn": "urn:cts:latinLit:phi0917.phi001", \
-  "genre": "poetry", \
+  "prose": false, \
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
   "language": "latin", \
   "title": "Bellum Civile", \
@@ -167,7 +167,7 @@ HTTP/1.0 400 Bad Request
   "data": {
     "author": "Lucan",
     "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-    "genre": "poetry",
+    "prose": false,
     "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
     "language": "latin",
     "title": "Bellum Civile",
@@ -184,7 +184,7 @@ Request:
 ```
 curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
   "author": "Lucan", \
-  "genre": "poetry", \
+  "prose": false, \
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
   "language": "latin", \
   "title": "Bellum Civile", \
@@ -201,7 +201,7 @@ HTTP/1.0 400 Bad Request
 {
   "data": {
     "author": "Lucan",
-    "genre": "poetry",
+    "prose": false,
     "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
     "language": "latin",
     "title": "Bellum Civile",
@@ -244,7 +244,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-  "genre": "poetry",
+  "prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
   "language": "latin",
   "title": "Bellum Civile",
@@ -270,7 +270,7 @@ HTTP/1.0 200 OK
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-  "genre": "poetry",
+  "prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
   "language": "latin",
   "title": "Pharsalia",
@@ -286,7 +286,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-  "genre": "poetry",
+  "prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
   "language": "latin",
   "title": "Bellum Civile",
@@ -313,7 +313,7 @@ HTTP/1.0 200 OK
   "alternate_title": "Pharsalia"
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-  "genre": "poetry",
+  "prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
   "language": "latin",
   "title": "Bellum Civile",
@@ -380,7 +380,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-  "genre": "poetry",
+  "prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
   "language": "latin",
   "title": "Bellum Civile",
