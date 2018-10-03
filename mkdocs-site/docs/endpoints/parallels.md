@@ -14,8 +14,8 @@ TODO:  On the live server, should we limit the amount of source and target texts
 
 |Key|Value|
 |---|---|
-|`"source"`|A list of strings representing CTS URNs that identify a span.  The spans will be compared with the spans listed in `"target"` to find intertexts.|
-|`"target"`|A list of strings representing CTS URNs that identify a span.  The spans will be compared with the spans listed in `"source"` to find intertexts.|
+|`"source"`|A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in `"target"` to find intertexts.|
+|`"target"`|A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in `"source"` to find intertexts.|
 |`"method"`|A JSON object describing the scoring method used to evaluate the intertextual strength of a source text and target text pair.  More information on specifying the scoring method can be found in [Scoring Methods](../details/methods.md).|
 
 ### Response

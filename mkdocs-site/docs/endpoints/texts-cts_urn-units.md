@@ -2,7 +2,7 @@
 
 The `/texts/<cts_urn>/units/` endpoint provides CTS URNs for units and subreferences within a specific text.  This endpoint may be useful, for example, when determining what CTS URNs to list in `"source"` for a search query submission at `/parallels/`.
 
-Note that `<cts_urn>` is a placeholder to be replaced by a (percent encoded)[https://en.wikipedia.org/wiki/Percent-encoding] CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for "percent encode" in your favorite search engine to find them.)  Throughout the rest of this page, `<cts_urn>` will continue to serve as a placeholder for a percent encoded CTS URN.
+Note that `<cts_urn>` is a placeholder to be replaced by a [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding) CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for "percent encode" in your favorite search engine to find them.)  Throughout the rest of this page, `<cts_urn>` will continue to serve as a placeholder for a percent encoded CTS URN.
 
 ## GET
 
@@ -14,7 +14,7 @@ Note that by default, a GET request at `/texts/<cts_urn>/units/` will return an 
 
 To obtain lists of CTS URNs, the desired lists must be specified by URL query fields.  If one of the following fields is specified in the URL, a corresponding list of CTS URNs will be returned:
 
-|Field|Description|
+|Field Name|Field Value|
 |---|---|
 |`lines`|The list of returned CTS URNs partition the text by lines (if the text is poetry) or by paragraphs (if the text is prose).|
 |`phrases`|The list of returned CTS URNs partition the text by phrases; a phrase is separated from a neighboring phrase by punctuation.|

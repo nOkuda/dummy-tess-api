@@ -24,6 +24,6 @@ asks Tesserae for information on literary works in its database that have "Vergi
 https://tesserae.caset.buffalo.edu/texts/?author=Vergil&title=Georgics
 ```
 
-This URL asks Tesserae for information on literary works in its database that have "Vergil" as an author and "Georgics" as the title.
+This URL asks Tesserae for information on literary works in its database that have both "Vergil" as an author and "Georgics" as the title.
 
 TODO:  Fill out rest of tutorial

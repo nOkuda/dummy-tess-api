@@ -82,7 +82,7 @@ where
 
 The original Tesserae scoring algorithm can be specified for use at the `/parallels/` endpoint as a JSON object with the following keys:
 
-|Key|Description|
+|Key|Value|
 |---|---|
 |`"name"`|Set to `"original"`.|
 |`"feature"`|A string representing the linguistic feature to use for matching and scoring.  For more details, see [Features](#features).|

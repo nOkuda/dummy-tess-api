@@ -10,19 +10,19 @@ Requesting GET at `/texts/` provides information on literary works stored in Tes
 
 The following fields may be used in a URL query to filter the response:
 
-|Field|Description|
+|Field Name|Field Value|
 |---|---|
-| `author`|  Only database information for texts with the specified author are returned
-| `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates
-| `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates
-| `cts_urn`|  Only database information for texts with the specified CTS URN are returned
-| `is_prose`|  If set to "true", only database for information for texts considered prose works are returned|
-| `language`|  Only database information for texts with the specified language are returned
-| `title`|  Only database information for texts with the specified title are returned
+| `author`|  Only database information for texts with the specified author are returned.|
+| `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates.|
+| `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates.|
+| `cts_urn`|  Only database information for texts with the specified CTS URN are returned.|
+| `is_prose`|  If set to "true", only database for information for texts considered prose works are returned.|
+| `language`|  Only database information for texts with the specified language are returned.|
+| `title`|  Only database information for texts with the specified title are returned.|
 
 ### Response
 
-On success, the response includes a JSON data payload consisting of a JSON object with the key `"texts"` associated with an array of JSON objects.  The JSON objects in the array, in turn, contain the following keys:
+On success, the response includes a JSON data payload consisting of a JSON object with the key `"texts"`, associated with an array of JSON objects.  The JSON objects in the array, in turn, contain the following keys:
 
 |Key|Value|
 |---|---|

@@ -2,7 +2,7 @@
 
 The `/texts/<cts_urn>/` endpoint interacts with a specific literary work in Tesserae's database.
 
-Note that `<cts_urn>` is a placeholder to be replaced by a (percent encoded)[https://en.wikipedia.org/wiki/Percent-encoding] CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for "percent encode" in your favorite search engine to find them.)  Throughout the rest of this page, `<cts_urn>` will continue to serve as a placeholder for a percent encoded CTS URN.
+Note that `<cts_urn>` is a placeholder to be replaced by a [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding) CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for "percent encode" in your favorite search engine to find them.)  Throughout the rest of this page, `<cts_urn>` will continue to serve as a placeholder for a percent encoded CTS URN.
 
 ## GET
 
@@ -89,7 +89,7 @@ Assume that no entry in the database has the CTS URN "DEADBEEF".
 Request:
 
 ```
-curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/DEADBEEF"
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/DEADBEEF"
 ```
 
 Response:

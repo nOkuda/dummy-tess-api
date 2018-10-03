@@ -50,12 +50,75 @@ HTTP/1.1 200 OK
 
 #### Query for Curated Stopwords List Not in Database
 
-Suppose that `i-dont-exist` does not match any stopwords list names.
+Suppose that `i-dont-exist` does not match any stopwords list names in the database.
 
 Request:
 
 ```
 curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/lists/i-dont-exist/"
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "name": "i-dont-exist",
+  "message": "No stopwords list names match the specified name (i-dont-exist)."
+}
+```
+
+## DELETE
+
+> NB:  The DELETE method for `/stopwords/lists/<name>` is available only on the administrative server
+
+Requesting DELETE at `/stopwords/lists/<name>` will eliminate `<name>` and its associated stopwords list from Tesserae's database.
+
+### Request
+
+No request data payload is expected.
+
+### Response
+
+On success, there is no response data payload.
+
+On failure, the response data payload contains error information in a JSON object with the following keys:
+
+|Key|Value|
+|---|---|
+|`"name"`|A string matching `<name>` after percent decoding.|
+|`"message"`|A string explaining why the request data payload was rejected.|
+
+### Examples
+
+#### Delete a Stopwords List Already in the Database
+
+Assume that a stopwords list named `already-exists` already exists in the database.
+
+
+Request:
+
+```
+curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/already-exists"
+```
+
+Response:
+
+```
+HTTP/1.1 204 No Content
+...
+```
+
+#### Attempt to Delete a Stopwords List Not in the Database
+
+Assume that there is no stopwords list named "i-dont-exist" in the database.
+
+Request:
+
+```
+curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/i-dont-exist"
 ```
 
 Response:

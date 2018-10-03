@@ -14,7 +14,7 @@ By default, a GET at `/stopwords/` returns an empty list.
 
 The following fields may be used in a URL query to specify the parameters by which the stopwords list is created:
 
-|Field|Description|
+|Field Name|Field Value|
 |---|---|
 |`feature`|A string specifying the linguistic feature by which frequencies are calculated; `lemma` is the default.|
 |`list_size`|An integer specifying the number of stopwords to include in the stopwords list. `10` is the default.|
@@ -22,7 +22,7 @@ The following fields may be used in a URL query to specify the parameters by whi
 
 ### Response
 
-On success, the response data payload will contain a JSON object with the key `"stopwords"` associated with a list of strings.
+On success, the response data payload will contain a JSON object with the key `"stopwords"`, associated with a list of strings.
 
 On failure, the data payload contains error information in a JSON object with the following keys:
 
