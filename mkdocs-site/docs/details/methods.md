@@ -65,13 +65,14 @@ $$ln\left(\frac{\sum_{m \in M}{\frac{1}{f_{t}(m)}} + \sum_{m \in M}{\frac{1}{f_{
 where
 
   * $ln$ is the natural logarithm function
-  * $M$ is the set of tokens that matches between the source and target spans in the pair
+  * $M$ is the set of token types that both the source and target spans in the pair
+    * a token of a type in $M$ is called a "matching token"
   * $f_t(m)$ computes the frequency of the feature $m$ with respect to the target span's text
     * if frequency is computed by corpus, $f_s(m)$ is computed by corpus statistics
   * $f_s(m)$ is like $f_t(m)$, except that it is with respect to the source
   * $d_t$ is the distance between two matching tokens in the target span (note that because the two tokens are matching, they must both be in the set $M$)
     * the distance is calculated by subtraction of the position numbers; i.e., in the text span "a c c c a", the two a's are separated by 4 tokens, since the a's occupy the 1st and 5th positions
-    * in case that first explanation didn't make sense, here is another way to define the distance:  adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.
+    * an equivalent definition of distance:  adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.
     * which two matching tokens are used for calculating distance is a parameter that can be chosen; for more details, see [Distance Basis](#distance-basis)
   * $d_s$ is like $d_t$, except that it is with respect to the source
 
@@ -79,7 +80,7 @@ where
 
 ### Method Parameterization
 
-The original Tesserae scoring algorithm can be specified for use at the `/matches/` endpoint as a JSON object with the following keys:
+The original Tesserae scoring algorithm can be specified for use at the `/parallels/` endpoint as a JSON object with the following keys:
 
 |Key|Description|
 |---|---|
@@ -92,7 +93,7 @@ The original Tesserae scoring algorithm can be specified for use at the `/matche
 
 ### Features
 
-As noted earlier, the original Tesserae algorithm considers two spans to match when they share at least two tokens of the specified (linguistic) feature.  The following table describes what values are available for use with the `"feature"` key in the JSON object parameterizing the original Tesserae scoring algorithm sent as the request data payload at the `/matches/` endpoint:
+As noted earlier, the original Tesserae algorithm considers two spans to match when they share at least two tokens of the specified (linguistic) feature.  The following table describes what values are available for use with the `"feature"` key in the JSON object parameterizing the original Tesserae scoring algorithm sent as the request data payload at the `/parallels/` endpoint:
 
 |Feature|Description|
 |---|---|

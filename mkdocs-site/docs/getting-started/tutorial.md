@@ -6,6 +6,10 @@ This page describes some basic concepts of web API's in general, using examples 
 
 TODO:  explain HTTP methods
 
+## Percent Encoding
+
+TODO:  explain URL encoding
+
 ## Filtering Query Results
 
 You can provide URL query strings to filter the results.  For example, the HTTP GET request for the resource

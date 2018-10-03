@@ -6,7 +6,12 @@ nav:
     - 'CTS URNs': 'getting-started/cts-urns.md'
 - 'Endpoints':
     - '/parallels/': 'endpoints/parallels.md'
+    - '/stopwords/': 'endpoints/stopwords.md'
+    - '/stopwords/lists/': 'endpoints/stopwords-lists.md'
+    - '/stopwords/lists/&lt;name&gt;/': 'endpoints/stopwords-lists-name.md'
     - '/texts/': 'endpoints/texts.md'
+    - '/texts/&lt;cts_urn&gt;/': 'endpoints/texts-cts_urn.md'
+    - '/texts/&lt;cts_urn&gt;/units/': 'endpoints/texts-cts_urn-units.md'
 - 'Details':
     - 'Scoring Methods': 'details/methods.md'
     - 'Subreferencing': 'details/subreferencing.md'
