@@ -71,7 +71,27 @@
 </li>
                                     
 <li >
+    <a href="../../endpoints/stopwords/">/stopwords/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+</li>
+                                    
+<li >
     <a href="../../endpoints/texts/">/texts/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
@@ -97,7 +117,7 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../../endpoints/texts/">
+                                <a rel="next" href="../../endpoints/texts-cts_urn-units/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -168,7 +188,10 @@ a b b b a
 <li>
 <script type="math/tex">ln</script> is the natural logarithm function</li>
 <li>
-<script type="math/tex">M</script> is the set of tokens that matches between the source and target spans in the pair</li>
+<script type="math/tex">M</script> is the set of token types that both the source and target spans in the pair<ul>
+<li>a token of a type in <script type="math/tex">M</script> is called a &ldquo;matching token&rdquo;</li>
+</ul>
+</li>
 <li>
 <script type="math/tex">f_t(m)</script> computes the frequency of the feature <script type="math/tex">m</script> with respect to the target span&rsquo;s text<ul>
 <li>if frequency is computed by corpus, <script type="math/tex">f_s(m)</script> is computed by corpus statistics</li>
@@ -179,7 +202,7 @@ a b b b a
 <li>
 <script type="math/tex">d_t</script> is the distance between two matching tokens in the target span (note that because the two tokens are matching, they must both be in the set <script type="math/tex">M</script>)<ul>
 <li>the distance is calculated by subtraction of the position numbers; i.e., in the text span &ldquo;a c c c a&rdquo;, the two a&rsquo;s are separated by 4 tokens, since the a&rsquo;s occupy the 1st and 5th positions</li>
-<li>in case that first explanation didn&rsquo;t make sense, here is another way to define the distance:  adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.</li>
+<li>an equivalent definition of distance:  adjacent tokens have a distance of 1, tokens with an intervening token have a distance of 2, etc.</li>
 <li>which two matching tokens are used for calculating distance is a parameter that can be chosen; for more details, see <a href="#distance-basis">Distance Basis</a></li>
 </ul>
 </li>
@@ -188,12 +211,12 @@ a b b b a
 </ul>
 <p>(if you find the mathematical symbols too small, you can either use the zoom function on your browser or right click on the math, hover over &ldquo;Math Settings&rdquo;, then over &ldquo;Zoom Trigger&rdquo;, and click on &ldquo;Click&rdquo;; then click on the math (you can unzoom by clicking again).)</p>
 <h3 id="method-parameterization">Method Parameterization<a class="headerlink" href="#method-parameterization" title="Permanent link">&para;</a></h3>
-<p>The original Tesserae scoring algorithm can be specified for use at the <code>/matches/</code> endpoint as a JSON object with the following keys:</p>
+<p>The original Tesserae scoring algorithm can be specified for use at the <code>/parallels/</code> endpoint as a JSON object with the following keys:</p>
 <table>
 <thead>
 <tr>
 <th>Key</th>
-<th>Description</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
@@ -224,7 +247,7 @@ a b b b a
 </tbody>
 </table>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
-<p>As noted earlier, the original Tesserae algorithm considers two spans to match when they share at least two tokens of the specified (linguistic) feature.  The following table describes what values are available for use with the <code>"feature"</code> key in the JSON object parameterizing the original Tesserae scoring algorithm sent as the request data payload at the <code>/matches/</code> endpoint:</p>
+<p>As noted earlier, the original Tesserae algorithm considers two spans to match when they share at least two tokens of the specified (linguistic) feature.  The following table describes what values are available for use with the <code>"feature"</code> key in the JSON object parameterizing the original Tesserae scoring algorithm sent as the request data payload at the <code>/parallels/</code> endpoint:</p>
 <table>
 <thead>
 <tr>

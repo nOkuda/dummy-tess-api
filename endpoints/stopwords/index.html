@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Subreferencing - Tesserae API (Pre-Alpha!)</title>
+        <title>/stopwords/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -62,49 +62,49 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../endpoints/parallels/">/parallels/</a>
+    <a href="../parallels/">/parallels/</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">/stopwords/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords/">/stopwords/</a>
+    <a href="../stopwords-lists/">/stopwords/lists/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+    <a href="../texts/">/texts/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts/">/texts/</a>
+    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../methods/">Scoring Methods</a>
+    <a href="../../details/methods/">Scoring Methods</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Subreferencing</a>
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -117,12 +117,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../methods/">
+                                <a rel="next" href="../parallels/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li >
+                                <a rel="prev" href="../stopwords-lists/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -134,14 +134,130 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#subreferencing">Subreferencing</a></li>
+        <li class="main active"><a href="#stopwords">/stopwords/</a></li>
+            <li><a href="#get">GET</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="subreferencing">Subreferencing<a class="headerlink" href="#subreferencing" title="Permanent link">&para;</a></h1>
-<p>This page attempts to explain the excruciatingly detailed nuances of subreferencing in CTS URNs.</p>
-<p>TODO:  Should we fill this out for real, or should we point them to the right resources and have them figure it out on their own?</p></div>
+<h1 id="stopwords"><code>/stopwords/</code><a class="headerlink" href="#stopwords" title="Permanent link">&para;</a></h1>
+<p>The <code>/stopwords/</code> endpoint serves stopwords lists.  These lists can be useful when parameterizing the scoring algorithm at the <code>/parallels/</code> endpoint.</p>
+<p>Stopwords lists are typically computed using frequency information.  The reasoning is that the most frequent features are typically the least informative (consider, for example, the articles in English).</p>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/stopwords/</code> provides a stopwords list.  How this stopwords list was created is dependent on the URL query fields used.</p>
+<p>By default, a GET at <code>/stopwords/</code> returns an empty list.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>The following fields may be used in a URL query to specify the parameters by which the stopwords list is created:</p>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th>Field Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>feature</code></td>
+<td>A string specifying the linguistic feature by which frequencies are calculated; <code>lemma</code> is the default.</td>
+</tr>
+<tr>
+<td><code>list_size</code></td>
+<td>An integer specifying the number of stopwords to include in the stopwords list. <code>10</code> is the default.</td>
+</tr>
+<tr>
+<td><code>works</code></td>
+<td>A percent-encoded string of the form <code>&lt;CTS URN 1&gt;,&lt;CTS URN 2&gt;,...</code>, specifying which works are used to determine feature frequencies.  Alternatively, a string matching one of the languages in the Tesserae database will compute feature frequencies from the corpus of works in that language.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>On success, the response data payload will contain a JSON object with the key <code>"stopwords"</code>, associated with a list of strings.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"data"</code></td>
+<td>A JSON object whose keys are the received URL query fields, associated with percent-decoded values.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="get-the-10-highest-frequency-lemmata-in-latin">Get the 10 Highest Frequency Lemmata in Latin<a class="headerlink" href="#get-the-10-highest-frequency-lemmata-in-latin" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=latin&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{ 
+  &quot;stopwords&quot;: [
+    ...
+  ]
+}
+</code></pre>
+
+<h4 id="get-the-20-highest-frequency-lemmata-in-latin">Get the 20 Highest Frequency Lemmata in Latin<a class="headerlink" href="#get-the-20-highest-frequency-lemmata-in-latin" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=latin&amp;list_size=20&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{ 
+  &quot;stopwords&quot;: [
+    ...
+  ]
+}
+</code></pre>
+
+<h4 id="get-the-15-highest-frequency-lemmata-in-two-specific-texts">Get the 15 Highest Frequency Lemmata in Two Specific Texts<a class="headerlink" href="#get-the-15-highest-frequency-lemmata-in-two-specific-texts" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=urn%3Acts%3AlatinLit%3Aphi0917.phi001%2Curn%3Acts%3AlatinLit%3Aphi0690.phi003.opp-lat1&amp;list_size=15&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{ 
+  &quot;stopwords&quot;: [
+    ...
+  ]
+}
+</code></pre>
+
+<h4 id="attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database">Attempt to Get a Stopwords List with a Text Not in the Database<a class="headerlink" href="#attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Suppose the CTS URN <code>DEADBEEF</code> does not exist in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEF&amp;list_size=15&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;data&quot;: {
+    &quot;works&quot;: [&quot;DEADBEEF&quot;],
+    &quot;list_size&quot;: 15
+  },
+  &quot;message&quot;: &quot;The CTS URN provided (DEADBEEF) does not exist in this database.&quot;
+}
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Subreferencing - Tesserae API (Pre-Alpha!)</title>
+        <title>/texts/&lt;cts_urn&gt;/units/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -62,49 +62,49 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../endpoints/parallels/">/parallels/</a>
+    <a href="../parallels/">/parallels/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords/">/stopwords/</a>
+    <a href="../stopwords/">/stopwords/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+    <a href="../stopwords-lists/">/stopwords/lists/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts/">/texts/</a>
+    <a href="../texts/">/texts/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
+    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
 </li>
                                     
-<li >
-    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+<li class="active">
+    <a href="./">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../methods/">Scoring Methods</a>
+    <a href="../../details/methods/">Scoring Methods</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Subreferencing</a>
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -117,12 +117,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../methods/">
+                                <a rel="next" href="../texts-cts_urn/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li >
+                                <a rel="prev" href="../../details/methods/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -134,14 +134,112 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#subreferencing">Subreferencing</a></li>
+        <li class="main active"><a href="#textscts_urnunits">/texts/&lt;cts_urn&gt;/units/</a></li>
+            <li><a href="#get">GET</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="subreferencing">Subreferencing<a class="headerlink" href="#subreferencing" title="Permanent link">&para;</a></h1>
-<p>This page attempts to explain the excruciatingly detailed nuances of subreferencing in CTS URNs.</p>
-<p>TODO:  Should we fill this out for real, or should we point them to the right resources and have them figure it out on their own?</p></div>
+<h1 id="textscts_urnunits"><code>/texts/&lt;cts_urn&gt;/units/</code><a class="headerlink" href="#textscts_urnunits" title="Permanent link">&para;</a></h1>
+<p>The <code>/texts/&lt;cts_urn&gt;/units/</code> endpoint provides CTS URNs for units and subreferences within a specific text.  This endpoint may be useful, for example, when determining what CTS URNs to list in <code>"source"</code> for a search query submission at <code>/parallels/</code>.</p>
+<p>Note that <code>&lt;cts_urn&gt;</code> is a placeholder to be replaced by a <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent encoded</a> CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for &ldquo;percent encode&rdquo; in your favorite search engine to find them.)  Throughout the rest of this page, <code>&lt;cts_urn&gt;</code> will continue to serve as a placeholder for a percent encoded CTS URN.</p>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/texts/&lt;cts_urn&gt;/units/</code> provides lists of CTS URNs identifying partitions of the work specified by <code>&lt;cts_urn&gt;</code>.</p>
+<p>Note that by default, a GET request at <code>/texts/&lt;cts_urn&gt;/units/</code> will return an empty JSON object in the response data payload.  The desired lists must be specified by URL query fields.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>To obtain lists of CTS URNs, the desired lists must be specified by URL query fields.  If one of the following fields is specified in the URL, a corresponding list of CTS URNs will be returned:</p>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th>Field Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lines</code></td>
+<td>The list of returned CTS URNs partition the text by lines (if the text is poetry) or by paragraphs (if the text is prose).</td>
+</tr>
+<tr>
+<td><code>phrases</code></td>
+<td>The list of returned CTS URNs partition the text by phrases; a phrase is separated from a neighboring phrase by punctuation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>On success, the response includes a JSON data payload consisting of a JSON object which may contain any of the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"lines"</code></td>
+<td>An array of strings representing CTS URNs that partition the text into lines (if the text is poetry) or paragraphs (if the work is prose).</td>
+</tr>
+<tr>
+<td><code>"phrases"</code></td>
+<td>An array of strings representing CTS URNs that partition the text into phrases.</td>
+</tr>
+</tbody>
+</table>
+<p>The specified key appears in the response data payload only when there was a corresponding URL query field in the request.</p>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="query-without-any-filters">Query without Any Filters<a class="headerlink" href="#query-without-any-filters" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/units/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.0 200 OK
+...
+
+{}
+</code></pre>
+
+<h4 id="query-for-cts-urns-specifying-the-lines-of-the-text">Query for CTS URNs Specifying the Lines of the Text<a class="headerlink" href="#query-for-cts-urns-specifying-the-lines-of-the-text" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/units/?lines=true&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.0 200 OK
+...
+
+{
+  &quot;lines&quot;: [
+    &quot;urn:cts:latinLit:phi0917.phi001:1.1&quot;,
+    &quot;urn:cts:latinLit:phi0917.phi001:1.2&quot;,
+    ...
+  ]
+}
+</code></pre>
+
+<h4 id="query-for-both-line-and-phrase-cts-urns">Query for Both Line and Phrase CTS URNs<a class="headerlink" href="#query-for-both-line-and-phrase-cts-urns" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/units/?lines=true&amp;phrases=true&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.0 200 OK
+...
+
+{
+  &quot;lines&quot;: [
+    &quot;urn:cts:latinLit:phi0917.phi001:1.1&quot;,
+    &quot;urn:cts:latinLit:phi0917.phi001:1.2&quot;,
+    ...
+  ],
+  &quot;phrases&quot;: [
+    &quot;urn:cts:latinLit:phi0917.phi001:1.1-1.8&quot;,
+    &quot;urn:cts:latinLit:phi0917.phi001:1.9&quot;,
+    ...
+  ]
+}
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

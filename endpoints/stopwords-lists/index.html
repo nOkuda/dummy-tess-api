@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Subreferencing - Tesserae API (Pre-Alpha!)</title>
+        <title>/stopwords/lists/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -62,49 +62,49 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../endpoints/parallels/">/parallels/</a>
+    <a href="../parallels/">/parallels/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords/">/stopwords/</a>
+    <a href="../stopwords/">/stopwords/</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">/stopwords/lists/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+    <a href="../texts/">/texts/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts/">/texts/</a>
+    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../methods/">Scoring Methods</a>
+    <a href="../../details/methods/">Scoring Methods</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Subreferencing</a>
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -117,12 +117,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../methods/">
+                                <a rel="next" href="../stopwords/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li >
+                                <a rel="prev" href="../stopwords-lists-name/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -134,14 +134,139 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#subreferencing">Subreferencing</a></li>
+        <li class="main active"><a href="#stopwordslists">/stopwords/lists/</a></li>
+            <li><a href="#get">GET</a></li>
+            <li><a href="#post">POST</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="subreferencing">Subreferencing<a class="headerlink" href="#subreferencing" title="Permanent link">&para;</a></h1>
-<p>This page attempts to explain the excruciatingly detailed nuances of subreferencing in CTS URNs.</p>
-<p>TODO:  Should we fill this out for real, or should we point them to the right resources and have them figure it out on their own?</p></div>
+<h1 id="stopwordslists"><code>/stopwords/lists/</code><a class="headerlink" href="#stopwordslists" title="Permanent link">&para;</a></h1>
+<p>the <code>/stopwords/lists</code> endpoint serves the names of the curated stopwords lists.  Use <a href="../stopwords-lists-name/"><code>/stopwords/lists/&lt;name&gt;/</code></a> to obtain one of these curated stopwords lists.</p>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/stopwords/lists/</code> provides a list of strings, where each entry is the name of one of the curated stopwords lists.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>There are no special points to note about requesting the curated stopwords list names.</p>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>On success, the response includes a JSON data payload consisting of a JSON object with the key <code>"list_names"</code>, associated with an array of strings.  Each string in this array is the name of a curated stopwords list available on the Tesserae database.</p>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="discover-curated-stopwords-list-names">Discover Curated Stopwords List Names<a class="headerlink" href="#discover-curated-stopwords-list-names" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.0 200 OK
+...
+
+{
+  &quot;list_names&quot;: [
+    &quot;latin-lemma-10&quot;,
+    ...
+  ]
+}
+</code></pre>
+
+<h2 id="post">POST<a class="headerlink" href="#post" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>NB:  The POST method for <code>/stopwords/lists/</code> is available only on the administrative server</p>
+</blockquote>
+<p>Requesting POST at <code>/stopwords/lists/</code> with an appropriate JSON data payload will add a stopwords list and an associated name to Tesserae&rsquo;s database.</p>
+<h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
+<p>Appropriate JSON data for a POST at <code>/stopwords/lists/</code> must be a JSON object containing the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"name"</code></td>
+<td>A string representing the name of the stopwords lists.</td>
+</tr>
+<tr>
+<td><code>"stopwords"</code></td>
+<td>An array of strings, where each string is a stopword.</td>
+</tr>
+</tbody>
+</table>
+<p>If the value given to <code>"name"</code> is already used in Tesserae&rsquo;s database for a stopwords list, the request will fail.  Consider a DELETE followed by a POST if you wish to change the list associated with a given list name.</p>
+<h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
+<p>On success, the response data payload contains the key <code>"stopwords"</code> associated with an array of strings.  Additionally, the <code>Content-Location</code> header will specify the URL associated with this newly created stopwords list.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"data"</code></td>
+<td>The JSON object received as request data payload.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
+<h4 id="create-a-new-stopwords-list">Create a New Stopwords List<a class="headerlink" href="#create-a-new-stopwords-list" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/&quot; -d '{ \
+  &quot;name&quot;: &quot;new-list&quot;, \
+  &quot;stopwords&quot;: [ \
+    &quot;a&quot;, \
+    &quot;b&quot; \
+  ] \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 201 Created
+...
+Content-Location: /stopwords/lists/new-list/
+...
+
+{ 
+  &quot;stopwords&quot;: [
+    &quot;a&quot;,
+    &quot;b&quot;
+  ]
+}
+</code></pre>
+
+<h4 id="attempt-to-create-a-new-stopwords-list-with-a-name-already-in-the-database">Attempt to Create a New Stopwords List with a Name Already in the Database<a class="headerlink" href="#attempt-to-create-a-new-stopwords-list-with-a-name-already-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>latin-lemma-10</code> is the name of one of the stopwords lists.</p>
+<p>Request:</p>
+<pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/&quot; -d '{ \
+  &quot;name&quot;: &quot;latin-lemma-10&quot;, \
+  &quot;stopwords&quot;: [ \
+    &quot;a&quot;, \
+    &quot;b&quot; \
+  ] \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{ 
+  &quot;data&quot;: {
+    &quot;name&quot;: &quot;latin-lemma-10&quot;,
+    &quot;stopwords&quot;: [
+      &quot;a&quot;,
+      &quot;b&quot;
+    ]
+  }
+  &quot;message&quot;: &quot;The stopwords list name provided (latin-lemma-10) already exists in the database. If you meant to update the stopwords list, try a DELETE at https://tesserae.caset.buffalo.edu/texts/latin-lemma-10/ first, then re-try this POST.&quot;
+}
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

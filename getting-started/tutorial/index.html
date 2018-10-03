@@ -71,7 +71,27 @@
 </li>
                                     
 <li >
+    <a href="../../endpoints/stopwords/">/stopwords/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+</li>
+                                    
+<li >
     <a href="../../endpoints/texts/">/texts/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
+</li>
+                                    
+<li >
+    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
@@ -116,6 +136,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#tutorial">Tutorial</a></li>
             <li><a href="#hypertext-transfer-protocol-how-the-internet-works">HyperText Transfer Protocol:  How the Internet Works</a></li>
+            <li><a href="#percent-encoding">Percent Encoding</a></li>
             <li><a href="#filtering-query-results">Filtering Query Results</a></li>
     </ul>
 </div></div>
@@ -125,6 +146,8 @@
 <p>This page describes some basic concepts of web API&rsquo;s in general, using examples from Tesserae&rsquo;s API.  The only skill assumed here is the ability to use a web browser.</p>
 <h2 id="hypertext-transfer-protocol-how-the-internet-works">HyperText Transfer Protocol:  How the Internet Works<a class="headerlink" href="#hypertext-transfer-protocol-how-the-internet-works" title="Permanent link">&para;</a></h2>
 <p>TODO:  explain HTTP methods</p>
+<h2 id="percent-encoding">Percent Encoding<a class="headerlink" href="#percent-encoding" title="Permanent link">&para;</a></h2>
+<p>TODO:  explain URL encoding</p>
 <h2 id="filtering-query-results">Filtering Query Results<a class="headerlink" href="#filtering-query-results" title="Permanent link">&para;</a></h2>
 <p>You can provide URL query strings to filter the results.  For example, the HTTP GET request for the resource</p>
 <pre><code>https://tesserae.caset.buffalo.edu/texts/?author=Vergil
@@ -134,7 +157,7 @@
 <pre><code>https://tesserae.caset.buffalo.edu/texts/?author=Vergil&amp;title=Georgics
 </code></pre>
 
-<p>This URL asks Tesserae for information on literary works in its database that have &ldquo;Vergil&rdquo; as an author and &ldquo;Georgics&rdquo; as the title.</p>
+<p>This URL asks Tesserae for information on literary works in its database that have both &ldquo;Vergil&rdquo; as an author and &ldquo;Georgics&rdquo; as the title.</p>
 <p>TODO:  Fill out rest of tutorial</p></div>
         </div>
 

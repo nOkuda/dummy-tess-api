@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Subreferencing - Tesserae API (Pre-Alpha!)</title>
+        <title>/stopwords/lists/&lt;name&gt;/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -62,49 +62,49 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../endpoints/parallels/">/parallels/</a>
+    <a href="../parallels/">/parallels/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords/">/stopwords/</a>
+    <a href="../stopwords/">/stopwords/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
+    <a href="../stopwords-lists/">/stopwords/lists/</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">/stopwords/lists/&lt;name&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+    <a href="../texts/">/texts/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts/">/texts/</a>
+    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../methods/">Scoring Methods</a>
+    <a href="../../details/methods/">Scoring Methods</a>
 </li>
                                     
-<li class="active">
-    <a href="./">Subreferencing</a>
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -117,12 +117,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../methods/">
+                                <a rel="next" href="../stopwords-lists/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li class="disabled">
-                                <a rel="prev" >
+                            <li >
+                                <a rel="prev" href="../texts/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -134,14 +134,131 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#subreferencing">Subreferencing</a></li>
+        <li class="main active"><a href="#stopwordslistsname">/stopwords/lists/&lt;name&gt;/</a></li>
+            <li><a href="#get">GET</a></li>
+            <li><a href="#delete">DELETE</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="subreferencing">Subreferencing<a class="headerlink" href="#subreferencing" title="Permanent link">&para;</a></h1>
-<p>This page attempts to explain the excruciatingly detailed nuances of subreferencing in CTS URNs.</p>
-<p>TODO:  Should we fill this out for real, or should we point them to the right resources and have them figure it out on their own?</p></div>
+<h1 id="stopwordslistsname"><code>/stopwords/lists/&lt;name&gt;/</code><a class="headerlink" href="#stopwordslistsname" title="Permanent link">&para;</a></h1>
+<p>The <code>/stopwords/lists/&lt;name&gt;/</code> endpoint serves a specific curated stopwords list.  Note that <code>&lt;name&gt;</code> is a placeholder for the name of a curated stopwords list.</p>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/stopwords/lists/&lt;name&gt;/</code> provides the curated stopwords list specified by <code>&lt;name&gt;</code>.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>Again, <code>&lt;name&gt;</code> is a placeholder for the name of the desired curated stopwords list.  Names recognized by the server can be discovered at <a href="../stopwords-lists/"><code>/stopwords/lists/</code></a>.</p>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>On success, the response includes a JSON data payload consisting of a JSON object with the key <code>"stopwords"</code> associated with an array of strings.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"name"</code></td>
+<td>A string matching the requested stopwords list name.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="query-for-curated-stopwords-list-already-in-database">Query for Curated Stopwords List Already in Database<a class="headerlink" href="#query-for-curated-stopwords-list-already-in-database" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>latin-lemma-10</code> is the name of one of the stopwords lists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/latin-lemma-10/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{
+  &quot;stopwords&quot;: [
+    ...
+    &quot;et&quot;,
+    ...
+  ]
+}
+</code></pre>
+
+<h4 id="query-for-curated-stopwords-list-not-in-database">Query for Curated Stopwords List Not in Database<a class="headerlink" href="#query-for-curated-stopwords-list-not-in-database" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>i-dont-exist</code> does not match any stopwords list names in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/i-dont-exist/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;name&quot;: &quot;i-dont-exist&quot;,
+  &quot;message&quot;: &quot;No stopwords list names match the specified name (i-dont-exist).&quot;
+}
+</code></pre>
+
+<h2 id="delete">DELETE<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>NB:  The DELETE method for <code>/stopwords/lists/&lt;name&gt;</code> is available only on the administrative server</p>
+</blockquote>
+<p>Requesting DELETE at <code>/stopwords/lists/&lt;name&gt;</code> will eliminate <code>&lt;name&gt;</code> and its associated stopwords list from Tesserae&rsquo;s database.</p>
+<h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
+<p>No request data payload is expected.</p>
+<h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
+<p>On success, there is no response data payload.</p>
+<p>On failure, the response data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"name"</code></td>
+<td>A string matching <code>&lt;name&gt;</code> after percent decoding.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
+<h4 id="delete-a-stopwords-list-already-in-the-database">Delete a Stopwords List Already in the Database<a class="headerlink" href="#delete-a-stopwords-list-already-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that a stopwords list named <code>already-exists</code> already exists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/already-exists&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 204 No Content
+...
+</code></pre>
+
+<h4 id="attempt-to-delete-a-stopwords-list-not-in-the-database">Attempt to Delete a Stopwords List Not in the Database<a class="headerlink" href="#attempt-to-delete-a-stopwords-list-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that there is no stopwords list named &ldquo;i-dont-exist&rdquo; in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/i-dont-exist&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;name&quot;: &quot;i-dont-exist&quot;,
+  &quot;message&quot;: &quot;No stopwords list names match the specified name (i-dont-exist).&quot;
+}
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

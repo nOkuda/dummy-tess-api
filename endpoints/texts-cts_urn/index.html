@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>/texts/&lt;cts_urn&gt;/ - Tesserae API (Pre-Alpha!)</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Tesserae API (Pre-Alpha!)</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../..">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Getting Started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../getting-started/tutorial/">Tutorial</a>
+</li>
+                                    
+<li >
+    <a href="../../getting-started/cts-urns/">CTS URNs</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../parallels/">/parallels/</a>
+</li>
+                                    
+<li >
+    <a href="../stopwords/">/stopwords/</a>
+</li>
+                                    
+<li >
+    <a href="../stopwords-lists/">/stopwords/lists/</a>
+</li>
+                                    
+<li >
+    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+</li>
+                                    
+<li >
+    <a href="../texts/">/texts/</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">/texts/&lt;cts_urn&gt;/</a>
+</li>
+                                    
+<li >
+    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../../details/methods/">Scoring Methods</a>
+</li>
+                                    
+<li >
+    <a href="../../details/subreferencing/">Subreferencing</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li >
+                                <a rel="next" href="../texts/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../texts-cts_urn-units/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#textscts_urn">/texts/&lt;cts_urn&gt;/</a></li>
+            <li><a href="#get">GET</a></li>
+            <li><a href="#patch">PATCH</a></li>
+            <li><a href="#delete">DELETE</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="textscts_urn"><code>/texts/&lt;cts_urn&gt;/</code><a class="headerlink" href="#textscts_urn" title="Permanent link">&para;</a></h1>
+<p>The <code>/texts/&lt;cts_urn&gt;/</code> endpoint interacts with a specific literary work in Tesserae&rsquo;s database.</p>
+<p>Note that <code>&lt;cts_urn&gt;</code> is a placeholder to be replaced by a <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent encoded</a> CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for &ldquo;percent encode&rdquo; in your favorite search engine to find them.)  Throughout the rest of this page, <code>&lt;cts_urn&gt;</code> will continue to serve as a placeholder for a percent encoded CTS URN.</p>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/texts/&lt;cts_urn&gt;/</code> provides information on the literary work specified by <code>&lt;cts_urn&gt;</code>.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>Remember, <code>&lt;cts_urn&gt;</code> must be properly percent encoded.</p>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>301</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
+<p>On success, the response includes a data payload consisting a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"author"</code></td>
+<td>A string identifying the text&rsquo;s author.</td>
+</tr>
+<tr>
+<td><code>"cts_urn"</code></td>
+<td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
+</tr>
+<tr>
+<td><code>"is_prose"</code></td>
+<td>A boolean value denoting whether the text is considered a prose work.</td>
+</tr>
+<tr>
+<td><code>"language"</code></td>
+<td>A string identifying the composition language of the text.</td>
+</tr>
+<tr>
+<td><code>"title"</code></td>
+<td>A string identifying the text&rsquo;s name.</td>
+</tr>
+<tr>
+<td><code>"year"</code></td>
+<td>An integer representing the text&rsquo;s publication year; a negative integer corresponds to the BC era.</td>
+</tr>
+</tbody>
+</table>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"cts_urn"</code></td>
+<td>A string corresponding to the CTS URN decoded from the URL.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="retrieve-a-texts-database-entry">Retrieve a Text&rsquo;s Database Entry<a class="headerlink" href="#retrieve-a-texts-database-entry" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{ 
+  &quot;author&quot;: &quot;Lucan&quot;, 
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, 
+  &quot;is_prose&quot;: false, 
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;, 
+  &quot;title&quot;: &quot;Bellum Civile&quot;, 
+  &quot;year&quot;: 65 
+}
+</code></pre>
+
+<h4 id="attempt-to-retrieve-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Retrieve a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-retrieve-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 301 Moved Permanently
+...
+Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+...
+</code></pre>
+
+<h4 id="attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database">Attempt to Retrieve the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
+  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+}
+</code></pre>
+
+<h2 id="patch">PATCH<a class="headerlink" href="#patch" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>NB:  The PATCH method for <code>/texts/&lt;cts_urn&gt;/</code> is available only on the administrative server</p>
+</blockquote>
+<p>Requesting PATCH at <code>/texts/&lt;cts_urn&gt;/</code> with an appropriate JSON data payload will update the database entry of the text with a CTS URN of <code>&lt;cts_urn&gt;</code> according to the JSON data.</p>
+<h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
+<p>Appropriate JSON data for a PATCH at <code>/texts/&lt;cts_urn&gt;/</code> is any JSON object without the key <code>"cts_urn"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
+<blockquote>
+<p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/&lt;cts_urn&gt;</code>.  For this case, consider a DELETE followed by a POST.</p>
+</blockquote>
+<h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
+<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>308</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
+<p>On success, the data payload contains the text entry in Tesserae&rsquo;s database after the update has been made.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"cts_urn"</code></td>
+<td>A string matching the percent decoded <code>&lt;cts_urn&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>"data"</code></td>
+<td>The JSON object received as request data payload.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
+<h4 id="update-the-value-of-a-pre-existing-attribute-of-a-texts-database-entry">Update the Value of a Pre-existing Attribute of a Text&rsquo;s Database Entry<a class="headerlink" href="#update-the-value-of-a-pre-existing-attribute-of-a-texts-database-entry" title="Permanent link">&para;</a></h4>
+<p>Assume that the following entry exists in the database:</p>
+<pre><code>{
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
+}
+</code></pre>
+
+<p>Request:</p>
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot; -d '{ \
+  &quot;title&quot;: &quot;Pharsalia&quot; \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Pharsalia&quot;,
+  &quot;year&quot;: 65
+}
+</code></pre>
+
+<h4 id="add-new-information-to-a-texts-database-entry">Add New Information to a Text&rsquo;s Database Entry<a class="headerlink" href="#add-new-information-to-a-texts-database-entry" title="Permanent link">&para;</a></h4>
+<p>Assume that the following entry exists in the database:</p>
+<pre><code>{
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
+}
+</code></pre>
+
+<p>Request:</p>
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot; -d '{ \
+  &quot;alternate_title&quot;: &quot;Pharsalia&quot; \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{
+  &quot;alternate_title&quot;: &quot;Pharsalia&quot;
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
+}
+</code></pre>
+
+<h4 id="attempt-to-update-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Update a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-update-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1%3A1.1/&quot; -d '{ \
+  &quot;new_key&quot;: &quot;new_value&quot; \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 308 Moved Permanently
+...
+Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+...
+</code></pre>
+
+<h4 id="attempt-to-update-the-database-entry-for-a-text-not-in-the-database">Attempt to Update the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-update-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot; -d '{ \
+  &quot;fail&quot;: &quot;this example will&quot; \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
+  &quot;data&quot;: {
+    &quot;fail&quot;: &quot;this example will&quot;
+  },
+  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+}
+</code></pre>
+
+<h2 id="delete">DELETE<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>NB:  The DELETE method for <code>/texts/&lt;cts_urn&gt;/</code> is available only on the administrative server</p>
+</blockquote>
+<p>Requesting DELETE at <code>/texts/&lt;cts_urn&gt;/</code> with an appropriate JSON data payload will delete the text described by the JSON data from Tesserae&rsquo;s database.</p>
+<h3 id="request_2">Request<a class="headerlink" href="#request_2" title="Permanent link">&para;</a></h3>
+<p>There is no request data payload.</p>
+<h3 id="response_2">Response<a class="headerlink" href="#response_2" title="Permanent link">&para;</a></h3>
+<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>308</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work idenitifiers is truncated.</p>
+<p>On success, there is no response data payload.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"cts_urn"</code></td>
+<td>A string matching the percent decoded <code>&lt;cts_urn&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">&para;</a></h3>
+<h4 id="delete-a-text">Delete a Text<a class="headerlink" href="#delete-a-text" title="Permanent link">&para;</a></h4>
+<p>Assume that the following entry exists in the database:</p>
+<pre><code>{
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
+}
+</code></pre>
+
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot;'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 204 No Content
+...
+</code></pre>
+
+<h4 id="attempt-to-delete-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Delete a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-delete-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
+<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1%3A1.1/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 308 Moved Permanently
+...
+Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+...
+</code></pre>
+
+<h4 id="attempt-to-delete-a-database-entry-for-a-text-not-in-the-database">Attempt to Delete a Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-delete-a-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;
+  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+}
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

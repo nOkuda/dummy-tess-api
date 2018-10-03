@@ -70,8 +70,28 @@
     <a href="../parallels/">/parallels/</a>
 </li>
                                     
+<li >
+    <a href="../stopwords/">/stopwords/</a>
+</li>
+                                    
+<li >
+    <a href="../stopwords-lists/">/stopwords/lists/</a>
+</li>
+                                    
+<li >
+    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+</li>
+                                    
 <li class="active">
     <a href="./">/texts/</a>
+</li>
+                                    
+<li >
+    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
+</li>
+                                    
+<li >
+    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
@@ -97,12 +117,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../parallels/">
+                                <a rel="next" href="../stopwords-lists-name/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../../details/methods/">
+                                <a rel="prev" href="../texts-cts_urn/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -117,8 +137,6 @@
         <li class="main active"><a href="#texts">/texts/</a></li>
             <li><a href="#get">GET</a></li>
             <li><a href="#post">POST</a></li>
-            <li><a href="#patch">PATCH</a></li>
-            <li><a href="#delete">DELETE</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -132,48 +150,48 @@
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Description</th>
+<th>Field Name</th>
+<th>Field Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>"author"</code></td>
-<td>Only database information for texts with the specified author are returned</td>
+<td><code>author</code></td>
+<td>Only database information for texts with the specified author are returned.</td>
 </tr>
 <tr>
-<td><code>"after"</code></td>
-<td>Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates</td>
+<td><code>after</code></td>
+<td>Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates.</td>
 </tr>
 <tr>
-<td><code>"before"</code></td>
-<td>Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates</td>
+<td><code>before</code></td>
+<td>Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates.</td>
 </tr>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>Only database information for texts with the specified CTS URN are returned</td>
+<td><code>cts_urn</code></td>
+<td>Only database information for texts with the specified CTS URN are returned.</td>
 </tr>
 <tr>
-<td><code>"genre"</code></td>
-<td>Only database information for texts with the specified genre are returned</td>
+<td><code>is_prose</code></td>
+<td>If set to &ldquo;true&rdquo;, only database for information for texts considered prose works are returned.</td>
 </tr>
 <tr>
-<td><code>"language"</code></td>
-<td>Only database information for texts with the specified language are returned</td>
+<td><code>language</code></td>
+<td>Only database information for texts with the specified language are returned.</td>
 </tr>
 <tr>
-<td><code>"title"</code></td>
-<td>Only database information for texts with the specified title are returned</td>
+<td><code>title</code></td>
+<td>Only database information for texts with the specified title are returned.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
-<p>On success, the response includes a JSON data payload consisting of an array of objects, where each object contains the following keys:</p>
+<p>On success, the response includes a JSON data payload consisting of a JSON object with the key <code>"texts"</code>, associated with an array of JSON objects.  The JSON objects in the array, in turn, contain the following keys:</p>
 <table>
 <thead>
 <tr>
 <th>Key</th>
-<th>Description</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
@@ -186,8 +204,8 @@
 <td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
 </tr>
 <tr>
-<td><code>"genre"</code></td>
-<td>A string identifying the text&rsquo;s genre; it is either &ldquo;poetry&rdquo; or &ldquo;prose&rdquo;.</td>
+<td><code>"is_prose"</code></td>
+<td>A boolean value denoting whether the text is considered a prose work.</td>
 </tr>
 <tr>
 <td><code>"language"</code></td>
@@ -210,16 +228,18 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
-[
-  {
-    &quot;author&quot;: &quot;Vergil&quot;,
+{
+  &quot;texts&quot;: [
+    {
+      &quot;author&quot;: &quot;Vergil&quot;,
+      ...
+    },
     ...
-  },
-  ...
-]
+  ]
+}
 </code></pre>
 
 <h4 id="search-by-multiple-fields">Search by Multiple Fields<a class="headerlink" href="#search-by-multiple-fields" title="Permanent link">&para;</a></h4>
@@ -228,18 +248,20 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
-[
-  {
+{
+  &quot;texts&quot;: [
+    {
+      ...
+      &quot;language&quot;: &quot;latin&quot;,
+      ...
+      &quot;year&quot;: 101
+    },
     ...
-    &quot;language&quot;: &quot;latin&quot;,
-    ...
-    &quot;year&quot;: 101
-  },
-  ...
-]
+  ]
+}
 </code></pre>
 
 <h2 id="post">POST<a class="headerlink" href="#post" title="Permanent link">&para;</a></h2>
@@ -253,7 +275,7 @@
 <thead>
 <tr>
 <th>Key</th>
-<th>Description</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
@@ -266,8 +288,8 @@
 <td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
 </tr>
 <tr>
-<td><code>"genre"</code></td>
-<td>A string identifying the text&rsquo;s genre; it is either &ldquo;poetry&rdquo; or &ldquo;prose&rdquo;.</td>
+<td><code>"is_prose"</code></td>
+<td>A boolean value denoting whether the text is a prose work.</td>
 </tr>
 <tr>
 <td><code>"language"</code></td>
@@ -288,13 +310,13 @@
 </tbody>
 </table>
 <h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
-<p>On success, there is no reponse data payload.</p>
+<p>On success, the response data payload is a JSON object replicating the entry created in Tesserae&rsquo;s database according to the POST request.  Additionally, the <code>Content-Location</code> header will specify the URL associated with this newly created database entry.</p>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
 <table>
 <thead>
 <tr>
 <th>Key</th>
-<th>Description</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
@@ -309,12 +331,12 @@
 </tbody>
 </table>
 <h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
-<h4 id="upload-a-new-text">Upload a New Text<a class="headerlink" href="#upload-a-new-text" title="Permanent link">&para;</a></h4>
+<h4 id="upload-an-entry-for-a-text-not-in-the-database">Upload an Entry for a Text Not in the Database<a class="headerlink" href="#upload-an-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
 <pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
   &quot;author&quot;: &quot;Lucan&quot;, \
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
-  &quot;genre&quot;: &quot;poetry&quot;, \
+  &quot;is_prose&quot;: false, \
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
   &quot;language&quot;: &quot;latin&quot;, \
   &quot;title&quot;: &quot;Bellum Civile&quot;, \
@@ -323,17 +345,29 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 201 Created
 ...
+Content-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+...
+
+{ 
+  &quot;author&quot;: &quot;Lucan&quot;, 
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, 
+  &quot;is_prose&quot;: false, 
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; 
+  &quot;language&quot;: &quot;latin&quot;, 
+  &quot;title&quot;: &quot;Bellum Civile&quot;, 
+  &quot;year&quot;: 65 
+}
 </code></pre>
 
-<h4 id="upload-a-text-already-in-the-database">Upload a Text Already in the Database<a class="headerlink" href="#upload-a-text-already-in-the-database" title="Permanent link">&para;</a></h4>
+<h4 id="upload-an-entry-for-a-text-already-in-the-database">Upload an Entry for a Text Already in the Database<a class="headerlink" href="#upload-an-entry-for-a-text-already-in-the-database" title="Permanent link">&para;</a></h4>
 <p>Assume that an entry in the database with the CTS URN &ldquo;urn:cts:latinLit:phi0917.phi001&rdquo; already exists.</p>
 <p>Request:</p>
 <pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
   &quot;author&quot;: &quot;Lucan&quot;, \
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
-  &quot;genre&quot;: &quot;poetry&quot;, \
+  &quot;is_prose&quot;: false, \
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
   &quot;language&quot;: &quot;latin&quot;, \
   &quot;title&quot;: &quot;Bellum Civile&quot;, \
@@ -342,28 +376,28 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 400 Bad Request
+<pre><code>HTTP/1.1 400 Bad Request
 ...
 
 {
   &quot;data&quot;: {
     &quot;author&quot;: &quot;Lucan&quot;,
     &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-    &quot;genre&quot;: &quot;poetry&quot;,
+    &quot;is_prose&quot;: false,
     &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
     &quot;language&quot;: &quot;latin&quot;,
     &quot;title&quot;: &quot;Bellum Civile&quot;,
     &quot;year&quot;: 65
   },
-  &quot;message&quot;: &quot;The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try PUT.&quot;
+  &quot;message&quot;: &quot;The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try a PATCH.&quot;
 }
 </code></pre>
 
-<h4 id="upload-a-text-with-insufficient-information">Upload a Text with Insufficient Information<a class="headerlink" href="#upload-a-text-with-insufficient-information" title="Permanent link">&para;</a></h4>
+<h4 id="upload-an-entry-for-text-not-in-the-database-with-insufficient-information">Upload an Entry for Text Not in the Database with Insufficient Information<a class="headerlink" href="#upload-an-entry-for-text-not-in-the-database-with-insufficient-information" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
 <pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
   &quot;author&quot;: &quot;Lucan&quot;, \
-  &quot;genre&quot;: &quot;poetry&quot;, \
+  &quot;is_prose&quot;: false, \
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
   &quot;language&quot;: &quot;latin&quot;, \
   &quot;title&quot;: &quot;Bellum Civile&quot;, \
@@ -372,217 +406,19 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 400 Bad Request
+<pre><code>HTTP/1.1 400 Bad Request
 ...
 
 {
   &quot;data&quot;: {
     &quot;author&quot;: &quot;Lucan&quot;,
-    &quot;genre&quot;: &quot;poetry&quot;,
+    &quot;is_prose&quot;: false,
     &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
     &quot;language&quot;: &quot;latin&quot;,
     &quot;title&quot;: &quot;Bellum Civile&quot;,
     &quot;year&quot;: 65
   },
   &quot;message&quot;: &quot;The request data payload is missing the following required key(s): cts_urn.&quot;
-}
-</code></pre>
-
-<h2 id="patch">PATCH<a class="headerlink" href="#patch" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>NB:  The PATCH method for <code>/texts/</code> is available only on the administrative server</p>
-</blockquote>
-<p>Requesting PATCH at <code>/texts/</code> with an appropriate JSON data payload will update the text described by the JSON data in Tesserae&rsquo;s database.</p>
-<h3 id="request_2">Request<a class="headerlink" href="#request_2" title="Permanent link">&para;</a></h3>
-<p>Appropriate JSON data for a PATCH at <code>/texts/</code> must contain the <code>cts_urn</code> key, associated with a value corresponding to the CTS URN of a text entry in Tesserae&rsquo;s database.  Any other keys with their values in the request data payload will update values corresponding to those keys for the text entry in Tesserae&rsquo;s database.</p>
-<blockquote>
-<p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/</code>.  For this case, consider a DELETE followed by a POST.</p>
-</blockquote>
-<h3 id="response_2">Response<a class="headerlink" href="#response_2" title="Permanent link">&para;</a></h3>
-<p>On success, the data payload contains the text entry in Tesserae&rsquo;s database after the update has been made.</p>
-<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"data"</code></td>
-<td>The JSON object received as request data payload.</td>
-</tr>
-<tr>
-<td><code>"message"</code></td>
-<td>A string explaining why the request data payload was rejected.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">&para;</a></h3>
-<h4 id="update-a-text">Update a Text<a class="headerlink" href="#update-a-text" title="Permanent link">&para;</a></h4>
-<p>Assume that the following entry exists in the database:</p>
-<pre><code>{
-  &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-  &quot;genre&quot;: &quot;poetry&quot;,
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-  &quot;language&quot;: &quot;latin&quot;,
-  &quot;title&quot;: &quot;Bellum Civile&quot;,
-  &quot;year&quot;: 65
-}
-</code></pre>
-
-<p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
-  &quot;title&quot;: &quot;Pharsalia&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
-...
-
-{
-  &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-  &quot;genre&quot;: &quot;poetry&quot;,
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-  &quot;language&quot;: &quot;latin&quot;,
-  &quot;title&quot;: &quot;Pharsalia&quot;,
-  &quot;year&quot;: 65
-}
-</code></pre>
-
-<h4 id="add-new-information-to-a-text">Add New Information to a Text<a class="headerlink" href="#add-new-information-to-a-text" title="Permanent link">&para;</a></h4>
-<p>Assume that the following entry exists in the database:</p>
-<pre><code>{
-  &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-  &quot;genre&quot;: &quot;poetry&quot;,
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-  &quot;language&quot;: &quot;latin&quot;,
-  &quot;title&quot;: &quot;Bellum Civile&quot;,
-  &quot;year&quot;: 65
-}
-</code></pre>
-
-<p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
-  &quot;alternate_title&quot;: &quot;Pharsalia&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
-...
-
-{
-  &quot;alternate_title&quot;: &quot;Pharsalia&quot;
-  &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-  &quot;genre&quot;: &quot;poetry&quot;,
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-  &quot;language&quot;: &quot;latin&quot;,
-  &quot;title&quot;: &quot;Bellum Civile&quot;,
-  &quot;year&quot;: 65
-}
-</code></pre>
-
-<h4 id="update-a-text-not-in-the-database">Update a Text Not in the Database<a class="headerlink" href="#update-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
-<p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;, \
-  &quot;fail&quot;: &quot;this example will&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.0 400 Bad Request
-...
-
-{
-  &quot;data&quot;: {
-    &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
-    &quot;fail&quot;: &quot;this example will&quot;
-  },
-  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
-}
-</code></pre>
-
-<h2 id="delete">DELETE<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>NB:  The DELETE method for <code>/texts/</code> is available only on the administrative server</p>
-</blockquote>
-<p>Requesting DELETE at <code>/texts/</code> with an appropriate JSON data payload will delete the text described by the JSON data from Tesserae&rsquo;s database.</p>
-<h3 id="request_3">Request<a class="headerlink" href="#request_3" title="Permanent link">&para;</a></h3>
-<p>Appropriate JSON data for a DELETE at <code>/texts/</code> must contain the <code>cts_urn</code> key, associated with a value corresponding to the CTS URN of a text entry in Tesserae&rsquo;s database.</p>
-<h3 id="response_3">Response<a class="headerlink" href="#response_3" title="Permanent link">&para;</a></h3>
-<p>On success, there is no response data payload.</p>
-<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"data"</code></td>
-<td>The JSON object received as request data payload.</td>
-</tr>
-<tr>
-<td><code>"message"</code></td>
-<td>A string explaining why the request data payload was rejected.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">&para;</a></h3>
-<h4 id="delete-a-text">Delete a Text<a class="headerlink" href="#delete-a-text" title="Permanent link">&para;</a></h4>
-<p>Assume that the following entry exists in the database:</p>
-<pre><code>{
-  &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-  &quot;genre&quot;: &quot;poetry&quot;,
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-  &quot;language&quot;: &quot;latin&quot;,
-  &quot;title&quot;: &quot;Bellum Civile&quot;,
-  &quot;year&quot;: 65
-}
-</code></pre>
-
-<p>Request:</p>
-<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.0 204 No Content
-...
-</code></pre>
-
-<h4 id="delete-a-text-not-in-the-database">Delete a Text Not in the Database<a class="headerlink" href="#delete-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
-<p>Request:</p>
-<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;cts_urn&quot;: &quot;DEADBEEF&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.0 400 Bad Request
-...
-
-{
-  &quot;data&quot;: {
-    &quot;cts_urn&quot;: &quot;DEADBEEF&quot;
-  },
-  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
 }
 </code></pre></div>
         </div>
