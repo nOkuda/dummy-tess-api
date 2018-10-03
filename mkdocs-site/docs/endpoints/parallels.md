@@ -18,27 +18,13 @@ TODO:  On the live server, should we limit the amount of source and target texts
 |`"target"`|A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in `"source"` to find intertexts.|
 |`"method"`|A JSON object describing the scoring method used to evaluate the intertextual strength of a source text and target text pair.  More information on specifying the scoring method can be found in [Scoring Methods](../details/methods.md).|
 
+> NB:  Compressing this request body with gzip is recommended.  (The `Content-Encoding` header will be required for compressing the request body.)
+
 ### Response
 
-On success, the data payload contains a JSON object with the following keys:
+On success, one of two responses will be returned.  The first is a 201 (created); the second is a 303 (see other).  In either case, a `Location` header will specify the URL where the search results can be retrieved.  Note that the URL specified in the `Location` header will conform to the [`/parallels/<uuid>/`](parallels-uuid.md) endpoint.
 
-|Key|Value|
-|---|---|
-|`"data"`|The JSON object received as request data payload.|
-|`"parallels"`|A list of JSON objects describing parallels found.|
-
-A JSON object in the `"parallels"` list of the successful response data payload contains the following keys:
-
-|Key|Value|
-|---|---|
-|`"source"`|A string representing the CTS URN for the text span used as the source in this parallel.|
-|`"target"`|A string representing the CTS URN for the text span used as the target in this parallel.|
-|`"match_tokens"`|A list of strings, where each string is a token found in both the source span and the target span.|
-|`"score"`|A number representing the score assigned to the pair of text spans.|
-|`"source_raw"`|The string making up the text span specified by the value of `"source"`.|
-|`"target_raw"`|The string making up the text span specified by the value of `"target"`.|
-|`"highlight"`|A of list strings representing CTS URNs that define which parts in the source and target spans were used to determine the score.|
-
+The distinction between the two successful responses is a matter of whether the search results remain cached in the database.  If the search results are not in cache at the time of the request, a 201 response is given, and the results, once the search is complete, are cached.  If the search results are in cache at the time of the request, a 303 response is given and a URL identical to the one served when put into cache is served.  For more details, see [Cached Results](../details/cached-results.md).
 
 On failure, the data payload contains error information in a JSON object with the following keys:
 
@@ -49,3 +35,33 @@ On failure, the data payload contains error information in a JSON object with th
 
 ### Examples
 
+#### Submit a Tesserae Search
+
+Request:
+
+```
+curl -i -X POST "https://tesserae.caset.buffalo.edu/parallels/" -d '{ \
+  "source": ["urn:cts:latinLit:phi0472.phi001:28.14"], \
+  "target": ["urn:cts:latinLit:phi0690.phi002:1.21"], \
+  "method": { \
+    "name": "original", \
+    "feature": "lemma", \
+    "stopwords": [ \
+      "qui", "quis", "sum", "et", "in", \
+      "is", "non", "hic", "ego", "ut"
+    ], \
+    "freq_basis": "corpus",
+    "max_distance": 10,
+    "distance_basis": "frequency"
+  } \
+}'
+```
+
+Response:
+
+```
+HTTP/1.1 201 Created
+...
+Content-Location: /parallels/some-uuid-for-results/
+...
+```
