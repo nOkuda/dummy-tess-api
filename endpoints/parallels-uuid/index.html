@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Units - Tesserae API (Pre-Alpha!)</title>
+        <title>/parallels/&ltuuid&gt - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -62,7 +62,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Endpoints <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -70,8 +70,8 @@
     <a href="../parallels/">/parallels/</a>
 </li>
                                     
-<li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+<li class="active">
+    <a href="./">/parallels/&ltuuid&gt</a>
 </li>
                                     
 <li >
@@ -124,6 +124,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li >
+                                <a rel="next" href="../parallels/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../stopwords/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -132,11 +142,110 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#parallelsuuid">/parallels/&lt;uuid&gt;/</a></li>
+            <li><a href="#get">GET</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-</div>
+<h1 id="parallelsuuid"><code>/parallels/&lt;uuid&gt;/</code><a class="headerlink" href="#parallelsuuid" title="Permanent link">&para;</a></h1>
+<p>The <code>/parallels/&lt;uuid&gt;/</code> endpoint serves the results from a Tesserae intertext discovery result.  Note that <code>&lt;uuid&gt;</code> is a placeholder for an identifying string.</p>
+<blockquote>
+<p>NB:  This endpoint is meant to be used for retrieving the results from a Tesserae search and not as a permanent link to a previously completed search.</p>
+</blockquote>
+<h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p>Requesting GET at <code>/parallels/&lt;uuid&gt;/</code> retrieves the Tesserae search results associated with <code>&lt;uuid&gt;</code>.  This association was made at the time that the intertext query was submitted with a POST at <a href="../parallels/"><code>/parallels/</code></a>.</p>
+<h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
+<p>There are no special points to note about requesting Tesserae search results.</p>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p>On success, the data payload contains a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"data"</code></td>
+<td>The JSON object received as request data payload.</td>
+</tr>
+<tr>
+<td><code>"parallels"</code></td>
+<td>A list of JSON objects describing parallels found.</td>
+</tr>
+</tbody>
+</table>
+<p>A JSON object in the <code>"parallels"</code> list of the successful response data payload contains the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"source"</code></td>
+<td>A string representing the CTS URN for the text span used as the source in this parallel.</td>
+</tr>
+<tr>
+<td><code>"target"</code></td>
+<td>A string representing the CTS URN for the text span used as the target in this parallel.</td>
+</tr>
+<tr>
+<td><code>"match_tokens"</code></td>
+<td>A list of strings, where each string is a token found in both the source span and the target span.</td>
+</tr>
+<tr>
+<td><code>"score"</code></td>
+<td>A number representing the score assigned to the pair of text spans.</td>
+</tr>
+<tr>
+<td><code>"source_raw"</code></td>
+<td>The string making up the text span specified by the value of <code>"source"</code>.</td>
+</tr>
+<tr>
+<td><code>"target_raw"</code></td>
+<td>The string making up the text span specified by the value of <code>"target"</code>.</td>
+</tr>
+<tr>
+<td><code>"highlight"</code></td>
+<td>A list of strings representing CTS URNs that define which parts in the source and target spans were used to determine the score.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>NB:  A successful response body will be compressed with gzip.</p>
+</blockquote>
+<p>On failure, the response is a 404 error.</p>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="retrieving-search-results">Retrieving Search Results<a class="headerlink" href="#retrieving-search-results" title="Permanent link">&para;</a></h4>
+<p>Assume that the identifier <code>id1</code> is associated with a certain search result.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/parallels/id1&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+Content-Encoding: gzip
+...
+
+...
+</code></pre>
+
+<h4 id="attempting-to-retrieve-search-results-that-do-not-exist">Attempting to Retrieve Search Results that Do Not Exist<a class="headerlink" href="#attempting-to-retrieve-search-results-that-do-not-exist" title="Permanent link">&para;</a></h4>
+<p>Assume that the identifier <code>i-expired</code> is not associated with any search results in cache.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/parallels/i-expired&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 404 Not Found
+...
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

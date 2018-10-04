@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Units - Tesserae API (Pre-Alpha!)</title>
+        <title>Cached Results - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -67,52 +67,52 @@
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../parallels/">/parallels/</a>
+    <a href="../../endpoints/parallels/">/parallels/</a>
 </li>
                                     
 <li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+    <a href="../../endpoints/parallels-uuid/">/parallels/&ltuuid&gt</a>
 </li>
                                     
 <li >
-    <a href="../stopwords/">/stopwords/</a>
+    <a href="../../endpoints/stopwords/">/stopwords/</a>
 </li>
                                     
 <li >
-    <a href="../stopwords-lists/">/stopwords/lists/</a>
+    <a href="../../endpoints/stopwords-lists/">/stopwords/lists/</a>
 </li>
                                     
 <li >
-    <a href="../stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
+    <a href="../../endpoints/stopwords-lists-name/">/stopwords/lists/&lt;name&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../texts/">/texts/</a>
+    <a href="../../endpoints/texts/">/texts/</a>
 </li>
                                     
 <li >
-    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
+    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
 </li>
                                     
 <li >
-    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Details <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="../../details/cached-results/">Cached Results</a>
+<li class="active">
+    <a href="./">Cached Results</a>
 </li>
                                     
 <li >
-    <a href="../../details/methods/">Scoring Methods</a>
+    <a href="../methods/">Scoring Methods</a>
 </li>
                                     
 <li >
-    <a href="../../details/subreferencing/">Subreferencing</a>
+    <a href="../subreferencing/">Subreferencing</a>
 </li>
                                 </ul>
                             </li>
@@ -124,6 +124,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li >
+                                <a rel="next" href="../../endpoints/texts-cts_urn-units/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../methods/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -132,11 +142,26 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#cached-results">Cached Results</a></li>
+            <li><a href="#context">Context</a></li>
+            <li><a href="#expiration-of-cache">Expiration of Cache</a></li>
+            <li><a href="#problems-with-results-as-resource">Problems with Results as Resource</a></li>
+            <li><a href="#compression-of-results">Compression of Results</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-</div>
+<h1 id="cached-results">Cached Results<a class="headerlink" href="#cached-results" title="Permanent link">&para;</a></h1>
+<p>This page describes expected server behavior with respect to Tesserae search results.</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>A Tesserae search occurs when Tesserae is given a set of text spans in which to search for intertexts with another set of text spans, according to some set of parameters.  The results of this search, then, will always be the same given the same sets of text spans and set of parameters.  Thus, it is possible to save the results in cache (i.e., cache the results) so that when the same sets of texts and same set of parameters are given, the same results can be returned without repeating the work.</p>
+<h2 id="expiration-of-cache">Expiration of Cache<a class="headerlink" href="#expiration-of-cache" title="Permanent link">&para;</a></h2>
+<p>It is normal policy to purge cached items if they are not requested for some period of time.  Since the same results could be obtained again based on the same sets of text spans and set of parameters, the only difference between retrieving from cache and re-computing the results is the time it takes to obtain a response (re-computing will take longer).</p>
+<p>Additionally, items retrieved more often from cache are more likely to remain in cache.</p>
+<h2 id="problems-with-results-as-resource">Problems with Results as Resource<a class="headerlink" href="#problems-with-results-as-resource" title="Permanent link">&para;</a></h2>
+<p>Although it is also possible to directly query for the results using the <a href="../../endpoints/parallels-uuid/"><code>/parallels/&lt;uuid&gt;/</code></a> endpoint, this is discouraged.  Because expired results are purged, they no longer exist as resources.  As a result, it is possible to receive a 404 error for results obtained in the past.  For this reason, it is recommended that API users re-submit Tesserae searches.  If the results are still in cache, the redirect response will come almost immediately; otherwise, the redirect response will come after the results are computed.  In either case, the URL provided for the redirect is guaranteed to contain the search results.</p>
+<h2 id="compression-of-results">Compression of Results<a class="headerlink" href="#compression-of-results" title="Permanent link">&para;</a></h2>
+<p>Because we have chosen to use CTS URNs as the basis of indexing into texts, redundant information is especially abundant in the Tesserae search request and in the search results.  For this reason, we recommend that communication of search requests and results utilize the gzip compression algorithm to reduce the size of transferred information.</p></div>
         </div>
 
         <footer class="col-md-12">
