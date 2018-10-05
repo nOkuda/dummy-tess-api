@@ -50,9 +50,9 @@ curl -i -X POST "https://tesserae.caset.buffalo.edu/parallels/" -d '{ \
       "qui", "quis", "sum", "et", "in", \
       "is", "non", "hic", "ego", "ut"
     ], \
-    "freq_basis": "corpus",
-    "max_distance": 10,
-    "distance_basis": "frequency"
+    "freq_basis": "corpus", \
+    "max_distance": 10, \
+    "distance_basis": "frequency" \
   } \
 }'
 ```
