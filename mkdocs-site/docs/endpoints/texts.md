@@ -15,7 +15,6 @@ The following fields may be used in a URL query to filter the response:
 | `author`|  Only database information for texts with the specified author are returned.|
 | `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates.|
 | `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates.|
-| `cts_urn`|  Only database information for texts with the specified CTS URN are returned.|
 | `is_prose`|  If set to "true", only database for information for texts considered prose works are returned.|
 | `language`|  Only database information for texts with the specified language are returned.|
 | `title`|  Only database information for texts with the specified title are returned.|
@@ -189,7 +188,7 @@ HTTP/1.1 400 Bad Request
     "title": "Bellum Civile",
     "year": 65
   },
-  "message": "The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try a PATCH."
+  "message": "The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try a PATCH at https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1/."
 }
 ```
 

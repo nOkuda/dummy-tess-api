@@ -61,7 +61,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/lists/i-dont-exist/
 Response:
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 ...
 
 {
@@ -124,7 +124,7 @@ curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/i-dont-exist"
 Response:
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 ...
 
 {

@@ -16,7 +16,7 @@ Remember, `<cts_urn>` must be properly percent encoded.
 
 If `<cts_urn>` contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a `301` redirect, where the `Location` header points to the same URL, except that the information past the work identifiers is truncated.
 
-On success, the response includes a data payload consisting a JSON object with the following keys:
+On success, the response includes a data payload consisting of a JSON object with the following keys:
 
 |Key|Value|
 |---|---|
@@ -95,7 +95,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/DEADBEEF"
 Response:
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 ...
 
 {
@@ -114,7 +114,7 @@ Requesting PATCH at `/texts/<cts_urn>/` with an appropriate JSON data payload wi
 
 Appropriate JSON data for a PATCH at `/texts/<cts_urn>/` is any JSON object without the key `"cts_urn"`.  The keys in this object specify which attributes of the text entry in Tesserae's database will be updated (or added, if the key does not correspond with any of the text entry's attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.
 
-> NB:  You cannot update a text's CTS URN with a PATCH at `/texts/<cts_urn>`.  For this case, consider a DELETE followed by a POST.
+> NB:  You cannot update a text's CTS URN with a PATCH at `/texts/<cts_urn>/`.  For this case, consider a [DELETE at `/texts/<cts_urn>/`](#delete) followed by a [POST at `/texts/`](texts.md#post).
 
 ### Response
 
@@ -251,7 +251,7 @@ curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/" -d '{ \
 Response:
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 ...
 
 {
@@ -350,7 +350,7 @@ curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/"
 Response:
 
 ```
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 ...
 
 {

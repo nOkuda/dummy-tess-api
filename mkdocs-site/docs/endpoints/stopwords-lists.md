@@ -27,7 +27,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/lists/"
 Response:
 
 ```
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
 ...
 
 {
@@ -53,7 +53,7 @@ Appropriate JSON data for a POST at `/stopwords/lists/` must be a JSON object co
 |`"name"`|A string representing the name of the stopwords lists.|
 |`"stopwords"`|An array of strings, where each string is a stopword.|
 
-If the value given to `"name"` is already used in Tesserae's database for a stopwords list, the request will fail.  Consider a DELETE followed by a POST if you wish to change the list associated with a given list name.
+If the value given to `"name"` is already used in Tesserae's database for a stopwords list, the request will fail.  Consider a [DELETE at `/stopwords/lists/<name>/`](stopwords-lists-name.md#delete) followed by a POST at `/stopwords/lists/` if you wish to change the list associated with a given list name.
 
 ### Response
 
@@ -129,5 +129,35 @@ HTTP/1.1 400 Bad Request
     ]
   }
   "message": "The stopwords list name provided (latin-lemma-10) already exists in the database. If you meant to update the stopwords list, try a DELETE at https://tesserae.caset.buffalo.edu/texts/latin-lemma-10/ first, then re-try this POST."
+}
+```
+
+#### Attempt to Create a New Stopwords List with Insufficient Information
+
+Request:
+
+```
+curl -i -X POST "https://tesserae.caset.buffalo.edu/stopwords/lists/" -d '{ \
+  "stopwords": [ \
+    "a", \
+    "b" \
+  ] \
+}'
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{ 
+  "data": {
+    "stopwords": [
+      "a",
+      "b"
+    ]
+  }
+  "message": "No name provided."
 }
 ```
