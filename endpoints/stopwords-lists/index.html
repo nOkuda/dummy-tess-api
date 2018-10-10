@@ -164,7 +164,7 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
 {
@@ -200,7 +200,7 @@
 </tr>
 </tbody>
 </table>
-<p>If the value given to <code>"name"</code> is already used in Tesserae&rsquo;s database for a stopwords list, the request will fail.  Consider a DELETE followed by a POST if you wish to change the list associated with a given list name.</p>
+<p>If the value given to <code>"name"</code> is already used in Tesserae&rsquo;s database for a stopwords list, the request will fail.  Consider a <a href="../stopwords-lists-name/#delete">DELETE at <code>/stopwords/lists/&lt;name&gt;/</code></a> followed by a POST at <code>/stopwords/lists/</code> if you wish to change the list associated with a given list name.</p>
 <h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
 <p>On success, the response data payload contains the key <code>"stopwords"</code> associated with an array of strings.  Additionally, the <code>Content-Location</code> header will specify the URL associated with this newly created stopwords list.</p>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
@@ -273,6 +273,31 @@ Content-Location: /stopwords/lists/new-list/
     ]
   }
   &quot;message&quot;: &quot;The stopwords list name provided (latin-lemma-10) already exists in the database. If you meant to update the stopwords list, try a DELETE at https://tesserae.caset.buffalo.edu/texts/latin-lemma-10/ first, then re-try this POST.&quot;
+}
+</code></pre>
+
+<h4 id="attempt-to-create-a-new-stopwords-list-with-insufficient-information">Attempt to Create a New Stopwords List with Insufficient Information<a class="headerlink" href="#attempt-to-create-a-new-stopwords-list-with-insufficient-information" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/stopwords/lists/&quot; -d '{ \
+  &quot;stopwords&quot;: [ \
+    &quot;a&quot;, \
+    &quot;b&quot; \
+  ] \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{ 
+  &quot;data&quot;: {
+    &quot;stopwords&quot;: [
+      &quot;a&quot;,
+      &quot;b&quot;
+    ]
+  }
+  &quot;message&quot;: &quot;No name provided.&quot;
 }
 </code></pre></div>
         </div>

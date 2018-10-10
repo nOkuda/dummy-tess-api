@@ -159,7 +159,7 @@
 <p>Remember, <code>&lt;cts_urn&gt;</code> must be properly percent encoded.</p>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
 <p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>301</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
-<p>On success, the response includes a data payload consisting a JSON object with the following keys:</p>
+<p>On success, the response includes a data payload consisting of a JSON object with the following keys:</p>
 <table>
 <thead>
 <tr>
@@ -255,7 +255,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.1 400 Bad Request
+<pre><code>HTTP/1.1 404 Not Found
 ...
 
 {
@@ -272,7 +272,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
 <p>Appropriate JSON data for a PATCH at <code>/texts/&lt;cts_urn&gt;/</code> is any JSON object without the key <code>"cts_urn"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
 <blockquote>
-<p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/&lt;cts_urn&gt;</code>.  For this case, consider a DELETE followed by a POST.</p>
+<p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/&lt;cts_urn&gt;/</code>.  For this case, consider a <a href="#delete">DELETE at <code>/texts/&lt;cts_urn&gt;/</code></a> followed by a <a href="../texts/#post">POST at <code>/texts/</code></a>.</p>
 </blockquote>
 <h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
 <p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>308</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
@@ -394,7 +394,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.1 400 Bad Request
+<pre><code>HTTP/1.1 404 Not Found
 ...
 
 {
@@ -478,7 +478,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.1 400 Bad Request
+<pre><code>HTTP/1.1 404 Not Found
 ...
 
 {
