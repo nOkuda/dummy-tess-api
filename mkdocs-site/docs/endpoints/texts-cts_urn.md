@@ -112,7 +112,7 @@ Requesting PATCH at `/texts/<cts_urn>/` with an appropriate JSON data payload wi
 
 ### Request
 
-Appropriate JSON data for a PATCH at `/texts/<cts_urn>/` is any JSON object without the key `"cts_urn"`.  The keys in this object specify which attributes of the text entry in Tesserae's database will be updated (or added, if the key does not correspond with any of the text entry's attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.
+Appropriate JSON data for a PATCH at `/texts/<cts_urn>/` is any JSON object without the following keys:  `"cts_urn"`, `"id"`, `"_id"`.  The keys in this object specify which attributes of the text entry in Tesserae's database will be updated (or added, if the key does not correspond with any of the text entry's attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.
 
 > NB:  You cannot update a text's CTS URN with a PATCH at `/texts/<cts_urn>/`.  For this case, consider a [DELETE at `/texts/<cts_urn>/`](#delete) followed by a [POST at `/texts/`](texts.md#post).
 
