@@ -14,11 +14,15 @@ TODO:  On the live server, should we limit the amount of source and target texts
 
 |Key|Value|
 |---|---|
-|`"source"`|A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in `"target"` to find intertexts.|
-|`"target"`|A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in `"source"` to find intertexts.|
+|`"source"`|A JSON object describing source units.  Further details are available at [Units](../details/units.md).  These units will be compared with the units described by `"target"` to find intertexts.|
+|`"target"`|A JSON object describing target units.  Further details are available at [Units](../details/units.md).  These units will be compared with the units described by `"source"` to find intertexts.|
 |`"method"`|A JSON object describing the scoring method used to evaluate the intertextual strength of a source text and target text pair.  More information on specifying the scoring method can be found in [Scoring Methods](../details/methods.md).|
 
 > NB:  Compressing this request body with gzip is recommended.  (The `Content-Encoding` header will be required for compressing the request body.)
+
+#### JSON Object Describing Source and Target Units
+
+
 
 ### Response
 
@@ -41,8 +45,14 @@ Request:
 
 ```
 curl -i -X POST "https://tesserae.caset.buffalo.edu/parallels/" -d '{ \
-  "source": ["urn:cts:latinLit:phi0472.phi001:28.14"], \
-  "target": ["urn:cts:latinLit:phi0690.phi002:1.21"], \
+  "source": { \
+    "cts_urn": "urn:cts:latinLit:phi0472.phi001:28", \
+    "units": "line" \
+  }, \
+  "target": { \
+    "cts_urn": "urn:cts:latinLit:phi0690.phi002:1.21", \
+    "units": "line" \
+  }, \
   "method": { \
     "name": "original", \
     "feature": "lemma", \

@@ -16,7 +16,7 @@ nav:
 - 'Details':
     - 'Cached Results': 'details/cached-results.md'
     - 'Scoring Methods': 'details/methods.md'
-    - 'Subreferencing': 'details/subreferencing.md'
+    - 'Units': 'details/units.md'
 markdown_extensions:
     - toc:
         permalink: True

@@ -30,6 +30,14 @@ On success, the response includes a JSON data payload consisting of a JSON objec
 
 The specified key appears in the response data payload only when there was a corresponding URL query field in the request.
 
+On failure, the data payload contains error information in a JSON object with the following keys:
+
+|Key|Value|
+|---|---|
+|`"cts_urn"`|A string corresponding to the CTS URN decoded from the URL.|
+|`"units"`|A list of strings corresponding to the URL queries received.|
+|`"message"`|A string explaining why the request data payload was rejected.|
+
 ### Examples
 
 #### Query without Any Filters
@@ -43,7 +51,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3A
 Response:
 
 ```
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
 ...
 
 {}
@@ -60,7 +68,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3A
 Response:
 
 ```
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
 ...
 
 {
@@ -83,7 +91,7 @@ curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3A
 Response:
 
 ```
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
 ...
 
 {
@@ -97,5 +105,49 @@ HTTP/1.0 200 OK
     "urn:cts:latinLit:phi0917.phi001:1.9",
     ...
   ]
+}
+```
+
+#### Query for Text Not in the Database
+
+Assume that no entry in the database has the CTS URN "DEADBEEF".
+
+Request:
+
+```
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/units/?lines=true&phrases=true"
+```
+
+Response:
+
+```
+HTTP/1.1 404 Not Found
+...
+
+{
+  "cts_urn": "DEADBEEF",
+  "units": ["lines", "phrases"],
+  "message": "No text with the specified CTS URN (DEADBEEF) could be found in the database."
+}
+```
+
+#### Query for Unknown Unit Type
+
+Request:
+
+```
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/units/?lines=true&chunks=true"
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "units": ["lines", "chunks"],
+  "message": "The following unit type(s) could not be found for the specified CTS URN (urn:cts:latinLit:phi0917.phi001): chunks."
 }
 ```

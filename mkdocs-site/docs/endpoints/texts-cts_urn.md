@@ -22,6 +22,7 @@ On success, the response includes a data payload consisting of a JSON object wit
 |---|---|
 |`"author"`|A string identifying the text's author.|
 |`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
+|`"extras"`|A JSON object specified by the user.|
 |`"is_prose"`|A boolean value denoting whether the text is considered a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"title"`|A string identifying the text's name.|
@@ -43,7 +44,7 @@ Suppose that `urn:cts:latinLit:phi0917.phi001` exists in the database.
 Request:
 
 ```
-curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/"
 ```
 
 Response:
@@ -53,13 +54,14 @@ HTTP/1.1 200 OK
 ...
 
 { 
-  "author": "Lucan", 
-  "cts_urn": "urn:cts:latinLit:phi0917.phi001", 
-  "is_prose": false, 
+  "author": "Lucan",
+  "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {},
+  "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
-  "language": "latin", 
-  "title": "Bellum Civile", 
-  "year": 65 
+  "language": "latin",
+  "title": "Bellum Civile",
+  "year": 65
 }
 ```
 
@@ -140,6 +142,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {},
   "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
   "language": "latin",
@@ -165,6 +168,7 @@ HTTP/1.1 200 OK
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {},
   "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
   "language": "latin",
@@ -173,7 +177,7 @@ HTTP/1.1 200 OK
 }
 ```
 
-#### Add New Information to a Text's Database Entry
+#### Add New User-Specified Information to a Text's Database Entry
 
 Assume that the following entry exists in the database:
 
@@ -181,6 +185,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {},
   "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
   "language": "latin",
@@ -193,7 +198,7 @@ Request:
 
 ```
 curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/" -d '{ \
-  "alternate_title": "Pharsalia" \
+  "extras": {"alternate_title": "Pharsalia"} \
 }'
 ```
 
@@ -204,9 +209,11 @@ HTTP/1.1 200 OK
 ...
 
 {
-  "alternate_title": "Pharsalia"
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {
+    "alternate_title": "Pharsalia"
+  },
   "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
   "language": "latin",
@@ -296,6 +303,7 @@ Assume that the following entry exists in the database:
 {
   "author": "Lucan",
   "cts_urn": "urn:cts:latinLit:phi0917.phi001",
+  "extras": {},
   "is_prose": false,
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess",
   "language": "latin",
