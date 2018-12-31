@@ -112,7 +112,7 @@
 </li>
                                     
 <li >
-    <a href="../../details/subreferencing/">Subreferencing</a>
+    <a href="../../details/units/">Units</a>
 </li>
                                 </ul>
                             </li>
@@ -165,11 +165,11 @@
 <tbody>
 <tr>
 <td><code>"source"</code></td>
-<td>A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in <code>"target"</code> to find intertexts.</td>
+<td>A JSON object describing source units.  Further details are available at <a href="../../details/units/">Units</a>.  These units will be compared with the units described by <code>"target"</code> to find intertexts.</td>
 </tr>
 <tr>
 <td><code>"target"</code></td>
-<td>A list of strings representing CTS URNs, each identifying a text span.  The spans will be compared with the spans listed in <code>"source"</code> to find intertexts.</td>
+<td>A JSON object describing target units.  Further details are available at <a href="../../details/units/">Units</a>.  These units will be compared with the units described by <code>"source"</code> to find intertexts.</td>
 </tr>
 <tr>
 <td><code>"method"</code></td>
@@ -180,6 +180,7 @@
 <blockquote>
 <p>NB:  Compressing this request body with gzip is recommended.  (The <code>Content-Encoding</code> header will be required for compressing the request body.)</p>
 </blockquote>
+<h4 id="json-object-describing-source-and-target-units">JSON Object Describing Source and Target Units<a class="headerlink" href="#json-object-describing-source-and-target-units" title="Permanent link">&para;</a></h4>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
 <p>On success, one of two responses will be returned.  The first is a 201 (created); the second is a 303 (see other).  In either case, a <code>Location</code> header will specify the URL where the search results can be retrieved.  Note that the URL specified in the <code>Location</code> header will conform to the <a href="../parallels-uuid/"><code>/parallels/&lt;uuid&gt;/</code></a> endpoint.</p>
 <p>The distinction between the two successful responses is a matter of whether the search results remain cached in the database.  If the search results are not in cache at the time of the request, a 201 response is given, and the results, once the search is complete, are cached.  If the search results are in cache at the time of the request, a 303 response is given and a URL identical to the one served when put into cache is served.  For more details, see <a href="../../details/cached-results/">Cached Results</a>.</p>
@@ -206,8 +207,14 @@
 <h4 id="submit-a-tesserae-search">Submit a Tesserae Search<a class="headerlink" href="#submit-a-tesserae-search" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
 <pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/parallels/&quot; -d '{ \
-  &quot;source&quot;: [&quot;urn:cts:latinLit:phi0472.phi001:28.14&quot;], \
-  &quot;target&quot;: [&quot;urn:cts:latinLit:phi0690.phi002:1.21&quot;], \
+  &quot;source&quot;: { \
+    &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0472.phi001:28&quot;, \
+    &quot;units&quot;: &quot;line&quot; \
+  }, \
+  &quot;target&quot;: { \
+    &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0690.phi002:1.21&quot;, \
+    &quot;units&quot;: &quot;line&quot; \
+  }, \
   &quot;method&quot;: { \
     &quot;name&quot;: &quot;original&quot;, \
     &quot;feature&quot;: &quot;lemma&quot;, \

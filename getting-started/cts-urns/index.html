@@ -112,7 +112,7 @@
 </li>
                                     
 <li >
-    <a href="../../details/subreferencing/">Subreferencing</a>
+    <a href="../../details/units/">Units</a>
 </li>
                                 </ul>
                             </li>
@@ -144,7 +144,6 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#canonical-text-services-uniform-resource-names-cts-urns">Canonical Text Services Uniform Resource Names (CTS URNs)</a></li>
             <li><a href="#referencing-convention">Referencing Convention</a></li>
-            <li><a href="#slicing-up-texts">Slicing Up Texts</a></li>
             <li><a href="#further-resources">Further Resources</a></li>
     </ul>
 </div></div>
@@ -153,7 +152,7 @@
 <h1 id="canonical-text-services-uniform-resource-names-cts-urns">Canonical Text Services Uniform Resource Names (CTS URNs)<a class="headerlink" href="#canonical-text-services-uniform-resource-names-cts-urns" title="Permanent link">&para;</a></h1>
 <p>This page describes some of the basic concepts of CTS URNs used in Tesserae.</p>
 <h2 id="referencing-convention">Referencing Convention<a class="headerlink" href="#referencing-convention" title="Permanent link">&para;</a></h2>
-<p>The CTS URN standard is a convention for helping two people reference the same thing in a digital text.  For example, suppose you wish to discuss line 10 of the digital copy of Homer&rsquo;s <em>Iliad</em> available on the Perseus website.  By providing the appropriate CTS URN, others can follow your discussion by referencing the same digital copy which you referenced when you were forming your points.</p>
+<p>The CTS URN standard is a convention for helping two people reference the same thing in a digital text.  For example, suppose you wish to discuss line 10 of book 1 of the digital copy of Homer&rsquo;s <em>Iliad</em> available on the Perseus website.  By providing the appropriate CTS URN, others can follow your discussion by referencing the same digital copy which you referenced when you were forming your points.</p>
 <p>There are some technical details about what exactly goes into making a CTS URN, but for purposes of using them, it is sufficient to know the following:</p>
 <ul>
 <li>The various parts of the CTS URN will be separated by a colon (<code>:</code>).</li>
@@ -162,27 +161,15 @@
 </ul>
 </li>
 <li>The fifth part, if given, allows for referencing a canonical unit within the work.<ul>
-<li>e.g., the CTS URN <code>urn:cts:greekLit:tlg0012.tlg001:1.10</code> refers to line 10 of book 1 of Homer&rsquo;s <em>Iliad</em></li>
-</ul>
-</li>
-<li>A span of units can be denoted with a hyphen (<code>-</code>).<ul>
-<li>e.g., the CTS URN <code>urn:cts:greekLit:tlg0012.tlg001:1.10-1.15</code> refers to lines 10&ndash;15 of book 1 of Homer&rsquo;s <em>Iliad</em></li>
+<li>e.g., the CTS URN <code>urn:cts:greekLit:tlg0012.tlg001:1</code> refers to book 1 of Homer&rsquo;s <em>Iliad</em></li>
 </ul>
 </li>
 </ul>
-<h2 id="slicing-up-texts">Slicing Up Texts<a class="headerlink" href="#slicing-up-texts" title="Permanent link">&para;</a></h2>
-<p>Sometimes, units are not at a fine enough level of granularity for describing exactly what you wish.  In this case, you can use CTS URN subreferencing.</p>
-<p>When <code>@</code> appears in the CTS URN, you know there is subreferencing.  It is also possible to use subreferencing with the hyphen notation mentioned earlier to specify a text span.  The nuances of how subreferencing works in practice is excruciatingly detailed, so we will leave that discussion for <a href="../../details/subreferencing/">Subreferencing</a>.</p>
-<p>Suffice it to say that it is possible to use CTS URNs to specify arbitrary text spans.</p>
 <h2 id="further-resources">Further Resources<a class="headerlink" href="#further-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The Homer Multitext Project<ul>
 <li>CTS URN overview, a more thorough primer (with some errors):<ul>
 <li><a href="https://www.homermultitext.org/hmt-doc/cite/cts-urn-overview.html">https://www.homermultitext.org/hmt-doc/cite/cts-urn-overview.html</a></li>
-</ul>
-</li>
-<li>Subreferencing:<ul>
-<li><a href="https://www.homermultitext.org/hmt-doc/cite/cts-subreferences.html">https://www.homermultitext.org/hmt-doc/cite/cts-subreferences.html</a></li>
 </ul>
 </li>
 </ul>

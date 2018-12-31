@@ -112,7 +112,7 @@
 </li>
                                     
 <li >
-    <a href="../../details/subreferencing/">Subreferencing</a>
+    <a href="../../details/units/">Units</a>
 </li>
                                 </ul>
                             </li>
@@ -177,6 +177,10 @@
 <td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
 </tr>
 <tr>
+<td><code>"extras"</code></td>
+<td>A JSON object specified by the user.</td>
+</tr>
+<tr>
 <td><code>"is_prose"</code></td>
 <td>A boolean value denoting whether the text is considered a prose work.</td>
 </tr>
@@ -217,7 +221,7 @@
 <h4 id="retrieve-a-texts-database-entry">Retrieve a Text&rsquo;s Database Entry<a class="headerlink" href="#retrieve-a-texts-database-entry" title="Permanent link">&para;</a></h4>
 <p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -225,13 +229,14 @@
 ...
 
 { 
-  &quot;author&quot;: &quot;Lucan&quot;, 
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, 
-  &quot;is_prose&quot;: false, 
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {},
+  &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
-  &quot;language&quot;: &quot;latin&quot;, 
-  &quot;title&quot;: &quot;Bellum Civile&quot;, 
-  &quot;year&quot;: 65 
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
 }
 </code></pre>
 
@@ -270,7 +275,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </blockquote>
 <p>Requesting PATCH at <code>/texts/&lt;cts_urn&gt;/</code> with an appropriate JSON data payload will update the database entry of the text with a CTS URN of <code>&lt;cts_urn&gt;</code> according to the JSON data.</p>
 <h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
-<p>Appropriate JSON data for a PATCH at <code>/texts/&lt;cts_urn&gt;/</code> is any JSON object without the key <code>"cts_urn"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
+<p>Appropriate JSON data for a PATCH at <code>/texts/&lt;cts_urn&gt;/</code> is any JSON object without the following keys:  <code>"cts_urn"</code>, <code>"id"</code>, <code>"_id"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
 <blockquote>
 <p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/&lt;cts_urn&gt;/</code>.  For this case, consider a <a href="#delete">DELETE at <code>/texts/&lt;cts_urn&gt;/</code></a> followed by a <a href="../texts/#post">POST at <code>/texts/</code></a>.</p>
 </blockquote>
@@ -306,6 +311,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
   &quot;language&quot;: &quot;latin&quot;,
@@ -327,6 +333,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 {
   &quot;author&quot;: &quot;Lucan&quot;,
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
   &quot;language&quot;: &quot;latin&quot;,
@@ -335,11 +342,12 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 }
 </code></pre>
 
-<h4 id="add-new-information-to-a-texts-database-entry">Add New Information to a Text&rsquo;s Database Entry<a class="headerlink" href="#add-new-information-to-a-texts-database-entry" title="Permanent link">&para;</a></h4>
+<h4 id="add-new-user-specified-information-to-a-texts-database-entry">Add New User-Specified Information to a Text&rsquo;s Database Entry<a class="headerlink" href="#add-new-user-specified-information-to-a-texts-database-entry" title="Permanent link">&para;</a></h4>
 <p>Assume that the following entry exists in the database:</p>
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
   &quot;language&quot;: &quot;latin&quot;,
@@ -350,7 +358,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 
 <p>Request:</p>
 <pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot; -d '{ \
-  &quot;alternate_title&quot;: &quot;Pharsalia&quot; \
+  &quot;extras&quot;: {&quot;alternate_title&quot;: &quot;Pharsalia&quot;} \
 }'
 </code></pre>
 
@@ -359,9 +367,11 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 ...
 
 {
-  &quot;alternate_title&quot;: &quot;Pharsalia&quot;
   &quot;author&quot;: &quot;Lucan&quot;,
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {
+    &quot;alternate_title&quot;: &quot;Pharsalia&quot;
+  },
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
   &quot;language&quot;: &quot;latin&quot;,
@@ -441,6 +451,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
   &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
   &quot;language&quot;: &quot;latin&quot;,

@@ -112,7 +112,7 @@
 </li>
                                     
 <li >
-    <a href="../../details/subreferencing/">Subreferencing</a>
+    <a href="../../details/units/">Units</a>
 </li>
                                 </ul>
                             </li>
@@ -195,6 +195,29 @@
 </tbody>
 </table>
 <p>The specified key appears in the response data payload only when there was a corresponding URL query field in the request.</p>
+<p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"cts_urn"</code></td>
+<td>A string corresponding to the CTS URN decoded from the URL.</td>
+</tr>
+<tr>
+<td><code>"units"</code></td>
+<td>A list of strings corresponding to the URL queries received.</td>
+</tr>
+<tr>
+<td><code>"message"</code></td>
+<td>A string explaining why the request data payload was rejected.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
 <h4 id="query-without-any-filters">Query without Any Filters<a class="headerlink" href="#query-without-any-filters" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
@@ -202,7 +225,7 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
 {}
@@ -214,7 +237,7 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
 {
@@ -232,7 +255,7 @@
 </code></pre>
 
 <p>Response:</p>
-<pre><code>HTTP/1.0 200 OK
+<pre><code>HTTP/1.1 200 OK
 ...
 
 {
@@ -246,6 +269,39 @@
     &quot;urn:cts:latinLit:phi0917.phi001:1.9&quot;,
     ...
   ]
+}
+</code></pre>
+
+<h4 id="query-for-text-not-in-the-database">Query for Text Not in the Database<a class="headerlink" href="#query-for-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/units/?lines=true&amp;phrases=true&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 404 Not Found
+...
+
+{
+  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
+  &quot;units&quot;: [&quot;lines&quot;, &quot;phrases&quot;],
+  &quot;message&quot;: &quot;No text with the specified CTS URN (DEADBEEF) could be found in the database.&quot;
+}
+</code></pre>
+
+<h4 id="query-for-unknown-unit-type">Query for Unknown Unit Type<a class="headerlink" href="#query-for-unknown-unit-type" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/units/?lines=true&amp;chunks=true&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;units&quot;: [&quot;lines&quot;, &quot;chunks&quot;],
+  &quot;message&quot;: &quot;The following unit type(s) could not be found for the specified CTS URN (urn:cts:latinLit:phi0917.phi001): chunks.&quot;
 }
 </code></pre></div>
         </div>
