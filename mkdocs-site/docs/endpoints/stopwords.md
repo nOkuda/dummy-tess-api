@@ -18,7 +18,7 @@ The following fields may be used in a URL query to specify the parameters by whi
 |---|---|
 |`feature`|A string specifying the linguistic feature by which frequencies are calculated; `lemma` is the default.|
 |`list_size`|An integer specifying the number of stopwords to include in the stopwords list. `10` is the default.|
-|`works`|A percent-encoded string of the form `<CTS URN 1>,<CTS URN 2>,...`, specifying which works are used to determine feature frequencies.  Alternatively, a string matching one of the languages in the Tesserae database will compute feature frequencies from the corpus of works in that language.|
+|`works`|A percent-encoded string of the form `<object_id 1>,<object_id 2>,...`, specifying which works are used to determine feature frequencies.  Alternatively, a string matching one of the languages in the Tesserae database will compute feature frequencies from the corpus of works in that language.|
 
 ### Response
 
@@ -80,7 +80,7 @@ HTTP/1.1 200 OK
 Request:
 
 ```
-curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/?works=urn%3Acts%3AlatinLit%3Aphi0917.phi001%2Curn%3Acts%3AlatinLit%3Aphi0690.phi003.opp-lat1&list_size=15"
+curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/?works=5c6c69f042facf59122418f6%2C5c6c69f042facf59122418f8&list_size=15"
 ```
 
 Response:
@@ -98,7 +98,7 @@ HTTP/1.1 200 OK
 
 #### Attempt to Get a Stopwords List with a Text Not in the Database
 
-Suppose the CTS URN `DEADBEEF` does not exist in the database.
+Suppose no text has the identifier `DEADBEEF`.
 
 Request:
 
@@ -117,6 +117,6 @@ HTTP/1.1 400 Bad Request
     "works": ["DEADBEEF"],
     "list_size": 15
   },
-  "message": "The CTS URN provided (DEADBEEF) does not exist in this database."
+  "message": "No text can be found with the identifier provided (DEADBEEF)."
 }
 ```

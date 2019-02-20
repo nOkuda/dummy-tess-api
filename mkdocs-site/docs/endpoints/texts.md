@@ -26,7 +26,7 @@ On success, the response includes a JSON data payload consisting of a JSON objec
 |Key|Value|
 |---|---|
 |`"author"`|A string identifying the text's author.|
-|`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
+|`"object_id"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
 |`"is_prose"`|A boolean value denoting whether the text is considered a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"title"`|A string identifying the text's name.|
@@ -99,7 +99,6 @@ Appropriate JSON data for a POST at `/texts/` must be a JSON object containing t
 |Key|Value|
 |---|---|
 |`"author"`|A string identifying the text's author.|
-|`"cts_urn"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
 |`"is_prose"`|A boolean value denoting whether the text is a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"path"`| A string identifying the location of the text's contents.|
@@ -126,7 +125,6 @@ Request:
 ```
 curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
   "author": "Lucan", \
-  "cts_urn": "urn:cts:latinLit:phi0917.phi001", \
   "is_prose": false, \
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
   "language": "latin", \
@@ -140,55 +138,17 @@ Response:
 ```
 HTTP/1.1 201 Created
 ...
-Content-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
-...
-
-{ 
-  "author": "Lucan", 
-  "cts_urn": "urn:cts:latinLit:phi0917.phi001", 
-  "is_prose": false, 
-  "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" 
-  "language": "latin", 
-  "title": "Bellum Civile", 
-  "year": 65 
-}
-```
-
-#### Upload an Entry for a Text Already in the Database
-
-Assume that an entry in the database with the CTS URN "urn:cts:latinLit:phi0917.phi001" already exists.
-
-Request:
-
-```
-curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
-  "author": "Lucan", \
-  "cts_urn": "urn:cts:latinLit:phi0917.phi001", \
-  "is_prose": false, \
-  "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
-  "language": "latin", \
-  "title": "Bellum Civile", \
-  "year": 65 \
-}'
-```
-
-Response:
-
-```
-HTTP/1.1 400 Bad Request
+Content-Location: /texts/5c6c69f042facf59122418f6/
 ...
 
 {
-  "data": {
-    "author": "Lucan",
-    "cts_urn": "urn:cts:latinLit:phi0917.phi001",
-    "is_prose": false,
-    "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
-    "language": "latin",
-    "title": "Bellum Civile",
-    "year": 65
-  },
-  "message": "The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try a PATCH at https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1/."
+  "author": "Lucan",
+  "object_id": "5c6c69f042facf59122418f6",
+  "is_prose": false,
+  "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
+  "language": "latin",
+  "title": "Bellum Civile",
+  "year": 65
 }
 ```
 
@@ -201,7 +161,6 @@ curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
   "author": "Lucan", \
   "is_prose": false, \
   "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
-  "language": "latin", \
   "title": "Bellum Civile", \
   "year": 65 \
 }'
@@ -218,10 +177,9 @@ HTTP/1.1 400 Bad Request
     "author": "Lucan",
     "is_prose": false,
     "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
-    "language": "latin",
     "title": "Bellum Civile",
     "year": 65
   },
-  "message": "The request data payload is missing the following required key(s): cts_urn."
+  "message": "The request data payload is missing the following required key(s): language."
 }
 ```

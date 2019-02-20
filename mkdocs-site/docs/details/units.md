@@ -4,18 +4,18 @@ This page details the concept of textual units and describes JSON objects permit
 
 ## Summary by Example
 
-To get all of the _Aeneid_ by lines:
+Assuming that `5c6c69f042facf59122418f8` is the identifier for the _Aeneid_, the following JSON specifies all of the _Aeneid_ by split by lines:
 ```
 {
-  "cts_urn": "urn:cts:latinLit:phi0690.phi003",
+  "object_id": "5c6c69f042facf59122418f8",
   "units": "line"
 }
 ```
 
-To get book 1 of the _Aeneid_ by phrases:
+Assuming that `5c6c69f042facf59122418f8` is the identifier for the _Aeneid_, the following JSON specifies all of the _Aeneid_ by split by phrases:
 ```
 {
-  "cts_urn": "urn:cts:latinLit:phi0690.phi003:1",
+  "object_id": "5c6c69f042facf59122418f8",
   "units": "phrase"
 }
 ```
@@ -30,12 +30,8 @@ The JSON object specifying which units to extract from what work has the followi
 
 |Key|Value|
 |---|---|
-|`"cts_urn"`|A string representing the CTS URN of the work of interest.|
+|`"object_id"`|A string identifying the text of interest.|
 |`"units"`|A string representing the unit of interest.  Accepted values are described below in [Permitted Units](#permitted_units)|
-
-## Permitted CTS URNs
-
-Acceptable CTS URNs for `"cts_urn"` are either the entire work or by the first level of canonical referencing (e.g., by book of an epic).
 
 ## Permitted Units
 

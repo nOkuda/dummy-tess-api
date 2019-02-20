@@ -3,7 +3,7 @@ nav:
 - 'Home': 'index.md'
 - 'Getting Started':
     - 'Tutorial': 'getting-started/tutorial.md'
-    - 'CTS URNs': 'getting-started/cts-urns.md'
+      # - 'CTS URNs': 'getting-started/cts-urns.md'
 - 'Endpoints':
     - '/parallels/': 'endpoints/parallels.md'
     - '/parallels/&ltuuid&gt': 'endpoints/parallels-uuid.md'
@@ -11,8 +11,8 @@ nav:
     - '/stopwords/lists/': 'endpoints/stopwords-lists.md'
     - '/stopwords/lists/&lt;name&gt;/': 'endpoints/stopwords-lists-name.md'
     - '/texts/': 'endpoints/texts.md'
-    - '/texts/&lt;cts_urn&gt;/': 'endpoints/texts-cts_urn.md'
-    - '/texts/&lt;cts_urn&gt;/units/': 'endpoints/texts-cts_urn-units.md'
+    - '/texts/&lt;object_id&gt;/': 'endpoints/texts-objid.md'
+      # - '/texts/&lt;cts_urn&gt;/units/': 'endpoints/texts-cts_urn-units.md'
 - 'Details':
     - 'Cached Results': 'details/cached-results.md'
     - 'Scoring Methods': 'details/methods.md'

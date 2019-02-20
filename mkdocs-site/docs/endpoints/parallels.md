@@ -46,11 +46,11 @@ Request:
 ```
 curl -i -X POST "https://tesserae.caset.buffalo.edu/parallels/" -d '{ \
   "source": { \
-    "cts_urn": "urn:cts:latinLit:phi0472.phi001:28", \
+    "object_id": "5c6c69f042facf59122418f8", \
     "units": "line" \
   }, \
   "target": { \
-    "cts_urn": "urn:cts:latinLit:phi0690.phi002:1.21", \
+    "object_id": "5c6c69f042facf59122418f6", \
     "units": "line" \
   }, \
   "method": { \
