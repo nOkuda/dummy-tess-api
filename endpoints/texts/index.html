@@ -56,10 +56,6 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
-                                    
-<li >
-    <a href="../../getting-started/cts-urns/">CTS URNs</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -91,11 +87,7 @@
 </li>
                                     
 <li >
-    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../texts-objid/">/texts/&lt;object_id&gt;/</a>
 </li>
                                 </ul>
                             </li>
@@ -130,7 +122,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../texts-cts_urn/">
+                                <a rel="prev" href="../texts-objid/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -204,7 +196,7 @@
 <td>A string identifying the text&rsquo;s author.</td>
 </tr>
 <tr>
-<td><code>"cts_urn"</code></td>
+<td><code>"object_id"</code></td>
 <td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
 </tr>
 <tr>
@@ -288,10 +280,6 @@
 <td>A string identifying the text&rsquo;s author.</td>
 </tr>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
-</tr>
-<tr>
 <td><code>"is_prose"</code></td>
 <td>A boolean value denoting whether the text is a prose work.</td>
 </tr>
@@ -339,7 +327,6 @@
 <p>Request:</p>
 <pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
   &quot;author&quot;: &quot;Lucan&quot;, \
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
   &quot;is_prose&quot;: false, \
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
   &quot;language&quot;: &quot;latin&quot;, \
@@ -351,49 +338,17 @@
 <p>Response:</p>
 <pre><code>HTTP/1.1 201 Created
 ...
-Content-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
-...
-
-{ 
-  &quot;author&quot;: &quot;Lucan&quot;, 
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, 
-  &quot;is_prose&quot;: false, 
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; 
-  &quot;language&quot;: &quot;latin&quot;, 
-  &quot;title&quot;: &quot;Bellum Civile&quot;, 
-  &quot;year&quot;: 65 
-}
-</code></pre>
-
-<h4 id="upload-an-entry-for-a-text-already-in-the-database">Upload an Entry for a Text Already in the Database<a class="headerlink" href="#upload-an-entry-for-a-text-already-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that an entry in the database with the CTS URN &ldquo;urn:cts:latinLit:phi0917.phi001&rdquo; already exists.</p>
-<p>Request:</p>
-<pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
-  &quot;author&quot;: &quot;Lucan&quot;, \
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;, \
-  &quot;is_prose&quot;: false, \
-  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
-  &quot;language&quot;: &quot;latin&quot;, \
-  &quot;title&quot;: &quot;Bellum Civile&quot;, \
-  &quot;year&quot;: 65 \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.1 400 Bad Request
+Content-Location: /texts/5c6c69f042facf59122418f6/
 ...
 
 {
-  &quot;data&quot;: {
-    &quot;author&quot;: &quot;Lucan&quot;,
-    &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
-    &quot;is_prose&quot;: false,
-    &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-    &quot;language&quot;: &quot;latin&quot;,
-    &quot;title&quot;: &quot;Bellum Civile&quot;,
-    &quot;year&quot;: 65
-  },
-  &quot;message&quot;: &quot;The CTS URN provided (urn:cts:latinLit:phi0917.phi001) already exists in the database. If you meant to update the text information, try a PATCH at https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1/.&quot;
+  &quot;author&quot;: &quot;Lucan&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
+  &quot;is_prose&quot;: false,
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
+  &quot;language&quot;: &quot;latin&quot;,
+  &quot;title&quot;: &quot;Bellum Civile&quot;,
+  &quot;year&quot;: 65
 }
 </code></pre>
 
@@ -403,7 +358,6 @@ Content-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
   &quot;author&quot;: &quot;Lucan&quot;, \
   &quot;is_prose&quot;: false, \
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
-  &quot;language&quot;: &quot;latin&quot;, \
   &quot;title&quot;: &quot;Bellum Civile&quot;, \
   &quot;year&quot;: 65 \
 }'
@@ -418,11 +372,10 @@ Content-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
     &quot;author&quot;: &quot;Lucan&quot;,
     &quot;is_prose&quot;: false,
     &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
-    &quot;language&quot;: &quot;latin&quot;,
     &quot;title&quot;: &quot;Bellum Civile&quot;,
     &quot;year&quot;: 65
   },
-  &quot;message&quot;: &quot;The request data payload is missing the following required key(s): cts_urn.&quot;
+  &quot;message&quot;: &quot;The request data payload is missing the following required key(s): language.&quot;
 }
 </code></pre></div>
         </div>

@@ -56,10 +56,6 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
-                                    
-<li >
-    <a href="../../getting-started/cts-urns/">CTS URNs</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -91,11 +87,7 @@
 </li>
                                     
 <li >
-    <a href="../../endpoints/texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../../endpoints/texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../../endpoints/texts-objid/">/texts/&lt;object_id&gt;/</a>
 </li>
                                 </ul>
                             </li>
@@ -146,7 +138,6 @@
             <li><a href="#summary-by-example">Summary by Example</a></li>
             <li><a href="#introduction">Introduction</a></li>
             <li><a href="#json-object">JSON Object</a></li>
-            <li><a href="#permitted-cts-urns">Permitted CTS URNs</a></li>
             <li><a href="#permitted-units">Permitted Units</a></li>
     </ul>
 </div></div>
@@ -155,16 +146,16 @@
 <h1 id="units">Units<a class="headerlink" href="#units" title="Permanent link">&para;</a></h1>
 <p>This page details the concept of textual units and describes JSON objects permitted in the <code>"source"</code> and <code>"target"</code> keys of the JSON data payload required by the <code>/parallels/</code> endpoint.</p>
 <h2 id="summary-by-example">Summary by Example<a class="headerlink" href="#summary-by-example" title="Permanent link">&para;</a></h2>
-<p>To get all of the <em>Aeneid</em> by lines:</p>
+<p>Assuming that <code>5c6c69f042facf59122418f8</code> is the identifier for the <em>Aeneid</em>, the following JSON specifies all of the <em>Aeneid</em> by split by lines:</p>
 <pre><code>{
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0690.phi003&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f8&quot;,
   &quot;units&quot;: &quot;line&quot;
 }
 </code></pre>
 
-<p>To get book 1 of the <em>Aeneid</em> by phrases:</p>
+<p>Assuming that <code>5c6c69f042facf59122418f8</code> is the identifier for the <em>Aeneid</em>, the following JSON specifies all of the <em>Aeneid</em> by split by phrases:</p>
 <pre><code>{
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0690.phi003:1&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f8&quot;,
   &quot;units&quot;: &quot;phrase&quot;
 }
 </code></pre>
@@ -182,8 +173,8 @@
 </thead>
 <tbody>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string representing the CTS URN of the work of interest.</td>
+<td><code>"object_id"</code></td>
+<td>A string identifying the text of interest.</td>
 </tr>
 <tr>
 <td><code>"units"</code></td>
@@ -191,8 +182,6 @@
 </tr>
 </tbody>
 </table>
-<h2 id="permitted-cts-urns">Permitted CTS URNs<a class="headerlink" href="#permitted-cts-urns" title="Permanent link">&para;</a></h2>
-<p>Acceptable CTS URNs for <code>"cts_urn"</code> are either the entire work or by the first level of canonical referencing (e.g., by book of an epic).</p>
 <h2 id="permitted-units">Permitted Units<a class="headerlink" href="#permitted-units" title="Permanent link">&para;</a></h2>
 <h3 id="lines">Lines<a class="headerlink" href="#lines" title="Permanent link">&para;</a></h3>
 <p>One way to divide the text is by line.  In the case of poetry, lines are inherent to the structure of the text.  In the case of prose, lines are arbitrarily enforced by the referencing conventions used by scholars of the prose work.</p>

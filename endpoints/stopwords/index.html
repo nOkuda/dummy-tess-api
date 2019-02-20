@@ -56,10 +56,6 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
-                                    
-<li >
-    <a href="../../getting-started/cts-urns/">CTS URNs</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -91,11 +87,7 @@
 </li>
                                     
 <li >
-    <a href="../texts-cts_urn/">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="../texts-objid/">/texts/&lt;object_id&gt;/</a>
 </li>
                                 </ul>
                             </li>
@@ -174,7 +166,7 @@
 </tr>
 <tr>
 <td><code>works</code></td>
-<td>A percent-encoded string of the form <code>&lt;CTS URN 1&gt;,&lt;CTS URN 2&gt;,...</code>, specifying which works are used to determine feature frequencies.  Alternatively, a string matching one of the languages in the Tesserae database will compute feature frequencies from the corpus of works in that language.</td>
+<td>A percent-encoded string of the form <code>&lt;object_id 1&gt;,&lt;object_id 2&gt;,...</code>, specifying which works are used to determine feature frequencies.  Alternatively, a string matching one of the languages in the Tesserae database will compute feature frequencies from the corpus of works in that language.</td>
 </tr>
 </tbody>
 </table>
@@ -234,7 +226,7 @@
 
 <h4 id="get-the-15-highest-frequency-lemmata-in-two-specific-texts">Get the 15 Highest Frequency Lemmata in Two Specific Texts<a class="headerlink" href="#get-the-15-highest-frequency-lemmata-in-two-specific-texts" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=urn%3Acts%3AlatinLit%3Aphi0917.phi001%2Curn%3Acts%3AlatinLit%3Aphi0690.phi003.opp-lat1&amp;list_size=15&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=5c6c69f042facf59122418f6%2C5c6c69f042facf59122418f8&amp;list_size=15&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -249,7 +241,7 @@
 </code></pre>
 
 <h4 id="attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database">Attempt to Get a Stopwords List with a Text Not in the Database<a class="headerlink" href="#attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Suppose the CTS URN <code>DEADBEEF</code> does not exist in the database.</p>
+<p>Suppose no text has the identifier <code>DEADBEEF</code>.</p>
 <p>Request:</p>
 <pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEF&amp;list_size=15&quot;
 </code></pre>
@@ -263,7 +255,7 @@
     &quot;works&quot;: [&quot;DEADBEEF&quot;],
     &quot;list_size&quot;: 15
   },
-  &quot;message&quot;: &quot;The CTS URN provided (DEADBEEF) does not exist in this database.&quot;
+  &quot;message&quot;: &quot;No text can be found with the identifier provided (DEADBEEF).&quot;
 }
 </code></pre></div>
         </div>

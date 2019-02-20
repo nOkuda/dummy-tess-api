@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>/texts/&lt;cts_urn&gt;/ - Tesserae API (Pre-Alpha!)</title>
+        <title>/texts/&lt;object_id&gt;/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -56,10 +56,6 @@
 <li >
     <a href="../../getting-started/tutorial/">Tutorial</a>
 </li>
-                                    
-<li >
-    <a href="../../getting-started/cts-urns/">CTS URNs</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -91,11 +87,7 @@
 </li>
                                     
 <li class="active">
-    <a href="./">/texts/&lt;cts_urn&gt;/</a>
-</li>
-                                    
-<li >
-    <a href="../texts-cts_urn-units/">/texts/&lt;cts_urn&gt;/units/</a>
+    <a href="./">/texts/&lt;object_id&gt;/</a>
 </li>
                                 </ul>
                             </li>
@@ -130,7 +122,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../texts-cts_urn-units/">
+                                <a rel="prev" href="../../details/cached-results/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -142,7 +134,7 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#textscts_urn">/texts/&lt;cts_urn&gt;/</a></li>
+        <li class="main active"><a href="#textsobject_id">/texts/&lt;object_id&gt;/</a></li>
             <li><a href="#get">GET</a></li>
             <li><a href="#patch">PATCH</a></li>
             <li><a href="#delete">DELETE</a></li>
@@ -150,15 +142,14 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="textscts_urn"><code>/texts/&lt;cts_urn&gt;/</code><a class="headerlink" href="#textscts_urn" title="Permanent link">&para;</a></h1>
-<p>The <code>/texts/&lt;cts_urn&gt;/</code> endpoint interacts with a specific literary work in Tesserae&rsquo;s database.</p>
-<p>Note that <code>&lt;cts_urn&gt;</code> is a placeholder to be replaced by a <a href="https://en.wikipedia.org/wiki/Percent-encoding">percent encoded</a> CTS URN refering to a specific text.  (Modern web browsers tend to percent encode URLs by default, but if you are using a different method to query the API, you will have to percent encode the CTS URN yourself.  A variety of resources online can help you do this; query for &ldquo;percent encode&rdquo; in your favorite search engine to find them.)  Throughout the rest of this page, <code>&lt;cts_urn&gt;</code> will continue to serve as a placeholder for a percent encoded CTS URN.</p>
+<h1 id="textsobject_id"><code>/texts/&lt;object_id&gt;/</code><a class="headerlink" href="#textsobject_id" title="Permanent link">&para;</a></h1>
+<p>The <code>/texts/&lt;object_id&gt;/</code> endpoint interacts with a specific literary work in Tesserae&rsquo;s database.</p>
+<p>Note that <code>&lt;object_id&gt;</code> is a placeholder to be replaced by an identifier refering to a specific text.  Throughout the rest of this page, <code>&lt;object_id&gt;</code> will continue to serve as a placeholder for a text&rsquo;s identifier.</p>
 <h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
-<p>Requesting GET at <code>/texts/&lt;cts_urn&gt;/</code> provides information on the literary work specified by <code>&lt;cts_urn&gt;</code>.</p>
+<p>Requesting GET at <code>/texts/&lt;object_id&gt;/</code> provides information on the literary work specified by <code>&lt;object_id&gt;</code>.</p>
 <h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
-<p>Remember, <code>&lt;cts_urn&gt;</code> must be properly percent encoded.</p>
+<p>Note that an <code>&lt;object_id&gt;</code> used for one text on the Tesserae website may be different from the <code>&lt;object_id&gt;</code> used to refer to the same text on a different instance of Tesserae (such as one locally installed on your computer).</p>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
-<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>301</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
 <p>On success, the response includes a data payload consisting of a JSON object with the following keys:</p>
 <table>
 <thead>
@@ -173,8 +164,8 @@
 <td>A string identifying the text&rsquo;s author.</td>
 </tr>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
+<td><code>"object_id"</code></td>
+<td>A string which uniquely identifies the text on the instance of Tesserae you queried.</td>
 </tr>
 <tr>
 <td><code>"extras"</code></td>
@@ -208,8 +199,8 @@
 </thead>
 <tbody>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string corresponding to the CTS URN decoded from the URL.</td>
+<td><code>"object_id"</code></td>
+<td>A string corresponding to <code>&lt;object_id&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>"message"</code></td>
@@ -219,9 +210,9 @@
 </table>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
 <h4 id="retrieve-a-texts-database-entry">Retrieve a Text&rsquo;s Database Entry<a class="headerlink" href="#retrieve-a-texts-database-entry" title="Permanent link">&para;</a></h4>
-<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
+<p>Suppose that <code>5c6c69f042facf59122418f6</code> is the identifier associated with Lucan&rsquo;s <em>Bellum Civile</em>.</p>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/5c6c69f042facf59122418f6/&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -230,7 +221,7 @@
 
 { 
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
@@ -240,23 +231,10 @@
 }
 </code></pre>
 
-<h4 id="attempt-to-retrieve-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Retrieve a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-retrieve-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
-<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
-<p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1/&quot;
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.1 301 Moved Permanently
-...
-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
-...
-</code></pre>
-
 <h4 id="attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database">Attempt to Retrieve the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -264,23 +242,22 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 ...
 
 {
-  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
-  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+  &quot;object_id&quot;: &quot;DEADBEEF&quot;,
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
 }
 </code></pre>
 
 <h2 id="patch">PATCH<a class="headerlink" href="#patch" title="Permanent link">&para;</a></h2>
 <blockquote>
-<p>NB:  The PATCH method for <code>/texts/&lt;cts_urn&gt;/</code> is available only on the administrative server</p>
+<p>NB:  The PATCH method for <code>/texts/&lt;object_id&gt;/</code> is available only on the administrative server</p>
 </blockquote>
-<p>Requesting PATCH at <code>/texts/&lt;cts_urn&gt;/</code> with an appropriate JSON data payload will update the database entry of the text with a CTS URN of <code>&lt;cts_urn&gt;</code> according to the JSON data.</p>
+<p>Requesting PATCH at <code>/texts/&lt;object_id&gt;/</code> with an appropriate JSON data payload will update the database entry of the text with an identifier of <code>&lt;object_id&gt;</code>.  The update will be in accordance with the JSON data.</p>
 <h3 id="request_1">Request<a class="headerlink" href="#request_1" title="Permanent link">&para;</a></h3>
-<p>Appropriate JSON data for a PATCH at <code>/texts/&lt;cts_urn&gt;/</code> is any JSON object without the following keys:  <code>"cts_urn"</code>, <code>"id"</code>, <code>"_id"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
+<p>Appropriate JSON data for a PATCH at <code>/texts/&lt;object_id&gt;/</code> is any JSON object without the following keys:  <code>"object_id"</code>, <code>"id"</code>, <code>"_id"</code>.  The keys in this object specify which attributes of the text entry in Tesserae&rsquo;s database will be updated (or added, if the key does not correspond with any of the text entry&rsquo;s attributes).  The new values of these attributes are specified by the values of the keys corresponding to those attributes.</p>
 <blockquote>
-<p>NB:  You cannot update a text&rsquo;s CTS URN with a PATCH at <code>/texts/&lt;cts_urn&gt;/</code>.  For this case, consider a <a href="#delete">DELETE at <code>/texts/&lt;cts_urn&gt;/</code></a> followed by a <a href="../texts/#post">POST at <code>/texts/</code></a>.</p>
+<p>NB:  You cannot update a text&rsquo;s identifier.</p>
 </blockquote>
 <h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
-<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>308</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work identifiers is truncated.</p>
 <p>On success, the data payload contains the text entry in Tesserae&rsquo;s database after the update has been made.</p>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
 <table>
@@ -292,8 +269,8 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </thead>
 <tbody>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string matching the percent decoded <code>&lt;cts_urn&gt;</code>.</td>
+<td><code>"object_id"</code></td>
+<td>A string matching <code>&lt;object_id&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>"data"</code></td>
@@ -310,7 +287,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <p>Assume that the following entry exists in the database:</p>
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
@@ -321,7 +298,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot; -d '{ \
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/5c6c69f042facf59122418f6/&quot; -d '{ \
   &quot;title&quot;: &quot;Pharsalia&quot; \
 }'
 </code></pre>
@@ -332,7 +309,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 
 {
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
@@ -346,7 +323,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <p>Assume that the following entry exists in the database:</p>
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
@@ -357,7 +334,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot; -d '{ \
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/5c6c69f042facf59122418f6/&quot; -d '{ \
   &quot;extras&quot;: {&quot;alternate_title&quot;: &quot;Pharsalia&quot;} \
 }'
 </code></pre>
@@ -368,7 +345,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 
 {
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {
     &quot;alternate_title&quot;: &quot;Pharsalia&quot;
   },
@@ -380,23 +357,8 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 }
 </code></pre>
 
-<h4 id="attempt-to-update-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Update a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-update-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
-<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
-<p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1%3A1.1/&quot; -d '{ \
-  &quot;new_key&quot;: &quot;new_value&quot; \
-}'
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.1 308 Moved Permanently
-...
-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
-...
-</code></pre>
-
 <h4 id="attempt-to-update-the-database-entry-for-a-text-not-in-the-database">Attempt to Update the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-update-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
 <p>Request:</p>
 <pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot; -d '{ \
   &quot;fail&quot;: &quot;this example will&quot; \
@@ -408,23 +370,22 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 ...
 
 {
-  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;,
+  &quot;object_id&quot;: &quot;DEADBEEF&quot;,
   &quot;data&quot;: {
     &quot;fail&quot;: &quot;this example will&quot;
   },
-  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
 }
 </code></pre>
 
 <h2 id="delete">DELETE<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h2>
 <blockquote>
-<p>NB:  The DELETE method for <code>/texts/&lt;cts_urn&gt;/</code> is available only on the administrative server</p>
+<p>NB:  The DELETE method for <code>/texts/&lt;object_id&gt;/</code> is available only on the administrative server</p>
 </blockquote>
-<p>Requesting DELETE at <code>/texts/&lt;cts_urn&gt;/</code> with an appropriate JSON data payload will delete the text described by the JSON data from Tesserae&rsquo;s database.</p>
+<p>Requesting DELETE at <code>/texts/&lt;object_id&gt;/</code> will delete the text identified by <code>&lt;object_id&gt;</code> from Tesserae&rsquo;s database.</p>
 <h3 id="request_2">Request<a class="headerlink" href="#request_2" title="Permanent link">&para;</a></h3>
 <p>There is no request data payload.</p>
 <h3 id="response_2">Response<a class="headerlink" href="#response_2" title="Permanent link">&para;</a></h3>
-<p>If <code>&lt;cts_urn&gt;</code> contains any information past the work identifiers (i.e., passage citations and subreferences), the response will be a <code>308</code> redirect, where the <code>Location</code> header points to the same URL, except that the information past the work idenitifiers is truncated.</p>
 <p>On success, there is no response data payload.</p>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
 <table>
@@ -436,8 +397,8 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </thead>
 <tbody>
 <tr>
-<td><code>"cts_urn"</code></td>
-<td>A string matching the percent decoded <code>&lt;cts_urn&gt;</code>.</td>
+<td><code>"object_id"</code></td>
+<td>A string matching <code>&lt;object_id&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>"message"</code></td>
@@ -450,7 +411,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 <p>Assume that the following entry exists in the database:</p>
 <pre><code>{
   &quot;author&quot;: &quot;Lucan&quot;,
-  &quot;cts_urn&quot;: &quot;urn:cts:latinLit:phi0917.phi001&quot;,
+  &quot;object_id&quot;: &quot;5c6c69f042facf59122418f6&quot;,
   &quot;extras&quot;: {},
   &quot;is_prose&quot;: false,
   &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;,
@@ -461,7 +422,7 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 </code></pre>
 
 <p>Request:</p>
-<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/&quot;'
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/5c6c69f042facf59122418f6/&quot;'
 </code></pre>
 
 <p>Response:</p>
@@ -469,21 +430,8 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 ...
 </code></pre>
 
-<h4 id="attempt-to-delete-a-texts-database-entry-with-an-overly-specific-cts-urn">Attempt to Delete a Text&rsquo;s Database Entry with an Overly Specific CTS URN<a class="headerlink" href="#attempt-to-delete-a-texts-database-entry-with-an-overly-specific-cts-urn" title="Permanent link">&para;</a></h4>
-<p>Suppose that <code>urn:cts:latinLit:phi0917.phi001</code> exists in the database.</p>
-<p>Request:</p>
-<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001%3A1.1%3A1.1/&quot;
-</code></pre>
-
-<p>Response:</p>
-<pre><code>HTTP/1.1 308 Moved Permanently
-...
-Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
-...
-</code></pre>
-
 <h4 id="attempt-to-delete-a-database-entry-for-a-text-not-in-the-database">Attempt to Delete a Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-delete-a-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no entry in the database has the CTS URN &ldquo;DEADBEEF&rdquo;.</p>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
 <p>Request:</p>
 <pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot;
 </code></pre>
@@ -493,8 +441,8 @@ Location: /texts/urn%3Acts%3AlatinLit%3Aphi0917.phi001/
 ...
 
 {
-  &quot;cts_urn&quot;: &quot;DEADBEEF&quot;
-  &quot;message&quot;: &quot;No text with the provided CTS URN (DEADBEEF) was found in the database.&quot;
+  &quot;object_id&quot;: &quot;DEADBEEF&quot;
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
 }
 </code></pre></div>
         </div>
