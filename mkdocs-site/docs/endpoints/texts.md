@@ -86,6 +86,25 @@ HTTP/1.1 200 OK
 }
 ```
 
+#### Search with No Results
+
+Request:
+
+```
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/?language=Klingon"
+```
+
+Response:
+
+```
+HTTP/1.1 200 OK
+...
+
+{
+  "texts": []
+}
+```
+
 ## POST
 
 > NB:  The POST method for `/texts/` is available only on the administrative server
