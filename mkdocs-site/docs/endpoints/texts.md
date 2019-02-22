@@ -12,12 +12,12 @@ The following fields may be used in a URL query to filter the response:
 
 |Field Name|Field Value|
 |---|---|
-| `author`|  Only database information for texts with the specified author are returned.|
-| `after`|  Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates.|
-| `before`|  Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates.|
-| `is_prose`|  If set to "true", only database for information for texts considered prose works are returned.|
-| `language`|  Only database information for texts with the specified language are returned.|
-| `title`|  Only database information for texts with the specified title are returned.|
+| `author`|  Only database information for texts with the specified author is returned.|
+| `after`|  Only database information for texts written/published after the specified year is returned; use negative integers for B.C. dates.|
+| `before`|  Only database information for texts written/published before the specified year is returned; use negative integers for B.C. dates.|
+| `is_prose`|  If set to "true", only database for information for texts considered prose works is returned.|
+| `language`|  Only database information for texts with the specified language is returned.|
+| `title`|  Only database information for texts with the specified title is returned.|
 
 ### Response
 
@@ -26,7 +26,7 @@ On success, the response includes a JSON data payload consisting of a JSON objec
 |Key|Value|
 |---|---|
 |`"author"`|A string identifying the text's author.|
-|`"object_id"`|A string which uniquely identifies the text according to the Canonical Text Services conventions.|
+|`"object_id"`|A string which uniquely identifies the text in the Tesserae database.|
 |`"is_prose"`|A boolean value denoting whether the text is considered a prose work.|
 |`"language"`|A string identifying the composition language of the text.|
 |`"title"`|A string identifying the text's name.|
