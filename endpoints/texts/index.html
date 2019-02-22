@@ -89,6 +89,10 @@
 <li >
     <a href="../texts-objid/">/texts/&lt;object_id&gt;/</a>
 </li>
+                                    
+<li >
+    <a href="../words/">/words/</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -157,27 +161,27 @@
 <tbody>
 <tr>
 <td><code>author</code></td>
-<td>Only database information for texts with the specified author are returned.</td>
+<td>Only database information for texts with the specified author is returned.</td>
 </tr>
 <tr>
 <td><code>after</code></td>
-<td>Only database information for texts written/published after the specified year are returned; use negative integers for B.C. dates.</td>
+<td>Only database information for texts written/published after the specified year is returned; use negative integers for B.C. dates.</td>
 </tr>
 <tr>
 <td><code>before</code></td>
-<td>Only database information for texts written/published before the specified year are returned; use negative integers for B.C. dates.</td>
+<td>Only database information for texts written/published before the specified year is returned; use negative integers for B.C. dates.</td>
 </tr>
 <tr>
 <td><code>is_prose</code></td>
-<td>If set to &ldquo;true&rdquo;, only database for information for texts considered prose works are returned.</td>
+<td>If set to &ldquo;true&rdquo;, only database for information for texts considered prose works is returned.</td>
 </tr>
 <tr>
 <td><code>language</code></td>
-<td>Only database information for texts with the specified language are returned.</td>
+<td>Only database information for texts with the specified language is returned.</td>
 </tr>
 <tr>
 <td><code>title</code></td>
-<td>Only database information for texts with the specified title are returned.</td>
+<td>Only database information for texts with the specified title is returned.</td>
 </tr>
 </tbody>
 </table>
@@ -197,7 +201,7 @@
 </tr>
 <tr>
 <td><code>"object_id"</code></td>
-<td>A string which uniquely identifies the text according to the Canonical Text Services conventions.</td>
+<td>A string which uniquely identifies the text in the Tesserae database.</td>
 </tr>
 <tr>
 <td><code>"is_prose"</code></td>
@@ -257,6 +261,20 @@
     },
     ...
   ]
+}
+</code></pre>
+
+<h4 id="search-with-no-results">Search with No Results<a class="headerlink" href="#search-with-no-results" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/?language=Klingon&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 200 OK
+...
+
+{
+  &quot;texts&quot;: []
 }
 </code></pre>
 
