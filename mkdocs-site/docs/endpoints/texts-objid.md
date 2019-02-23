@@ -63,14 +63,34 @@ HTTP/1.1 200 OK
 }
 ```
 
-#### Attempt to Retrieve the Database Entry for a Text Not in the Database
-
-Assume that no text in the database has the identifier "DEADBEEF".
+#### Attempt to Retrieve a Database Entry with a Malformed `object_id`
 
 Request:
 
 ```
-curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/"
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/badid/"
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "object_id": "badid",
+  "message": "Provided identifier (badid) is malformed."
+}
+```
+
+#### Attempt to Retrieve the Database Entry for a Text Not in the Database
+
+Assume that no text in the database has the identifier "DEADBEEFDEADBEEFDEADBEEF".
+
+Request:
+
+```
+curl -i -X GET "https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/"
 ```
 
 Response:
@@ -81,7 +101,7 @@ HTTP/1.1 404 Not Found
 
 {
   "object_id": "DEADBEEF",
-  "message": "No text with the provided identifier (DEADBEEF) was found in the database."
+  "message": "No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database."
 }
 ```
 
@@ -199,14 +219,39 @@ HTTP/1.1 200 OK
 }
 ```
 
-#### Attempt to Update the Database Entry for a Text Not in the Database
-
-Assume that no text in the database has the identifier "DEADBEEF".
+#### Attempt to Update a Database Entry with a Malformed `object_id`
 
 Request:
 
 ```
-curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/" -d '{ \
+curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/badid/" -d '{ \
+  "fail": "this example will" \
+}'
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "object_id": "badid",
+  "data": {
+    "fail": "this example will"
+  },
+  "message": "Provided identifier (badid) is malformed."
+}
+```
+
+#### Attempt to Update the Database Entry for a Text Not in the Database
+
+Assume that no text in the database has the identifier "DEADBEEFDEADBEEFDEADBEEF".
+
+Request:
+
+```
+curl -i -X PATCH "https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/" -d '{ \
   "fail": "this example will" \
 }'
 ```
@@ -218,11 +263,11 @@ HTTP/1.1 404 Not Found
 ...
 
 {
-  "object_id": "DEADBEEF",
+  "object_id": "DEADBEEFDEADBEEFDEADBEEF",
   "data": {
     "fail": "this example will"
   },
-  "message": "No text with the provided identifier (DEADBEEF) was found in the database."
+  "message": "No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database."
 }
 ```
 
@@ -279,14 +324,34 @@ HTTP/1.1 204 No Content
 ...
 ```
 
-#### Attempt to Delete a Database Entry for a Text Not in the Database
-
-Assume that no text in the database has the identifier "DEADBEEF".
+#### Attempt to Delete a Database Entry with a Malformed `object_id`
 
 Request:
 
 ```
-curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/DEADBEEF/"
+curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/badid/"
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "object_id": "badid"
+  "message": "Provided identifier (badid) is malformed."
+}
+```
+
+#### Attempt to Delete a Database Entry for a Text Not in the Database
+
+Assume that no text in the database has the identifier "DEADBEEFDEADBEEFDEADBEEF".
+
+Request:
+
+```
+curl -i -X DELETE "https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/"
 ```
 
 Response:
@@ -296,7 +361,7 @@ HTTP/1.1 404 Not Found
 ...
 
 {
-  "object_id": "DEADBEEF"
-  "message": "No text with the provided identifier (DEADBEEF) was found in the database."
+  "object_id": "DEADBEEFDEADBEEFDEADBEEF"
+  "message": "No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database."
 }
 ```
