@@ -6,7 +6,7 @@ nav:
       # - 'CTS URNs': 'getting-started/cts-urns.md'
 - 'Endpoints':
     - '/parallels/': 'endpoints/parallels.md'
-    - '/parallels/&ltuuid&gt': 'endpoints/parallels-uuid.md'
+    - '/parallels/&ltuuid&gt/': 'endpoints/parallels-uuid.md'
     - '/stopwords/': 'endpoints/stopwords.md'
     - '/stopwords/lists/': 'endpoints/stopwords-lists.md'
     - '/stopwords/lists/&lt;name&gt;/': 'endpoints/stopwords-lists-name.md'
