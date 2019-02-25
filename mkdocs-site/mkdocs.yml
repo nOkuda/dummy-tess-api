@@ -12,7 +12,7 @@ nav:
     - '/stopwords/lists/&lt;name&gt;/': 'endpoints/stopwords-lists-name.md'
     - '/texts/': 'endpoints/texts.md'
     - '/texts/&lt;object_id&gt;/': 'endpoints/texts-objid.md'
-    - '/words/': 'endpoints/words.md'
+    - '/featuresets/': 'endpoints/featuresets.md'
       # - '/texts/&lt;cts_urn&gt;/units/': 'endpoints/texts-cts_urn-units.md'
 - 'Details':
     - 'Cached Results': 'details/cached-results.md'

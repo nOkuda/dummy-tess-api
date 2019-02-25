@@ -98,12 +98,12 @@ HTTP/1.1 200 OK
 
 #### Attempt to Get a Stopwords List with a Text Not in the Database
 
-Suppose no text has the identifier `DEADBEEF`.
+Suppose no text has the identifier `DEADBEEFDEADBEEFDEADBEEF`.
 
 Request:
 
 ```
-curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEF&list_size=15"
+curl -i -X GET "https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEFDEADBEEFDEADBEEF&list_size=15"
 ```
 
 Response:
@@ -114,9 +114,9 @@ HTTP/1.1 400 Bad Request
 
 {
   "data": {
-    "works": ["DEADBEEF"],
+    "works": ["DEADBEEFDEADBEEFDEADBEEF"],
     "list_size": 15
   },
-  "message": "No text can be found with the identifier provided (DEADBEEF)."
+  "message": "No text can be found with the identifier provided (DEADBEEFDEADBEEFDEADBEEF)."
 }
 ```
