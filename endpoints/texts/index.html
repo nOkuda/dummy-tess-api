@@ -67,7 +67,7 @@
 </li>
                                     
 <li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+    <a href="../parallels-uuid/">/parallels/&ltuuid&gt/</a>
 </li>
                                     
 <li >
@@ -91,7 +91,7 @@
 </li>
                                     
 <li >
-    <a href="../words/">/words/</a>
+    <a href="../featuresets/">/featuresets/</a>
 </li>
                                 </ul>
                             </li>
@@ -319,6 +319,7 @@
 </tr>
 </tbody>
 </table>
+<p>The JSON object is forbidden from containing the following keys: <code>"_id"</code>, <code>"id"</code>, <code>"object_id"</code>.</p>
 <h3 id="response_1">Response<a class="headerlink" href="#response_1" title="Permanent link">&para;</a></h3>
 <p>On success, the response data payload is a JSON object replicating the entry created in Tesserae&rsquo;s database according to the POST request.  Additionally, the <code>Content-Location</code> header will specify the URL associated with this newly created database entry.</p>
 <p>On failure, the data payload contains error information in a JSON object with the following keys:</p>
@@ -394,6 +395,37 @@ Content-Location: /texts/5c6c69f042facf59122418f6/
     &quot;year&quot;: 65
   },
   &quot;message&quot;: &quot;The request data payload is missing the following required key(s): language.&quot;
+}
+</code></pre>
+
+<h4 id="upload-an-entry-for-text-not-in-the-database-with-a-prohibited-key">Upload an Entry for Text Not in the Database with a Prohibited Key<a class="headerlink" href="#upload-an-entry-for-text-not-in-the-database-with-a-prohibited-key" title="Permanent link">&para;</a></h4>
+<p>Request:</p>
+<pre><code>curl -i -X POST &quot;https://tesserae.caset.buffalo.edu/texts/&quot; -d '{ \
+  &quot;author&quot;: &quot;Lucan&quot;, \
+  &quot;object_id&quot;: &quot;DEADBEEFDEADBEEFDEADBEEF&quot;, \
+  &quot;is_prose&quot;: false, \
+  &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot; \
+  &quot;language&quot;: &quot;latin&quot;, \
+  &quot;title&quot;: &quot;Bellum Civile&quot;, \
+  &quot;year&quot;: 65 \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;data&quot;: {
+    &quot;author&quot;: &quot;Lucan&quot;,
+    &quot;object_id&quot;: &quot;DEADBEEFDEADBEEFDEADBEEF&quot;
+    &quot;is_prose&quot;: false,
+    &quot;path&quot;: &quot;https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess&quot;
+    &quot;language&quot;: &quot;latin&quot;,
+    &quot;title&quot;: &quot;Bellum Civile&quot;,
+    &quot;year&quot;: 65
+  },
+  &quot;message&quot;: &quot;The request data payload contains the following prohibited key(s): object_id.&quot;
 }
 </code></pre></div>
         </div>

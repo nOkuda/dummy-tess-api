@@ -67,7 +67,7 @@
 </li>
                                     
 <li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+    <a href="../parallels-uuid/">/parallels/&ltuuid&gt/</a>
 </li>
                                     
 <li >
@@ -91,7 +91,7 @@
 </li>
                                     
 <li >
-    <a href="../words/">/words/</a>
+    <a href="../featuresets/">/featuresets/</a>
 </li>
                                 </ul>
                             </li>
@@ -126,7 +126,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../words/">
+                                <a rel="prev" href="../featuresets/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -235,10 +235,25 @@
 }
 </code></pre>
 
-<h4 id="attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database">Attempt to Retrieve the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
+<h4 id="attempt-to-retrieve-a-database-entry-with-a-malformed-object_id">Attempt to Retrieve a Database Entry with a Malformed <code>object_id</code><a class="headerlink" href="#attempt-to-retrieve-a-database-entry-with-a-malformed-object_id" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/badid/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;object_id&quot;: &quot;badid&quot;,
+  &quot;message&quot;: &quot;Provided identifier (badid) is malformed.&quot;
+}
+</code></pre>
+
+<h4 id="attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database">Attempt to Retrieve the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-retrieve-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEFDEADBEEFDEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -247,7 +262,7 @@
 
 {
   &quot;object_id&quot;: &quot;DEADBEEF&quot;,
-  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database.&quot;
 }
 </code></pre>
 
@@ -361,10 +376,30 @@
 }
 </code></pre>
 
-<h4 id="attempt-to-update-the-database-entry-for-a-text-not-in-the-database">Attempt to Update the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-update-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
+<h4 id="attempt-to-update-a-database-entry-with-a-malformed-object_id">Attempt to Update a Database Entry with a Malformed <code>object_id</code><a class="headerlink" href="#attempt-to-update-a-database-entry-with-a-malformed-object_id" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
-<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot; -d '{ \
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/badid/&quot; -d '{ \
+  &quot;fail&quot;: &quot;this example will&quot; \
+}'
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;object_id&quot;: &quot;badid&quot;,
+  &quot;data&quot;: {
+    &quot;fail&quot;: &quot;this example will&quot;
+  },
+  &quot;message&quot;: &quot;Provided identifier (badid) is malformed.&quot;
+}
+</code></pre>
+
+<h4 id="attempt-to-update-the-database-entry-for-a-text-not-in-the-database">Attempt to Update the Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-update-the-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEFDEADBEEFDEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X PATCH &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/&quot; -d '{ \
   &quot;fail&quot;: &quot;this example will&quot; \
 }'
 </code></pre>
@@ -374,11 +409,11 @@
 ...
 
 {
-  &quot;object_id&quot;: &quot;DEADBEEF&quot;,
+  &quot;object_id&quot;: &quot;DEADBEEFDEADBEEFDEADBEEF&quot;,
   &quot;data&quot;: {
     &quot;fail&quot;: &quot;this example will&quot;
   },
-  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database.&quot;
 }
 </code></pre>
 
@@ -434,10 +469,25 @@
 ...
 </code></pre>
 
-<h4 id="attempt-to-delete-a-database-entry-for-a-text-not-in-the-database">Attempt to Delete a Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-delete-a-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Assume that no text in the database has the identifier &ldquo;DEADBEEF&rdquo;.</p>
+<h4 id="attempt-to-delete-a-database-entry-with-a-malformed-object_id">Attempt to Delete a Database Entry with a Malformed <code>object_id</code><a class="headerlink" href="#attempt-to-delete-a-database-entry-with-a-malformed-object_id" title="Permanent link">&para;</a></h4>
 <p>Request:</p>
-<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEF/&quot;
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/badid/&quot;
+</code></pre>
+
+<p>Response:</p>
+<pre><code>HTTP/1.1 400 Bad Request
+...
+
+{
+  &quot;object_id&quot;: &quot;badid&quot;
+  &quot;message&quot;: &quot;Provided identifier (badid) is malformed.&quot;
+}
+</code></pre>
+
+<h4 id="attempt-to-delete-a-database-entry-for-a-text-not-in-the-database">Attempt to Delete a Database Entry for a Text Not in the Database<a class="headerlink" href="#attempt-to-delete-a-database-entry-for-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
+<p>Assume that no text in the database has the identifier &ldquo;DEADBEEFDEADBEEFDEADBEEF&rdquo;.</p>
+<p>Request:</p>
+<pre><code>curl -i -X DELETE &quot;https://tesserae.caset.buffalo.edu/texts/DEADBEEFDEADBEEFDEADBEEF/&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -445,8 +495,8 @@
 ...
 
 {
-  &quot;object_id&quot;: &quot;DEADBEEF&quot;
-  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEF) was found in the database.&quot;
+  &quot;object_id&quot;: &quot;DEADBEEFDEADBEEFDEADBEEF&quot;
+  &quot;message&quot;: &quot;No text with the provided identifier (DEADBEEFDEADBEEFDEADBEEF) was found in the database.&quot;
 }
 </code></pre></div>
         </div>

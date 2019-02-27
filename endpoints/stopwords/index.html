@@ -67,7 +67,7 @@
 </li>
                                     
 <li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+    <a href="../parallels-uuid/">/parallels/&ltuuid&gt/</a>
 </li>
                                     
 <li class="active">
@@ -91,7 +91,7 @@
 </li>
                                     
 <li >
-    <a href="../words/">/words/</a>
+    <a href="../featuresets/">/featuresets/</a>
 </li>
                                 </ul>
                             </li>
@@ -245,9 +245,9 @@
 </code></pre>
 
 <h4 id="attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database">Attempt to Get a Stopwords List with a Text Not in the Database<a class="headerlink" href="#attempt-to-get-a-stopwords-list-with-a-text-not-in-the-database" title="Permanent link">&para;</a></h4>
-<p>Suppose no text has the identifier <code>DEADBEEF</code>.</p>
+<p>Suppose no text has the identifier <code>DEADBEEFDEADBEEFDEADBEEF</code>.</p>
 <p>Request:</p>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEF&amp;list_size=15&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/stopwords/?works=DEADBEEFDEADBEEFDEADBEEF&amp;list_size=15&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -256,10 +256,10 @@
 
 {
   &quot;data&quot;: {
-    &quot;works&quot;: [&quot;DEADBEEF&quot;],
+    &quot;works&quot;: [&quot;DEADBEEFDEADBEEFDEADBEEF&quot;],
     &quot;list_size&quot;: 15
   },
-  &quot;message&quot;: &quot;No text can be found with the identifier provided (DEADBEEF).&quot;
+  &quot;message&quot;: &quot;No text can be found with the identifier provided (DEADBEEFDEADBEEFDEADBEEF).&quot;
 }
 </code></pre></div>
         </div>

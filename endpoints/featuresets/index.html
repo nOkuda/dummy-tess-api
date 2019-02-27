@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>/words/ - Tesserae API (Pre-Alpha!)</title>
+        <title>/featuresets/ - Tesserae API (Pre-Alpha!)</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -67,7 +67,7 @@
 </li>
                                     
 <li >
-    <a href="../parallels-uuid/">/parallels/&ltuuid&gt</a>
+    <a href="../parallels-uuid/">/parallels/&ltuuid&gt/</a>
 </li>
                                     
 <li >
@@ -91,7 +91,7 @@
 </li>
                                     
 <li class="active">
-    <a href="./">/words/</a>
+    <a href="./">/featuresets/</a>
 </li>
                                 </ul>
                             </li>
@@ -138,16 +138,16 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#words">/words/</a></li>
+        <li class="main active"><a href="#featuresets">/featuresets/</a></li>
             <li><a href="#get">GET</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="words"><code>/words/</code><a class="headerlink" href="#words" title="Permanent link">&para;</a></h1>
-<p>The <code>/words/</code> endpoint interacts with Tesserae&rsquo;s database of words, as found in the literary works Tesserae has processed.</p>
+<h1 id="featuresets"><code>/featuresets/</code><a class="headerlink" href="#featuresets" title="Permanent link">&para;</a></h1>
+<p>The <code>/featuresets/</code> endpoint interacts with Tesserae&rsquo;s database of feature sets, which are bundles of features computed from tokens found in the literary works Tesserae has processed.  Thus, a feature set includes such features as the exact word form and the possible lemmata of a given token.  (Given that a token is an instance of a given word, the exact word form matches the word which a token is an instance of.)</p>
 <h2 id="get">GET<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
-<p>Requesting GET at <code>/words/</code> provides information on words stored in Tesserae&rsquo;s database.</p>
+<p>Requesting GET at <code>/features/</code> provides information on features stored in Tesserae&rsquo;s database.</p>
 <h3 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h3>
 <p>The following fields may be used in a URL query to filter the response:</p>
 <table>
@@ -160,11 +160,11 @@
 <tbody>
 <tr>
 <td><code>form</code></td>
-<td>Only database information for words with the specified form is returned.</td>
+<td>Only database information for the features corresponding with the specified exact word form is returned.</td>
 </tr>
 <tr>
 <td><code>lemma</code></td>
-<td>Only database information for words with the specified lemma is returned.</td>
+<td>Only database information for features corresponding with the specified lemma is returned.</td>
 </tr>
 </tbody>
 </table>
@@ -172,7 +172,7 @@
 <p>NB:  Remember to percent encode field values when necessary.</p>
 </blockquote>
 <h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
-<p>On success, the response includes a JSON data payload consisting of a JSON object with the key <code>"words"</code>, associated with an array of JSON objects.  The JSON objects in the array, in turn, contain the following keys:</p>
+<p>On success, the response includes a JSON data payload consisting of a JSON object with the key <code>"featuresets"</code>, associated with an array of JSON objects.  The JSON objects in the array, in turn, contain the following keys:</p>
 <table>
 <thead>
 <tr>
@@ -183,7 +183,7 @@
 <tbody>
 <tr>
 <td><code>"form"</code></td>
-<td>A string matching the word&rsquo;s form.</td>
+<td>A string matching the exact word form.</td>
 </tr>
 <tr>
 <td><code>"lemmata"</code></td>
@@ -197,7 +197,7 @@
 </table>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
 <h4 id="search-by-one-field">Search by One Field<a class="headerlink" href="#search-by-one-field" title="Permanent link">&para;</a></h4>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/words/?form=leges&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/featuresets/?form=leges&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -205,7 +205,7 @@
 ...
 
 {
-  &quot;words&quot;: [
+  &quot;featuresets&quot;: [
     {
       &quot;form&quot;: &quot;leges&quot;,
       &quot;lemmata&quot;: [&quot;lego&quot;, &quot;lex&quot;],
@@ -216,7 +216,7 @@
 </code></pre>
 
 <h4 id="search-for-word-not-present-in-database">Search for Word Not Present in Database<a class="headerlink" href="#search-for-word-not-present-in-database" title="Permanent link">&para;</a></h4>
-<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/words/?lemma=xlwbnd&quot;
+<pre><code>curl -i -X GET &quot;https://tesserae.caset.buffalo.edu/featuresets/?lemma=xlwbnd&quot;
 </code></pre>
 
 <p>Response:</p>
@@ -224,7 +224,7 @@
 ...
 
 {
-  &quot;words&quot;: []
+  &quot;featuresets&quot;: []
 }
 </code></pre></div>
         </div>
