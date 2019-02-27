@@ -124,6 +124,8 @@ Appropriate JSON data for a POST at `/texts/` must be a JSON object containing t
 |`"title"`|A string identifying the text's name.|
 |`"year"`|An integer representing the text's publication year; a negative integer corresponds to the BC era.|
 
+The JSON object is forbidden from containing the following keys: `"_id"`, `"id"`, `"object_id"`.
+
 ### Response
 
 On success, the response data payload is a JSON object replicating the entry created in Tesserae's database according to the POST request.  Additionally, the `Content-Location` header will specify the URL associated with this newly created database entry.
@@ -200,5 +202,41 @@ HTTP/1.1 400 Bad Request
     "year": 65
   },
   "message": "The request data payload is missing the following required key(s): language."
+}
+```
+
+#### Upload an Entry for Text Not in the Database with a Prohibited Key
+
+Request:
+
+```
+curl -i -X POST "https://tesserae.caset.buffalo.edu/texts/" -d '{ \
+  "author": "Lucan", \
+  "object_id": "DEADBEEFDEADBEEFDEADBEEF", \
+  "is_prose": false, \
+  "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess" \
+  "language": "latin", \
+  "title": "Bellum Civile", \
+  "year": 65 \
+}'
+```
+
+Response:
+
+```
+HTTP/1.1 400 Bad Request
+...
+
+{
+  "data": {
+    "author": "Lucan",
+    "object_id": "DEADBEEFDEADBEEFDEADBEEF"
+    "is_prose": false,
+    "path": "https://raw.githubusercontent.com/tesserae/tesserae/master/texts/la/lucan.bellum_civile.tess"
+    "language": "latin",
+    "title": "Bellum Civile",
+    "year": 65
+  },
+  "message": "The request data payload contains the following prohibited key(s): object_id."
 }
 ```
