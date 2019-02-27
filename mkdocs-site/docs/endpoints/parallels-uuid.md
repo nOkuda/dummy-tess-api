@@ -25,13 +25,13 @@ A JSON object in the `"parallels"` list of the successful response data payload 
 
 |Key|Value|
 |---|---|
-|`"source"`|A string representing the CTS URN for the text span used as the source in this parallel.|
-|`"target"`|A string representing the CTS URN for the text span used as the target in this parallel.|
+|`"source"`|A string representing the text span used as the source in this parallel.|
+|`"target"`|A string representing the text span used as the target in this parallel.|
 |`"match_tokens"`|A list of strings, where each string is a token found in both the source span and the target span.|
 |`"score"`|A number representing the score assigned to the pair of text spans.|
 |`"source_raw"`|The string making up the text span specified by the value of `"source"`.|
 |`"target_raw"`|The string making up the text span specified by the value of `"target"`.|
-|`"highlight"`|A list of strings representing CTS URNs that define which parts in the source and target spans were used to determine the score.|
+|`"highlight"`|Information to highlight areas on the source and target spans used to determine the score.|
 
 > NB:  A successful response body will be compressed with gzip.
 
